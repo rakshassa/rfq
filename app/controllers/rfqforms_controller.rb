@@ -60,6 +60,6 @@ class RfqformsController < ApplicationController
         eaus_attributes: [:id, :value, :_destroy],
         rfqparts_attributes: [:id, :part_number, :revision, 
           :qty, :units, :_destroy,
-          rfqpartvendors_attributes: [:vendor_id, :_destroy]])
+          rfqpartvendors: []])
     end  
 end

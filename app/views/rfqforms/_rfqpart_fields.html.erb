@@ -10,5 +10,8 @@
 			placeholder: "Quantity", class: 'qty'  %></td>
 	<td><%= f.text_field :units, 
 			placeholder: "Unit of Measure", class: 'units'  %></td>
+    <td><%= f.collection_select(:rfqpartvendors, Vendor.where(:active_rfq => true), :id, :name,
+            { }, { :multiple => true,  :selected => f.object.rfqpartvendors, :class => 'vendors'} ) %></td>			
+			
 
 </tr>

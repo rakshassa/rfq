@@ -6,6 +6,7 @@ class CreateRfqparts < ActiveRecord::Migration
       t.string :revision
       t.integer :qty
       t.string :units
+      t.text :rfqpartvendors
 
 
       t.timestamps

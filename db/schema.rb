@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140315085058) do
+ActiveRecord::Schema.define(version: 20140315104215) do
 
   create_table "eaus", force: true do |t|
     t.integer  "rfqform_id"
@@ -56,24 +56,41 @@ ActiveRecord::Schema.define(version: 20140315085058) do
     t.string   "revision"
     t.integer  "qty"
     t.string   "units"
+    t.text     "rfqpartvendors"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "rfqparts", ["rfqform_id"], name: "index_rfqparts_on_rfqform_id"
 
-  create_table "rfqpartvendors", force: true do |t|
+  create_table "rfqquotes", force: true do |t|
+    t.integer  "rfqform_id"
     t.integer  "vendor_id"
-    t.integer  "rfqpart_id"
+    t.integer  "part_id"
+    t.string   "parts_note"
+    t.float    "unit_price"
+    t.boolean  "no_quote"
+    t.string   "quote_note"
+    t.string   "quote_number"
+    t.date     "quote_date"
+    t.string   "submitted_by"
+    t.string   "feedback"
+    t.integer  "status"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "rfqpartvendors", ["rfqpart_id"], name: "index_rfqpartvendors_on_rfqpart_id"
-  add_index "rfqpartvendors", ["vendor_id"], name: "index_rfqpartvendors_on_vendor_id"
+  create_table "users", force: true do |t|
+    t.string   "name"
+    t.boolean  "isTLX"
+    t.integer  "vendor_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "vendors", force: true do |t|
     t.string   "name"
+    t.boolean  "active_rfq"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
