@@ -1,0 +1,37 @@
+
+
+/* Parts table */
+
+.adjustable {
+	table-layout: fixed
+}
+
+.part_number {
+	min-width: 100px
+}
+
+.description {
+	min-width: 100px
+}
+
+
+.revision {
+	min-width: 50px
+}
+
+.qty {
+	min-width: 50px
+}
+
+
+.unit {
+  min-width: 50px;
+}
+
+.vendors {
+  min-width: 150px;
+}
+
+.drawing {
+	min-width: 50px;	
+}

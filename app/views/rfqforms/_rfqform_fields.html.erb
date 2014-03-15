@@ -1,0 +1,61 @@
+    <%= nested_form_for(@rfqform) do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+
+      <%= f.label :id, "Rfq: " + f.object.id.to_s.rjust(4, '0') %>      
+	  <%= f.label :last_audit, "Date: " + f.object.date.to_s %>
+         
+      <br> 
+      <h3>Program Detail</h3>    
+      <%= f.label :release_type, "PO/Release type" %>
+      <%= f.text_field :release_type, class: 'span6' %>
+
+      <%= f.label :launch_date, "Expected Launch Date" %>
+      <%= f.text_field :launch_date, class: 'span6' %>
+
+	  <%= f.label :eaus, "EAU" %>
+	  <%= f.fields_for :eaus %>
+	  <p><%= f.link_to_add "Add an EAU", :eaus %></p>
+
+	  <h3>Quality Requirements</h3>    
+      <%= f.label :ppap, "PPAP or other sample quality verification" %>
+      <%= f.text_field :ppap, class: 'span6' %>
+
+	  <h3>Contact Info</h3>    
+      <%= f.label :req_by, "Requisitioned by" %>
+      <%= f.collection_select(:req_by, Employee.all, :id, :name,
+                          {}, {  :selected => f.object.req_by, class: 'span4'} ) %>
+
+      <%= f.label :engineer, "Engineer" %>
+      <%= f.collection_select(:engineer, Employee.all, :id, :name,
+                          {}, {  :selected => f.object.req_by, class: 'span4'} ) %>
+
+
+      <table id="parts_table" class="table table-striped table-bordered">
+        <tr>
+          <th>Remove</th>
+          <th class="part_number">Part Number</th>
+          <th class="description">Description</th>
+          <th class="revision">Revision</th>
+          <th class="qty">Quantity per</th>
+          <th class="unit">Unit of Measure</th>
+          <th class="vendors">Vendors</th>
+          <th class="drawing">Drawing</th>
+        </tr>
+        <%= f.fields_for :rfqparts, :wrapper => false %>
+      </table>
+      <p><%= f.link_to_add "Add a Part", :rfqparts, 
+          :data => { :target => "#parts_table"} %></p>
+
+
+
+	  <%= f.label :info, "Additional Information" %>
+      <%= f.text_area :info, { cols: 60, rows: 4, class: "findings" } %>
+      <br>
+      <br>
+      <br>
+      <%= f.submit "Save changes", class: "btn btn-large btn-primary" %>
+      <%= link_to "Cancel", rfqforms_path,  method: :get, class: "btn btn-large" %>
+      &nbsp&nbsp&nbsp&nbsp&nbsp
+      <%= link_to "Print", rfqforms_path,  method: :get, class: "btn btn-large" %>
+      <%= link_to "Build RFQs", rfqforms_path,  method: :get, class: "btn btn-large" %>
+    <% end %>      
