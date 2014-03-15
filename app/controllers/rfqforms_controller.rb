@@ -51,6 +51,7 @@ class RfqformsController < ApplicationController
     end
   end    
 
+
   private
 
     def rfqforms_params
@@ -59,7 +60,7 @@ class RfqformsController < ApplicationController
 
         eaus_attributes: [:id, :value, :_destroy],
         rfqparts_attributes: [:id, :part_number, :revision, 
-          :qty, :units, :_destroy,
+          :qty, :units, :drawing, :_destroy,
           rfqpartvendors: []])
     end  
 end

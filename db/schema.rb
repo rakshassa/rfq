@@ -57,6 +57,10 @@ ActiveRecord::Schema.define(version: 20140315104215) do
     t.integer  "qty"
     t.string   "units"
     t.text     "rfqpartvendors"
+    t.string   "drawing_file_name"
+    t.string   "drawing_content_type"
+    t.integer  "drawing_file_size"
+    t.datetime "drawing_updated_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

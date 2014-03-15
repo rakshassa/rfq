@@ -11,7 +11,10 @@
 	<td><%= f.text_field :units, 
 			placeholder: "Unit of Measure", class: 'units'  %></td>
     <td><%= f.collection_select(:rfqpartvendors, Vendor.where(:active_rfq => true), :id, :name,
-            { }, { :multiple => true,  :selected => f.object.rfqpartvendors, :class => 'vendors'} ) %></td>			
+            { }, { :multiple => true,  :selected => f.object.rfqpartvendors, :class => 'vendors'} ) %></td>		
+    <td><a href="<%= f.object.drawing.url %>" > View File </a>
+    	<div><%= f.object.drawing_file_name if !f.object.drawing.url.blank? %></div>    	
+    	<%= f.file_field :drawing, :class => 'drawing', :onchange => "drawing_selected(this)" %></td>
 			
 
 </tr>

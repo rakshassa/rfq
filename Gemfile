@@ -10,6 +10,7 @@ gem 'will_paginate', '3.0.4'
 gem 'bootstrap-will_paginate', '0.0.9'
 gem 'nested_form', '0.3.2'
 gem 'addressable', '2.3.5'
+gem 'paperclip', '~> 3.5.4'
 
 group :development, :test do
   gem 'sqlite3', '1.3.8'
