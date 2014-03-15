@@ -1,6 +1,6 @@
 <tr class="fields">	
 	<td><%= f.link_to_remove "Remove" %></td>
-	<td><%= f.collection_select(:part_number, Part.all, :id, :name,
+	<td><%= f.collection_select(:part_number, Part.all.order("name asc"), :id, :name,
             { }, { :selected => f.object.part_number, :class => 'part_number'} ) %></td>
 
 	<td><%= content_tag :div, Part.find(f.object.id).description if !f.object.id.blank? %></td>

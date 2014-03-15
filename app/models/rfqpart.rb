@@ -1,5 +1,6 @@
 class Rfqpart < ActiveRecord::Base
 	belongs_to :rfqform
+	default_scope { order(:id) }
 
 	has_attached_file :drawing
 
