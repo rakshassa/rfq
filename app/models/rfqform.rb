@@ -1,4 +1,7 @@
 class Rfqform < ActiveRecord::Base
+
+	default_scope { order(:id) }
+
 	has_many :eaus, dependent: :destroy
 	accepts_nested_attributes_for :eaus, allow_destroy: true,
 			reject_if: :all_blank
