@@ -4,3 +4,7 @@ function drawing_selected(selector) {
 	selector.previousElementSibling.previousElementSibling.style.visibility="hidden";
 
 }
+
+function part_changed(target_node, part) {
+	alert(target_node + " changing to " + part);
+}
