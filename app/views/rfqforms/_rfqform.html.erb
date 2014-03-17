@@ -1,5 +1,5 @@
-<div id="rfqform_<%= rfqform.id %>">
-	<li>
+<div id="parent">
+	<li id="rfqform_<%= rfqform.id %>">
 	  
 	  <%= link_to rfqform.id.to_s.rjust(4, '0'), edit_rfqform_path(rfqform) %>
 	  &nbsp&nbsp&nbsp&nbsp
@@ -24,5 +24,25 @@
 	  </small>
 	  
 	</li>
-
 </div>
+<ul id="children">
+	<% if @quotes.key?(rfqform.id) %>
+		<table class="table table-striped table-bordered">
+	        <tr>
+	          <th>RFQ ID</th>
+	          <th class="vendor">Vendor</th>
+	          <th class="program">Program</th>
+	          <th class="part">Part</th>
+	          <th class="date_sent">Date Sent</th>
+	          <th class="quote_num">Quote #</th>
+	          <th class="status">Status</th>
+	        </tr>			
+			<% @quotes[rfqform.id].each do |q| %>
+				<%= render q, locals: { q => q } %>
+			<% end %>
+
+		</table>
+	<% end %>
+	
+	
+</ul>

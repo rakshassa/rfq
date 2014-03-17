@@ -1,7 +1,10 @@
 <%= will_paginate %>
 
 <ul class="users">
-  <%= render rfqforms %>
+  <div id="accordion">
+    <%= render @rfqforms %>
+
+  </div>
 </ul>
 
 <%= will_paginate %>
