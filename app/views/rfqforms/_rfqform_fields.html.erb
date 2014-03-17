@@ -1,8 +1,10 @@
     <%= nested_form_for(@rfqform) do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
 
+      <% if !f.object.id.blank?  -%>
       <%= f.label :id, "Rfq: " + f.object.id.to_s.rjust(4, '0') %>      
-	  <%= f.label :last_audit, "Date: " + f.object.date.to_s %>
+      <% end %>
+	    <%= f.label :date, "Date: " + f.object.date.to_s %>
          
       <br> 
       <h3>Program Detail</h3>    
@@ -23,11 +25,11 @@
 	  <h3>Contact Info</h3>    
       <%= f.label :req_by, "Requisitioned by" %>
       <%= f.collection_select(:req_by, Employee.all, :id, :name,
-                          {}, {  :selected => f.object.req_by, class: 'span4'} ) %>
+                          {:include_blank => 'Select an Employee'}, {  :selected => f.object.req_by, class: 'span4'} ) %>
 
       <%= f.label :engineer, "Engineer" %>
       <%= f.collection_select(:engineer, Employee.all, :id, :name,
-                          {}, {  :selected => f.object.req_by, class: 'span4'} ) %>
+                          {:include_blank => 'Select an Engineer'}, {  :selected => f.object.req_by, class: 'span4'} ) %>
 
 
       <table id="parts_table" class="table table-striped table-bordered">
@@ -56,6 +58,6 @@
       <%= f.submit "Save changes", class: "btn btn-large btn-primary" %>
       <%= link_to "Cancel", rfqforms_path,  method: :get, class: "btn btn-large" %>
       &nbsp&nbsp&nbsp&nbsp&nbsp
-      <%= link_to "Print", rfqforms_path,  method: :get, class: "btn btn-large" %>
+
       <%= link_to "Build RFQs", rfqforms_path,  method: :get, class: "btn btn-large" %>
     <% end %>      

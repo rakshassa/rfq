@@ -1,0 +1,9 @@
+<% provide(:title, 'Create a new RFQ Form') %>
+<h1>New RFQ Request</h1>
+
+<div class="row">
+  <div class="span8">
+    <%= render 'rfqforms/rfqform_fields', :locals => { :rfqform => @rfqform } %>
+
+  </div>
+</div>

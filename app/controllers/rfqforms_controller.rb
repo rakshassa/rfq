@@ -6,6 +6,16 @@ class RfqformsController < ApplicationController
 
   def show
   	@rfqform = Rfqform.find(params[:id])
+
+    respond_to do |format|
+      format.pdf do
+        #uncomment to force download instead of immediate view.
+        prawnto filename: "Rfq #{@rfqform.id.to_s.rjust(4, '0')}.pdf", :inline => false
+      end
+      format.html do
+        redirect_to rfqforms_path
+      end
+    end    
   end
 
   def destroy
@@ -20,6 +30,7 @@ class RfqformsController < ApplicationController
 
   def create
     @rfqform = Rfqform.new(rfqforms_params)
+    @rfqform.date = DateTime.now.to_date
 
     if @rfqform.save
       flash[:success] = "Created!"
@@ -34,11 +45,12 @@ class RfqformsController < ApplicationController
   	@rfqform = Rfqform.new 
     @address = @rfqform.eaus.build 
     @contact = @rfqform.rfqparts.build
-    rfqform.date = DateTime.now.to_date
+    @rfqform.date = DateTime.now.to_date
   end  
 
   def edit
     @rfqform = Rfqform.find(params[:id])
+
   end  
 
   def update

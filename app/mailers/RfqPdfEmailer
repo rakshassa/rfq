@@ -1,0 +1,11 @@
+class RfqPdfEmailer < ActionMailer::Base
+  default from: "from@example.com"
+
+  def email_with_attachment
+    @var1 = 1
+    attachments["RFQ.pdf"] = render("rfqforms/edit", :format => :pdf)
+    mail :subject => "Request for Quote", :to => "test@test.com" do |format|
+      format.text
+    end
+  end
+end

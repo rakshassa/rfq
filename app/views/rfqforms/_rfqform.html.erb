@@ -4,8 +4,10 @@
 	  <%= link_to rfqform.id.to_s.rjust(4, '0'), edit_rfqform_path(rfqform) %>
 	  &nbsp&nbsp&nbsp&nbsp
 	  <small>
-	    <%= link_to "delete", rfqform, method: :delete,
+	    <%= link_to "Delete", rfqform, method: :delete,
 	                data: { confirm: "Are you sure?" }, remote: true %>
+	                &nbsp&nbsp&nbsp&nbsp
+        <%= link_to "Print", rfqform_path(rfqform.id, :format => :pdf) %>	                
 	  </small>
 	  
 	</li>

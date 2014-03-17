@@ -55,8 +55,8 @@ def make_rfqforms
 			release_type: "Test",
 			launch_date: "Yesterday",
 			ppap: "Test ppap",
-			req_by: Employee.find(1),
-			engineer: Employee.find(2),
+			req_by: 3,
+			engineer: 2,
 			info: "No info Here"
 		)
 	end
