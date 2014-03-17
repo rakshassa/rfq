@@ -63,6 +63,51 @@ class RfqformsController < ApplicationController
     end
   end    
 
+  def build
+    @rfqform = Rfqform.find(params[:id])
+    
+    anyfail = false;
+    anysuccess = false;
+    if (@rfqform.rfqparts.any?) then
+      @rfqform.rfqparts.each do |part| 
+        if (part.rfqpartvendors.any?) then   
+          part.rfqpartvendors.reject(&:blank?).each do |vendor|
+            quote = Rfqquote.new(
+              rfqform_id: @rfqform.id,
+              vendor_id: vendor.to_i,
+              part_id: part.id)
+
+            result = nil
+            begin
+              result = quote.save
+            rescue Exception
+              flash[:error] = "This form has already been built."
+            end
+            if (result)  then              
+              anysuccess = true;
+            else 
+              anyfail = true;
+            end            
+          end         
+        end
+      end    
+    end
+
+    if (anysuccess)  then
+      @rfqform.built = true;
+      @rfqform.update_attributes(built: true)
+      
+      flash[:success] = "Built!"
+      redirect_to rfqforms_path
+    else 
+      if !anyfail then
+        flash[:error] += "There are no vendors in this RFQ."
+      end
+      redirect_to rfqforms_path
+    end  
+
+  end
+
 
   private
 

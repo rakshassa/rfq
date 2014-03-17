@@ -13,6 +13,8 @@ class CreateRfqparts < ActiveRecord::Migration
       t.timestamps
     end
 
+    add_index :rfqparts, :id
     add_index :rfqparts, :rfqform_id
+    add_index :rfqparts, [:rfqform_id, :part_number], :unique => true
   end
 end

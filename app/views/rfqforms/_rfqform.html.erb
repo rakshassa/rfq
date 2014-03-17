@@ -6,8 +6,14 @@
 	  <small>
 	    <%= link_to "Delete", rfqform, method: :delete,
 	                data: { confirm: "Are you sure?" }, remote: true %>
-	                &nbsp&nbsp&nbsp&nbsp
+	    &nbsp&nbsp&nbsp&nbsp
         <%= link_to "Print", rfqform_path(rfqform.id, :format => :pdf) %>	                
+        &nbsp&nbsp&nbsp&nbsp
+        
+        <% if !rfqform.built %>
+        <%= link_to "Build", build_rfqform_path(rfqform.id), method: :post %>
+        <% end %>
+        
 	  </small>
 	  
 	</li>

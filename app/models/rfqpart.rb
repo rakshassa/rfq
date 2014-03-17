@@ -5,6 +5,7 @@ class Rfqpart < ActiveRecord::Base
 	has_attached_file :drawing
 
 	validates(:part_number,  presence: true, allow_nil: false )
+	
 
 	validates_attachment :drawing, 
   		:content_type => { :content_type => /\Aimage\/.*\Z/ },

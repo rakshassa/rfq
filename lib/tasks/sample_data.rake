@@ -3,8 +3,11 @@ namespace :db do
 	task populate: :environment do
 		make_employees
 		make_vendors
+		make_vendor_contacts
 		make_parts
 		make_users
+		make_feedback
+
 		
 		make_rfqforms
 		make_eaus
@@ -27,6 +30,15 @@ def make_vendors
 	end	
 end
 
+def make_vendor_contacts
+	Vendor.all.each do |v|
+		c = v.vendor_contacts.build(name: Faker::Name.name, email: Faker::Internet.email)
+		c.save
+		v.rfq_contact_id = c.id
+	end
+end
+
+
 def make_parts
 	20.times do |n|
 		Part.create(name: Faker::Name.name, description: Faker::Name.name)
@@ -47,6 +59,12 @@ def make_users
 	end
 end
 
+def make_feedback
+	Feedback.create(name: "Too high")
+	Feedback.create(name: "Design change")
+	Feedback.create(name: "Other")
+end
+
 
 def make_rfqforms
 	3.times do |n|
@@ -57,6 +75,7 @@ def make_rfqforms
 			ppap: "Test ppap",
 			req_by: 3,
 			engineer: 2,
+			built: false,
 			info: "No info Here"
 		)
 	end
@@ -73,12 +92,13 @@ end
 
 def make_rfqparts
 	3.times do |n|
-		2.times do |m|
+		1.times do |m|
 			newpart = Rfqform.find(n+1).rfqparts.build(
+				part_number: 1,
 				revision: "First",
 				qty: m,
 				units: "pounds",
-				rfqpartvendors: '["","1","2"]')
+				rfqpartvendors: Array[1,2])
 			newpart.save
 		end
 	end

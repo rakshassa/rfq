@@ -20,5 +20,11 @@ class CreateRfqquotes < ActiveRecord::Migration
 
       t.timestamps
     end
+
+
+    add_index :rfqquotes, :id
+    add_index :rfqquotes, [:rfqform_id, :vendor_id, :part_id], :unique => true
+
+
   end
 end

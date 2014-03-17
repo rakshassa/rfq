@@ -7,5 +7,7 @@ class CreateParts < ActiveRecord::Migration
       
       t.timestamps
     end
+
+    add_index :parts, :id
   end
 end

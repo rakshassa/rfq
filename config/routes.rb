@@ -1,7 +1,11 @@
 Rfq::Application.routes.draw do
 
 
-  resources :rfqforms
+  resources :rfqforms do
+  	member do
+  		post :build
+  	end
+  end
 
   resources :parts do
   	member do

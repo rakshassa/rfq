@@ -11,9 +11,8 @@
               :onchange => pc
             } 
 
-			 %>
+		%>
 
-		
     </td>
 
 	<td><div id="desc_<%= f.object.id %>"><%= content_tag :div, Part.find(f.object.id).description if !f.object.id.blank? %></div></td>
