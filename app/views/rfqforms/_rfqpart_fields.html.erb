@@ -3,8 +3,8 @@
 	<td>
 		<%= f.collection_select(
 			:part_number, Part.all.order("name asc"), :id, :name,
-            { :selected => f.object.part_number }, 
-            { 
+			{ :include_blank => 'Select a Part' }, 
+            { :selected => f.object.part_number, 
               :class => 'part_number'
             } 
         ) %>
