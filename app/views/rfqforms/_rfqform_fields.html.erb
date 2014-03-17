@@ -24,11 +24,11 @@
 
 	  <h3>Contact Info</h3>    
       <%= f.label :req_by, "Requisitioned by" %>
-      <%= f.collection_select(:req_by, Employee.all, :id, :name,
+      <%= f.collection_select(:req_by, Employee.all.order("name asc"), :id, :name,
                           {:include_blank => 'Select an Employee'}, {  :selected => f.object.req_by, class: 'span4'} ) %>
 
       <%= f.label :engineer, "Engineer" %>
-      <%= f.collection_select(:engineer, Employee.all, :id, :name,
+      <%= f.collection_select(:engineer, Employee.all.order("name asc"), :id, :name,
                           {:include_blank => 'Select an Engineer'}, {  :selected => f.object.req_by, class: 'span4'} ) %>
 
 

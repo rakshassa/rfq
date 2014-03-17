@@ -6,5 +6,6 @@ function drawing_selected(selector) {
 }
 
 function part_changed(target_node, part) {
-	alert(target_node + " changing to " + part);
+	//alert(target_node + " changing to " + part.item(part.selectedIndex).getAttribute("desc"));
+	target_node.innerHTML = part.item(part.selectedIndex).getAttribute("desc");
 }

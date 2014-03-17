@@ -1,13 +1,19 @@
 <tr class="fields">	
 	<td><%= f.link_to_remove "Remove" %></td>
 	<td>
-		<%= f.collection_select(
-			:part_number, Part.all.order("name asc"), :id, :name,
+		<% pc = 'part_changed(desc_' + f.object.id.to_s + ', part_select_' + f.object.id.to_s + ')' %>
+		<%= f.select :part_number, 
+			Part.all.order("name asc").map {|c| [c.name, c.id, {:'desc' => c.description}]},
 			{ :include_blank => 'Select a Part' }, 
             { :selected => f.object.part_number, 
-              :class => 'part_number'
+              :class => 'part_number',
+              :id => 'part_select_' + f.object.id.to_s,
+              :onchange => pc
             } 
-        ) %>
+
+			 %>
+
+		
     </td>
 
 	<td><div id="desc_<%= f.object.id %>"><%= content_tag :div, Part.find(f.object.id).description if !f.object.id.blank? %></div></td>
@@ -17,7 +23,7 @@
 			placeholder: "Quantity", class: 'qty'  %></td>
 	<td><%= f.text_field :units, 
 			placeholder: "Unit of Measure", class: 'units'  %></td>
-    <td><%= f.collection_select(:rfqpartvendors, Vendor.where(:active_rfq => true), :id, :name,
+    <td><%= f.collection_select(:rfqpartvendors, Vendor.where(:active_rfq => true).order("name asc"), :id, :name,
             { }, { :multiple => true,  :selected => f.object.rfqpartvendors, :class => 'vendors'} ) %></td>		
     <td><a href="<%= f.object.drawing.url %>" > View File </a>
     	<div><%= f.object.drawing_file_name if !f.object.drawing.url.blank? %></div>    	
