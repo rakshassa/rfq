@@ -65,6 +65,10 @@ class RfqformsController < ApplicationController
 
   def build
     @rfqform = Rfqform.find(params[:id])
+    if (@rfqform.built) then
+      flash[:error] = "This form has already been built."
+      redirect_to rfqforms_path and return
+    end
     
     anyfail = false;
     anysuccess = false;
@@ -113,7 +117,7 @@ class RfqformsController < ApplicationController
 
     def rfqforms_params
       params.require(:rfqform).permit(:date, :release_type, :launch_date,
-        :ppap, :req_by, :engineer, :info, 
+        :ppap, :req_by, :engineer, :info, :program,
 
         eaus_attributes: [:id, :value, :_destroy],
         rfqparts_attributes: [:id, :part_number, :revision, 

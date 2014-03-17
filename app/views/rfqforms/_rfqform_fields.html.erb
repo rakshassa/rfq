@@ -5,7 +5,10 @@
       <%= f.label :id, "Rfq: " + f.object.id.to_s.rjust(4, '0') %>      
       <% end %>
 	    <%= f.label :date, "Date: " + f.object.date.to_s %>
-         
+      <%= f.label :program, "Program" %>
+      <%= f.collection_select(:program, Part.all.order("name asc"), :id, :name,
+                          {:include_blank => 'Select a Program'}, {  :selected => f.object.program, class: 'span4'} ) %>
+
       <br> 
       <h3>Program Detail</h3>    
       <%= f.label :release_type, "PO/Release type" %>

@@ -12,4 +12,5 @@ class Rfqform < ActiveRecord::Base
 
 	validates(:req_by,  presence: true, allow_nil: true )
 	validates(:engineer,  presence: true, allow_nil: true )
+	validates(:program,  presence: true, allow_nil: false )
 end

@@ -76,6 +76,7 @@ def make_rfqforms
 			req_by: 3,
 			engineer: 2,
 			built: false,
+			program: 1,
 			info: "No info Here"
 		)
 	end

@@ -2,6 +2,7 @@ pdf.text "RFQ Request", :align => :center, :size => 40, :style => :bold
 
 pdf.text "<b>Rfq:</b>  #{@rfqform.id.to_s.rjust(4, '0')}", :inline_format => true
 pdf.text "<b>Date:</b>  #{@rfqform.date.to_s}", :inline_format => true
+pdf.text "<b>Program:</b>  #{Part.find(@rfqform.program).name.to_s}", :inline_format => true
 
 pdf.move_down(20)
 pdf.text "Program Detail", :style => :bold, :size => 20

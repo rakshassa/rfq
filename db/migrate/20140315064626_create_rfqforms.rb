@@ -9,6 +9,7 @@ class CreateRfqforms < ActiveRecord::Migration
       t.integer :engineer
       t.text :info
       t.boolean :built
+      t.integer :program
 
       t.timestamps
     end

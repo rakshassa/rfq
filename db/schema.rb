@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(version: 20140317101145) do
     t.integer  "engineer"
     t.text     "info"
     t.boolean  "built"
+    t.integer  "program"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -3,6 +3,13 @@
 	  
 	  <%= link_to rfqform.id.to_s.rjust(4, '0'), edit_rfqform_path(rfqform) %>
 	  &nbsp&nbsp&nbsp&nbsp
+
+	  <%=  rfqform.date.to_s  %>
+	  &nbsp&nbsp&nbsp&nbsp
+
+	  <%=  Part.find(rfqform.program).name.to_s  %>
+	  &nbsp&nbsp&nbsp&nbsp
+
 	  <small>
 	    <%= link_to "Delete", rfqform, method: :delete,
 	                data: { confirm: "Are you sure?" }, remote: true %>
