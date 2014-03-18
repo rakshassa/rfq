@@ -1,0 +1,16 @@
+    <%= form_for(@rfqquote) do |f| %>
+      <%= render 'shared/error_messages', object: f.object %>
+
+      <%= content_tag(:div) do content_tag(:b,"RFQ: ") + @rfqquote.rfqform_id.to_s.rjust(4, '0') + "-" + @rfqquote.id.to_s.rjust(3, '0')  end %>
+      <%= content_tag(:div) do content_tag(:b,"Date: ") + "include date_sent here"  end %>
+      <hr>
+      <%= content_tag(:div, "A. All information and specifications relative to this quote are proprietary", class: 'indent_small') %>
+	  <%= content_tag(:div, "B. Quote per piece price only according to the listed unit of measure", class: 'indent_small') %>
+	  <%= content_tag(:div, "C. Parts should be quoted complete unless otherwise specified", class: 'indent_small') %>
+	  <%= content_tag(:div, "D. List all tooling and NRE charges separately (if applicable)", class: 'indent_small') %>
+	  <%= content_tag(:div, :class => 'indent_small') do content_tag(:b,"") + "E. Vendor certifies in agreement to " + content_tag(:i, "Terms and Conditions") + " and " + content_tag(:i, "Quality Expectations") end %>
+	  <%= content_tag(:div, "F. TLX Technologies, LLC will not accept overruns or underruns", class: 'indent_small') %>
+	  <hr>
+	  <br>
+	  <%= content_tag(:div) do content_tag(:b,"Vendor: ") + Vendor.find(@rfqquote.vendor_id).name  end %>
+    <% end %>       

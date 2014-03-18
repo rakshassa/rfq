@@ -1,5 +1,5 @@
-<div id="parent">
-	<li id="rfqform_<%= rfqform.id %>">
+<div id="rfqform_<%= rfqform.id %>">
+	<li >
 	  
 	  <%= link_to rfqform.id.to_s.rjust(4, '0'), edit_rfqform_path(rfqform), id: "keep_link" %>
 	  &nbsp&nbsp&nbsp&nbsp
@@ -25,7 +25,7 @@
 	  
 	</li>
 </div>
-<ul id="children">
+<ul id="child_rfqform_<%= rfqform.id %>">
 	<% if @quotes.key?(rfqform.id) %>
 		<table class="table table-striped table-bordered">
 	        <tr>
