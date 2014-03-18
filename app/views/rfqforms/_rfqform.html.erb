@@ -1,7 +1,7 @@
 <div id="parent">
 	<li id="rfqform_<%= rfqform.id %>">
 	  
-	  <%= link_to rfqform.id.to_s.rjust(4, '0'), edit_rfqform_path(rfqform) %>
+	  <%= link_to rfqform.id.to_s.rjust(4, '0'), edit_rfqform_path(rfqform), id: "keep_link" %>
 	  &nbsp&nbsp&nbsp&nbsp
 
 	  <%=  rfqform.date.to_s  %>
@@ -14,7 +14,7 @@
 	    <%= link_to "Delete", rfqform, method: :delete,
 	                data: { confirm: "Are you sure?" }, remote: true %>
 	    &nbsp&nbsp&nbsp&nbsp
-        <%= link_to "Print", rfqform_path(rfqform.id, :format => :pdf) %>	                
+        <%= link_to "Print", rfqform_path(rfqform.id, :format => :pdf), id: "keep_link" %>	                
         &nbsp&nbsp&nbsp&nbsp
         
         <% if !rfqform.built %>
