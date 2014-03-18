@@ -1,7 +1,7 @@
 class RfqformsController < ApplicationController
 
   def index
-    @rfqforms = Rfqform.paginate(page: params[:page])
+    @rfqforms = Rfqform.paginate(page: params[:page], :order => "id DESC", :per_page => 10 )
 
     @quotes = {}
     @rfqforms.each do |form|
@@ -118,7 +118,7 @@ class RfqformsController < ApplicationController
       redirect_to rfqforms_path
     else 
       if !anyfail then
-        flash[:error] += "There are no vendors in this RFQ."
+        flash[:error] = "There are no vendors in this RFQ."
       end
       redirect_to rfqforms_path
     end  
