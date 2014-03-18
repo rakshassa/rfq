@@ -8,7 +8,7 @@ class RfqformsController < ApplicationController
       if (form.built) then
         @quotes[form.id] = []
         form.rfqparts.each do |part|
-          part.rfqpartvendors.each do |vendor|
+          part.rfqpartvendors.reject(&:blank?).each do |vendor|
             @quotes[form.id] << Rfqquote.where("rfqform_id=? and part_id=? and vendor_id=?", form.id,  part,  vendor)
           end
         end
