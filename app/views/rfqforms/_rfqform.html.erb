@@ -1,7 +1,7 @@
 <div id="rfqform_<%= rfqform.id %>">
 	<li >
 	  
-	  <%= link_to rfqform.id.to_s.rjust(4, '0'), edit_rfqform_path(rfqform), id: "keep_link" %>
+	  <%= link_to rfqform.id.to_s.rjust(4, '0'), rfqform_path(rfqform), id: "keep_link" %>
 	  &nbsp&nbsp&nbsp&nbsp
 
 	  <%=  rfqform.date.to_s  %>
@@ -11,14 +11,16 @@
 	  &nbsp&nbsp&nbsp&nbsp
 
 	  <small>
-	    <%= link_to "Delete", rfqform, method: :delete,
-	                data: { confirm: "Are you sure?" }, remote: true %>
-	    &nbsp&nbsp&nbsp&nbsp
+	    <%= link_to "View", rfqform, id: "keep_link" %>	                
+        &nbsp&nbsp&nbsp&nbsp
         <%= link_to "Print", rfqform_path(rfqform.id, :format => :pdf), id: "keep_link" %>	                
         &nbsp&nbsp&nbsp&nbsp
         
         <% if !rfqform.built %>
-        <%= link_to "Build", build_rfqform_path(rfqform.id), method: :post %>
+		<%= link_to "Delete", rfqform, method: :delete,
+	                data: { confirm: "Are you sure?" }, remote: true %>
+	    &nbsp&nbsp&nbsp&nbsp        
+        <%= link_to "Build", build_rfqform_path(rfqform.id), method: :post, data: { confirm: "This form can no longer be changed once you build. Continue?" } %>
         <% end %>
         
 	  </small>

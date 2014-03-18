@@ -25,16 +25,19 @@ class RfqformsController < ApplicationController
         #uncomment to force download instead of immediate view.
         prawnto filename: "Rfq #{@rfqform.id.to_s.rjust(4, '0')}.pdf", :inline => false
       end
-      format.html do
-        redirect_to rfqforms_path
-      end
+      format.html
+      
     end    
   end
 
   def destroy
-    @rfqform = Rfqform.find(params[:id])    
-    @rfqform.destroy
+    @rfqform = Rfqform.find(params[:id])  
+    if (@rfqform.built) then
+      flash[:error] = "This form has already been built."
+      redirect_to rfqforms_path and return
+    end
 
+    @rfqform.destroy
     
     respond_to do |format|      
       format.js
@@ -48,8 +51,10 @@ class RfqformsController < ApplicationController
     if @rfqform.save
       flash[:success] = "Created!"
       
-      redirect_to rfqforms_path
+      redirect_to @rfqform
     else
+      @programs = Part.where("name LIKE 'PA%'").order("name asc")
+      @employees = Employee.all.order("name asc")
       render 'new'
     end
   end
@@ -59,19 +64,35 @@ class RfqformsController < ApplicationController
     @address = @rfqform.eaus.build 
     @contact = @rfqform.rfqparts.build
     @rfqform.date = DateTime.now.to_date
+    @programs = Part.where("name LIKE 'PA%'").order("name asc")
+    @employees = Employee.all.order("name asc")
   end  
 
   def edit
     @rfqform = Rfqform.find(params[:id])
+    if (@rfqform.built) then
+      flash[:error] = "This form has already been built."
+      redirect_to rfqforms_path and return
+    end
 
+    @programs = Part.where("name LIKE 'PA%'").order("name asc")
+    @employees = Employee.all.order("name asc")
   end  
 
   def update
     @rfqform = Rfqform.find(params[:id])
+    if (@rfqform.built) then
+      flash[:error] = "This form has already been built."
+      redirect_to rfqforms_path and return
+    end
+
     if @rfqform.update_attributes(rfqforms_params)
+      @rfqform.update_attributes(date: DateTime.now.to_date)
       flash[:success] = "Updated"
-      redirect_to rfqforms_path
+      redirect_to @rfqform
     else
+      @programs = Part.where("name LIKE 'PA%'").order("name asc")
+      @employees = Employee.all.order("name asc")
       render 'edit'
     end
   end    
@@ -98,7 +119,7 @@ class RfqformsController < ApplicationController
             begin
               result = quote.save
             rescue Exception
-              flash[:error] = "This form has already been built."
+              (flash[:error] ||= []) << "This form has already been built."
             end
             if (result)  then              
               anysuccess = true;
@@ -112,13 +133,13 @@ class RfqformsController < ApplicationController
 
     if (anysuccess)  then
       @rfqform.built = true;
-      @rfqform.update_attributes(built: true)
+      @rfqform.update_attributes(built: true, date: DateTime.now.to_date)
       
       flash[:success] = "Built!"
       redirect_to rfqforms_path
     else 
       if !anyfail then
-        flash[:error] = "There are no vendors in this RFQ."
+        (flash[:error] ||= []) << "There are no vendors in this RFQ."
       end
       redirect_to rfqforms_path
     end  

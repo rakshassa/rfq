@@ -1,6 +1,6 @@
 <tr>
 
-	<td><%= link_to rfqquote.rfqform_id.to_s.rjust(4, '0') + "-" + rfqquote.id.to_s.rjust(3, '0'), edit_rfqquote_path(rfqquote.id) %></td>
+	<td><%= link_to rfqquote.rfqform_id.to_s.rjust(4, '0') + "-" + rfqquote.id.to_s.rjust(3, '0'), rfqquote_path(rfqquote.id) %></td>
 	<td><%= Vendor.find(rfqquote.vendor_id).name %></td>
 	<td><%= Part.find(Rfqform.find(rfqquote.rfqform_id).program).name %></td>
 	<td><%= Part.find(rfqquote.part_id).name %></td>

@@ -10,8 +10,6 @@ namespace :db do
 
 		
 		make_rfqforms
-		make_eaus
-		make_rfqparts
 	end
 end
 
@@ -40,9 +38,13 @@ end
 
 
 def make_parts
+	5.times do |n|
+		Part.create(name: "PA"+ n.to_s, description: Faker::Name.name)
+	end
 	20.times do |n|
 		Part.create(name: Faker::Name.name, description: Faker::Name.name)
 	end
+	
 end
 
 def make_users
@@ -67,8 +69,9 @@ end
 
 
 def make_rfqforms
+	
 	3.times do |n|
-		Rfqform.create(
+		form = Rfqform.new(
 			date: DateTime.now.to_date,
 			release_type: "Test",
 			launch_date: "Yesterday",
@@ -79,30 +82,17 @@ def make_rfqforms
 			program: 1,
 			info: "No info Here"
 		)
+		form.rfqparts.build(
+			:part_number => 1,
+			:revision => "First",
+			:qty => 5,
+			:units => "pounds",
+			:rfqpartvendors => Array[1,2])
+		form.eaus.build(:value => 1)
+		form.eaus.build(:value => 2)
+		form.save
 	end
 end
 
-def make_eaus
-	3.times do |n|
-		5.times do |m|
-			neweau = Rfqform.find(n+1).eaus.build(value: m)
-			neweau.save
-		end
-	end
-end
-
-def make_rfqparts
-	3.times do |n|
-		1.times do |m|
-			newpart = Rfqform.find(n+1).rfqparts.build(
-				part_number: 1,
-				revision: "First",
-				qty: m,
-				units: "pounds",
-				rfqpartvendors: Array[1,2])
-			newpart.save
-		end
-	end
-end
 
 

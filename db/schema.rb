@@ -80,7 +80,6 @@ ActiveRecord::Schema.define(version: 20140317101145) do
   end
 
   add_index "rfqparts", ["id"], name: "index_rfqparts_on_id"
-  add_index "rfqparts", ["rfqform_id", "part_number"], name: "index_rfqparts_on_rfqform_id_and_part_number", unique: true
   add_index "rfqparts", ["rfqform_id"], name: "index_rfqparts_on_rfqform_id"
 
   create_table "rfqquotes", force: true do |t|

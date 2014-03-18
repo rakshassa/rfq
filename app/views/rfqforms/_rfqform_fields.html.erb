@@ -1,12 +1,12 @@
     <%= nested_form_for(@rfqform) do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
 
-      <% if !f.object.id.blank?  -%>
-      <%= f.label :id, "Rfq: " + f.object.id.to_s.rjust(4, '0') %>      
-      <% end %>
-	    <%= f.label :date, "Date: " + f.object.date.to_s %>
+      
+      <%= content_tag(:div) do content_tag(:b,"RFQ: ") + f.object.id.to_s.rjust(4, '0') if !f.object.id.blank? end %> 
+      <%= content_tag(:div) do content_tag(:b,"Date: ") + f.object.date.to_s if !f.object.date.blank? end %>   
+      
       <%= f.label :program, "Program" %>
-      <%= f.collection_select(:program, Part.all.order("name asc"), :id, :name,
+      <%= f.collection_select(:program, @programs, :id, :name,
                           {:include_blank => 'Select a Program'}, {  :selected => f.object.program, class: 'span4'} ) %>
 
       <br> 
@@ -27,12 +27,40 @@
 
 	  <h3>Contact Info</h3>    
       <%= f.label :req_by, "Requisitioned by" %>
-      <%= f.collection_select(:req_by, Employee.all.order("name asc"), :id, :name,
-                          {:include_blank => 'Select an Employee'}, {  :selected => f.object.req_by, class: 'span4'} ) %>
+      <div class="form-inline input-append" >
+        <% req_ec = 'employee_changed(req_email_' + f.object.id.to_s + ', req_select_' + f.object.id.to_s + ')' %>
+        <%= f.select :req_by, 
+          @employees.map {|c| [c.name, c.id, 
+            {:'email' => c.email}]},
+            { :include_blank => 'Select an Employee' }, 
+            { :selected => f.object.req_by, 
+              :class => 'span4',
+              :id => 'req_select_' + f.object.id.to_s,
+              :onchange => req_ec
+            } 
+        %>                          
+        <div id="req_email_<%=f.object.id.to_s%>"  class="add-on">
+          <%= content_tag :div, Employee.find(f.object.req_by).email if !f.object.req_by.blank? %>
+        </div>
+      </div>                          
 
       <%= f.label :engineer, "Engineer" %>
-      <%= f.collection_select(:engineer, Employee.all.order("name asc"), :id, :name,
-                          {:include_blank => 'Select an Engineer'}, {  :selected => f.object.req_by, class: 'span4'} ) %>
+      <div class="form-inline input-append" >
+        <% eng_ec = 'employee_changed(eng_email_' + f.object.id.to_s + ', eng_select_' + f.object.id.to_s + ')' %>
+        <%= f.select :engineer, 
+          @employees.map {|c| [c.name, c.id, 
+            {:'email' => c.email}]},
+            { :include_blank => 'Select an Employee' }, 
+            { :selected => f.object.engineer, 
+              :class => 'span4',
+              :id => 'eng_select_' + f.object.id.to_s,
+              :onchange => eng_ec
+            } 
+        %>                          
+        <div id="eng_email_<%=f.object.id.to_s%>"  class="add-on">
+          <%= content_tag :div, Employee.find(f.object.engineer).email if !f.object.engineer.blank? %>
+        </div>
+      </div>  
 
 
       <table id="parts_table" class="table table-striped table-bordered">

@@ -9,3 +9,8 @@ function part_changed(target_node, part) {
 	//alert(target_node + " changing to " + part.item(part.selectedIndex).getAttribute("desc"));
 	target_node.innerHTML = part.item(part.selectedIndex).getAttribute("desc");
 }
+
+function employee_changed(target_node, employee) {
+	//alert(target_node + " changing to " + part.item(part.selectedIndex).getAttribute("desc"));
+	target_node.innerHTML = employee.item(employee.selectedIndex).getAttribute("email");
+}

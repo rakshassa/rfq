@@ -10,7 +10,102 @@
 	  <%= content_tag(:div, "D. List all tooling and NRE charges separately (if applicable)", class: 'indent_small') %>
 	  <%= content_tag(:div, :class => 'indent_small') do content_tag(:b,"") + "E. Vendor certifies in agreement to " + content_tag(:i, "Terms and Conditions") + " and " + content_tag(:i, "Quality Expectations") end %>
 	  <%= content_tag(:div, "F. TLX Technologies, LLC will not accept overruns or underruns", class: 'indent_small') %>
-	  <hr>
-	  <br>
-	  <%= content_tag(:div) do content_tag(:b,"Vendor: ") + Vendor.find(@rfqquote.vendor_id).name  end %>
+	  <hr>	  
+	  
+	<div class="container">  
+		<div class="row">  
+		  <div class="span6">
+			  <row>
+			  	<div class="span2"><b>Vendor:</b></div>  
+			  	<%= content_tag(:div, class: 'span3') do Vendor.find(@rfqquote.vendor_id).name  end %>	  	
+			  </row>
+			  <row>
+			  	<div class="span2"></div>  
+			  	<%= content_tag(:div, class: 'span3') do "Stree Address"  end %>	  	
+			  </row>
+			  <row>
+			  	<div class="span2"></div>  
+			  	<%= content_tag(:div, class: 'span3') do "city state zip"  end %>	  	
+			  </row>
+			  <row>
+			  	<div class="span2"></div>  
+			  	<%= content_tag(:div, class: 'span3') do "phone"  end %>	  	
+			  </row>	  	  	  
+			   <row>
+			  	<div class="span2"><b>RFQ Contact:</b></div>  
+			  	<%= content_tag(:div, class: 'span3') do @rfq_contact.name  end %>
+			  </row>
+			  <row>
+			  	<div class="span2"></div>  
+			  	<%= content_tag(:div, class: 'span3') do @rfq_contact.email  end %>
+			  </row>	
+		  </div>
+		  <div class="span6">
+		  	  <row>
+			  	<div class="span2"><b>Requisitioned by:</b></div>  
+			  	<%= content_tag(:div, class: 'span3') do Employee.find(@rfqform.req_by).name  end %>
+			  </row>
+		  	  <row>
+			  	<div class="span2"></div>  
+			  	<%= content_tag(:div, class: 'span3') do Employee.find(@rfqform.req_by).email  end %>
+			  </row>	  
+		  	  <row>
+			  	<div class="span2"><b>Engineer:</b></div>  
+			  	<%= content_tag(:div, class: 'span3') do Employee.find(@rfqform.engineer).name  end %>
+			  </row>
+		  	  <row>
+			  	<div class="span2"></div>  
+			  	<%= content_tag(:div, class: 'span3') do Employee.find(@rfqform.engineer).email  end %>
+			  </row>	
+		  </div> 
+		</div>    
+	
+		<hr>
+		<div class="row">
+			<div class="span6">
+				<div class="span2"><b>Part Number:</b></div>
+				<%= content_tag(:div, class: 'span1') do @part.name  end %>
+				<div class="span1"><b>Revision:</b></div>
+				<%= content_tag(:div, class: 'span1') do @rfqpart.revision  end %>
+			</div>
+			<div class="span6">
+				<div class="span2"><b>Description:</b></div>
+				<%= content_tag(:div, class: 'span3') do @part.description  end %>
+			</div>
+		</div>	
+		<div class="row">
+			<div class="span6">
+				<div class="span2"><b>PO/Release type:</b></div>
+				<%= content_tag(:div, class: 'span3') do @rfqform.release_type  end %>
+			</div>
+			<div class="span6">
+				<div class="span3"><b>Expected Launch Date:</b></div>
+				<%= content_tag(:div, class: 'span2') do @rfqform.launch_date.to_s  end %>	
+			</div>
+		</div>
+		<div class="row">
+			<div class="span6">
+				<div class="span5"><b>PPAP or other sample quality verification:</b></div>
+			</div>
+			<div class="span6">
+				<%= content_tag(:div, class: 'span5') do @rfqform.ppap  end %>
+			</div>
+		</div>			
+		<hr>
+		<div class="row">
+			<div class="span11">
+				<div class="span6"><b>Additional Information:</b></div>
+				<%= content_tag(:div, class: 'span11') do @rfqform.info  end %>
+			</div>
+		</div>
+		<div class="row">
+			<div class="span11">
+				<div class="span2"><b>Unit of Measure:</b></div>
+				<%= content_tag(:div, class: 'span7') do @rfqpart.units  end %>
+			</div>
+		</div>
+		<hr>
+		<div class="span4"><b>Insert table here</b></div>
+		
+	</div> 
     <% end %>       

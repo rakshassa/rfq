@@ -1,0 +1,28 @@
+      <%= content_tag(:div) do content_tag(:b,"RFQ: ") + @rfqform.id.to_s.rjust(4, '0') if !@rfqform.id.blank? end %> 
+      <%= content_tag(:div) do content_tag(:b,"Date: ") + @rfqform.date.to_s if !@rfqform.date.blank? end %>
+      <%= content_tag(:div) do content_tag(:b,"Program: ") + Part.find(@rfqform.program).name if !@rfqform.program.blank? end %>
+
+      <br> 
+      <h3>Program Detail</h3>   
+	  <%= content_tag(:div) do content_tag(:b,"PO/Release type: ") + @rfqform.release_type end %> 
+	  <%= content_tag(:div) do content_tag(:b,"Expected Launch Date: ") + @rfqform.launch_date end %>
+	  <%= content_tag(:div) do content_tag(:b,"EAU: ")  + @rfqform.eaus.map { |f| f.value }.join(', ') end %>
+
+	  <h3>Quality Requirements</h3>  
+	  <%= content_tag(:div) do content_tag(:b,"PPAP or other sample quality verification: ") + @rfqform.ppap end %>
+
+	  <h3>Contact Info</h3>
+	  <%= content_tag(:div) do content_tag(:b,"Requisitioned by: ") + Employee.find(@rfqform.req_by).name + content_tag(:b,"    Email: ") + Employee.find(@rfqform.req_by).email  end %>
+	  <%= content_tag(:div) do content_tag(:b,"Engineer: ") + Employee.find(@rfqform.engineer).name + content_tag(:b,"    Email: ") + Employee.find(@rfqform.engineer).email  end %>
+
+<%= content_tag(:div) do content_tag(:b,"TO DO: Parts table") end %>
+
+
+	  <%= content_tag(:div) do content_tag(:b,"Additional Information: ") + @rfqform.info end %>
+
+	  <% if !@rfqform.built %>
+		  <%= link_to "Edit", edit_rfqform_path(@rfqform.id), class: "btn btn-large btn-primary" %>	  
+	      <%= link_to "Build RFQs", build_rfqform_path(@rfqform.id), method: :post,  data: { confirm: "This form can no longer be changed once you build. Continue?" }, class: "btn btn-large btn-warning" %>
+      <% end %>
+      <%= link_to "Save to PDF", rfqform_path(@rfqform.id, :format => :pdf), class: "btn btn-large btn-primary" %>
+

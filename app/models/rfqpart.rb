@@ -5,11 +5,21 @@ class Rfqpart < ActiveRecord::Base
 	has_attached_file :drawing
 
 	validates(:part_number,  presence: true, allow_nil: false )
-	
+	validates(:revision,  presence: true, allow_nil: false )
+	validates(:qty,  :numericality => {:only_integer => true} )
+	validates(:units,  presence: true, allow_nil: false )
+	validate :check_vendors
+	#validates(:drawing,  presence: true, allow_nil: false )
 
-	validates_attachment :drawing, 
-  		:content_type => { :content_type => /\Aimage\/.*\Z/ },
-  		:size => { :in => 0..500.kilobytes }
+	def check_vendors
+	    if self.rfqpartvendors.blank? || self.rfqpartvendors.reject(&:blank?).blank?
+	    	self.errors[:base] << ("Must have at least one Vendor for each part.")
+	    end
+	end
+
+	#validates_attachment :drawing, 
+  	#	:content_type => { :content_type => /\Aimage\/.*\Z/ },
+  	#	:size => { :in => 0..500.kilobytes }
 		
 
     serialize :rfqpartvendors			
