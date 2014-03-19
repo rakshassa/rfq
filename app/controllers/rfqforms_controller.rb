@@ -182,12 +182,10 @@ class RfqformsController < ApplicationController
       rfqforms.each do |form|
         if (form.built) then
           quotes[form.id] = []
-          form.rfqparts.each do |part|
-            part.rfqpartvendors.reject(&:blank?).each do |vendor|
-              if (current_user.isTLX || current_user.vendor_id == vendor) then
-                quotes[form.id] << Rfqquote.where("rfqform_id=? and part_id=? and vendor_id=?", form.id,  part,  vendor)
-              end
-            end
+          if (current_user.isTLX) then
+            quotes[form.id] << Rfqquote.where("rfqform_id=?", form.id)
+          else
+            quotes[form.id] << Rfqquote.where("rfqform_id=? and vendor_id=?", form.id,  current_user.vendor_id)
           end
         end
       end
