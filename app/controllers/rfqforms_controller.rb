@@ -1,23 +1,13 @@
 class RfqformsController < ApplicationController
 
   def index
-    @rfqforms = Rfqform.paginate(page: params[:page], :order => "id DESC", :per_page => 10 )
-
-    @quotes = {}
-    @rfqforms.each do |form|
-      if (form.built) then
-        @quotes[form.id] = []
-        form.rfqparts.each do |part|
-          part.rfqpartvendors.reject(&:blank?).each do |vendor|
-            @quotes[form.id] << Rfqquote.where("rfqform_id=? and part_id=? and vendor_id=?", form.id,  part,  vendor)
-          end
-        end
-
-      end
-    end
+    @rfqforms = GetForms(params[:page])
+    @quotes = GetQuotes(@rfqforms)
   end	
 
   def show
+    if (!current_user.isTLX) then redirect_to rfqforms_path and return end
+
   	@rfqform = Rfqform.find(params[:id])
 
     respond_to do |format|
@@ -31,6 +21,8 @@ class RfqformsController < ApplicationController
   end
 
   def destroy
+    if (!current_user.isTLX) then redirect_to rfqforms_path and return end
+
     @rfqform = Rfqform.find(params[:id])  
     if (@rfqform.built) then
       flash[:error] = "This form has already been built."
@@ -45,6 +37,8 @@ class RfqformsController < ApplicationController
   end
 
   def create
+    if (!current_user.isTLX) then redirect_to rfqforms_path and return end
+
     @rfqform = Rfqform.new(rfqforms_params)
     @rfqform.date = DateTime.now.to_date
 
@@ -60,6 +54,8 @@ class RfqformsController < ApplicationController
   end
 
   def new
+    if (!current_user.isTLX) then redirect_to rfqforms_path and return end
+
   	@rfqform = Rfqform.new 
     @address = @rfqform.eaus.build 
     @contact = @rfqform.rfqparts.build
@@ -69,6 +65,8 @@ class RfqformsController < ApplicationController
   end  
 
   def edit
+    if (!current_user.isTLX) then redirect_to rfqforms_path and return end
+
     @rfqform = Rfqform.find(params[:id])
     if (@rfqform.built) then
       flash[:error] = "This form has already been built."
@@ -80,6 +78,8 @@ class RfqformsController < ApplicationController
   end  
 
   def update
+    if (!current_user.isTLX) then redirect_to rfqforms_path and return end
+
     @rfqform = Rfqform.find(params[:id])
     if (@rfqform.built) then
       flash[:error] = "This form has already been built."
@@ -98,6 +98,8 @@ class RfqformsController < ApplicationController
   end    
 
   def build
+    if (!current_user.isTLX) then redirect_to rfqforms_path and return end
+
     @rfqform = Rfqform.find(params[:id])
     if (@rfqform.built) then
       flash[:error] = "This form has already been built."
@@ -163,4 +165,33 @@ class RfqformsController < ApplicationController
           :qty, :units, :drawing, :_destroy,
           rfqpartvendors: []])
     end  
+
+    def GetForms(page)
+      if (current_user.isTLX) then
+        return Rfqform.paginate(page: page, :order => "id DESC", :per_page => 10 )
+      end
+
+      quotes = Rfqquote.where("vendor_id=?", current_user.vendor_id)
+      valid_form_ids = quotes.map { |quote| quote.rfqform_id }
+      return Rfqform.where(:id => valid_form_ids).paginate(page: page, :order => "id DESC", :per_page => 10 )
+
+    end
+
+    def GetQuotes(rfqforms)
+      quotes = {}
+      rfqforms.each do |form|
+        if (form.built) then
+          quotes[form.id] = []
+          form.rfqparts.each do |part|
+            part.rfqpartvendors.reject(&:blank?).each do |vendor|
+              if (current_user.isTLX || current_user.vendor_id == vendor) then
+                quotes[form.id] << Rfqquote.where("rfqform_id=? and part_id=? and vendor_id=?", form.id,  part,  vendor)
+              end
+            end
+          end
+        end
+      end
+
+      return quotes      
+    end
 end

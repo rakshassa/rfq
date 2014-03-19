@@ -3,23 +3,39 @@
       <%= content_tag(:div) do content_tag(:b,"Program: ") + Part.find(@rfqform.program).name if !@rfqform.program.blank? end %>
 
       <br> 
-      <h3>Program Detail</h3>   
-	  <%= content_tag(:div) do content_tag(:b,"PO/Release type: ") + @rfqform.release_type end %> 
-	  <%= content_tag(:div) do content_tag(:b,"Expected Launch Date: ") + @rfqform.launch_date end %>
-	  <%= content_tag(:div) do content_tag(:b,"EAU: ")  + @rfqform.eaus.map { |f| f.value }.join(', ') end %>
+      <h3>Program Detail</h3> 
+      <div class="form-inline span11">  
+		  <%= content_tag(:div) do content_tag(:b,"PO/Release type: ") + @rfqform.release_type end %> 
+		  <%= content_tag(:div) do content_tag(:b,"Expected Launch Date: ") + @rfqform.launch_date end %>
+		  <%= content_tag(:div) do content_tag(:b,"EAU: ")  + @rfqform.eaus.map { |f| f.value }.join(', ') end %>
+		  <br><br>
+	  </div>
 
-	  <h3>Quality Requirements</h3>  
-	  <%= content_tag(:div) do content_tag(:b,"PPAP or other sample quality verification: ") + @rfqform.ppap end %>
+	  <h3>Quality Requirements</h3>	
+		  <div class="form-inline span11">   
+		  <%= content_tag(:div) do content_tag(:b,"PPAP or other sample quality verification: ") + @rfqform.ppap end %>
+		  <br><br>
+	  </div>
 
 	  <h3>Contact Info</h3>
-	  <%= content_tag(:div) do content_tag(:b,"Requisitioned by: ") + Employee.find(@rfqform.req_by).name + content_tag(:b,"    Email: ") + Employee.find(@rfqform.req_by).email  end %>
-	  <%= content_tag(:div) do content_tag(:b,"Engineer: ") + Employee.find(@rfqform.engineer).name + content_tag(:b,"    Email: ") + Employee.find(@rfqform.engineer).email  end %>
+	  <div class="form-inline span11">
+		  <%= content_tag(:div, class: 'span5') do content_tag(:b,"Requisitioned by: ") + Employee.find(@rfqform.req_by).name end %>
+		  <%= content_tag(:div, class: 'span5') do content_tag(:b,"    Email: ") + Employee.find(@rfqform.req_by).email  end %>
+	  </div>
+	  <div class="form-inline span11">
+	  	<%= content_tag(:div, class: 'span5') do content_tag(:b,"Engineer: ") + Employee.find(@rfqform.engineer).name end %>
+	  	<%= content_tag(:div, class: 'span5') do content_tag(:b,"    Email: ") + Employee.find(@rfqform.engineer).email  end %>
+	  	<br><br>
+	  </div>
+	  
+	  <%= render 'rfqforms/rfqform_show_parts_fields' %>
 
-<%= content_tag(:div) do content_tag(:b,"TO DO: Parts table") end %>
 
-
-	  <%= content_tag(:div) do content_tag(:b,"Additional Information: ") + @rfqform.info end %>
-
+	  <%= content_tag(:div) do content_tag(:b,"Additional Information: ") end %>
+	  <%= content_tag(:pre) do @rfqform.info end %>
+	   
+	  <br>
+      <br>
 	  <% if !@rfqform.built %>
 		  <%= link_to "Edit", edit_rfqform_path(@rfqform.id), class: "btn btn-large btn-primary" %>	  
 	      <%= link_to "Build RFQs", build_rfqform_path(@rfqform.id), method: :post,  data: { confirm: "This form can no longer be changed once you build. Continue?" }, class: "btn btn-large btn-warning" %>

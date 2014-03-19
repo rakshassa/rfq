@@ -11,6 +11,7 @@ module SessionsHelper
     #@current_user ||= User.find_by(remember_token: remember_token)
 
     #NOTE: this is a temporary solution until Tom delivers a mechanism to know the current user.
+    #@current_user ||= User.find_by(name: "testVendor1")
     @current_user ||= User.find_by(name: "testTLX")
   end  
 

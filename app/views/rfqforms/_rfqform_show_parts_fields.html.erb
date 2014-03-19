@@ -1,0 +1,24 @@
+      <table id="parts_table" class="table table-striped table-bordered">
+        <tr>
+          
+          <th class="part_number">Part Number</th>
+          <th class="description">Description</th>
+          <th class="revision">Revision</th>
+          <th class="qty">Quantity per</th>
+          <th class="unit">Unit of Measure</th>
+          <th class="vendors">Vendors</th>
+          <th class="drawing">Drawing</th>
+        </tr>
+
+        <% @rfqform.rfqparts.map do |part| %>
+          <tr>
+            <td><%= content_tag :div, Part.find(part.part_number).name  %></td>
+            <td><%= content_tag :div, Part.find(part.part_number).description  %></td>
+            <td><%= content_tag :div, part.revision  %></td>
+            <td><%= content_tag :div, part.qty  %></td>
+            <td><%= content_tag :div, part.units  %></td>
+            <td><%= content_tag :div, part.rfqpartvendors.reject(&:blank?).map { |f| Vendor.find(f).name }.join(', ')  %></td>
+            <td><a href="<%= part.drawing.url %>" > Drawing </a></td>
+          </tr>
+        <% end %>
+      </table>
