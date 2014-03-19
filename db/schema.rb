@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140317101145) do
+ActiveRecord::Schema.define(version: 20140319131851) do
 
   create_table "eaus", force: true do |t|
     t.integer  "rfqform_id"
@@ -82,19 +82,36 @@ ActiveRecord::Schema.define(version: 20140317101145) do
   add_index "rfqparts", ["id"], name: "index_rfqparts_on_id"
   add_index "rfqparts", ["rfqform_id"], name: "index_rfqparts_on_rfqform_id"
 
+  create_table "rfqquote_eaus", force: true do |t|
+    t.integer  "rfqquote_id"
+    t.integer  "eau_id"
+    t.string   "parts_note"
+    t.float    "unit_price"
+    t.boolean  "no_quote"
+    t.float    "tooling"
+    t.float    "nre"
+    t.string   "feedback"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "rfqquote_eaus", ["rfqquote_id", "eau_id"], name: "index_rfqquote_eaus_on_rfqquote_id_and_eau_id", unique: true
+  add_index "rfqquote_eaus", ["rfqquote_id"], name: "index_rfqquote_eaus_on_rfqquote_id"
+
   create_table "rfqquotes", force: true do |t|
     t.integer  "rfqform_id"
     t.integer  "vendor_id"
     t.integer  "part_id"
-    t.string   "parts_note"
-    t.float    "unit_price"
-    t.boolean  "no_quote"
     t.string   "quote_note"
     t.string   "quote_number"
-    t.date     "quote_date"
+    t.string   "quote_date"
     t.string   "submitted_by"
-    t.string   "feedback"
-    t.integer  "status"
+    t.string   "valid_till"
+    t.boolean  "no_exceptions"
+    t.boolean  "submitted_to_tlx"
+    t.date     "date_submitted"
+    t.boolean  "feedback_sent"
+    t.date     "date_feedback_sent"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

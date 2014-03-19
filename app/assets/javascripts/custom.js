@@ -14,3 +14,11 @@ function employee_changed(target_node, employee) {
 	//alert(target_node + " changing to " + part.item(part.selectedIndex).getAttribute("desc"));
 	target_node.innerHTML = employee.item(employee.selectedIndex).getAttribute("email");
 }
+
+function NoQuoteChanged(target_node) {
+	if (target_node.style.visibility == "hidden") {
+		target_node.style.visibility="visible";
+	} else { 
+		target_node.style.visibility="hidden";
+	}
+}

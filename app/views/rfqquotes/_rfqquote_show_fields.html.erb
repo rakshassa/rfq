@@ -1,0 +1,76 @@
+    <table id="parts_table" class="table table-striped table-bordered">
+      <tr>
+        <th>Quantity</th>
+        <th>Notes</th>
+        <th>Unit Price</th>
+        <th>Tooling</th>
+        <th>NRE</th>
+        <th>Feedback</th>
+      </tr>
+      <% @rfqquote.rfqquote_eaus.each do |eau| %>
+        <tr class="fields">
+          <td><%= content_tag(:div) do (@rfqpart.qty * Eau.find(eau.eau_id).value).to_s  end %></td>
+          <td><%= content_tag(:div) do eau.parts_note  end %></td>
+          
+          <% if eau.no_quote? %>
+          <td><%= content_tag(:div) do "No Quote" end %></td>
+          <% else %>
+          <td><%= content_tag(:div) do number_to_currency(eau.unit_price)  end %></td>
+          <% end %>
+
+          <td><%= content_tag(:div) do number_to_currency(eau.tooling)  end %></td>
+          <td><%= content_tag(:div) do number_to_currency(eau.nre)  end %></td>
+          <td><%= content_tag(:div) do eau.feedback  end %></td>
+        </tr>
+      <% end %>
+    </table>
+
+    <div class="row">
+      <div class="span11">
+        <div class="span3"><b>Quotation Notes:</b></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="span11">
+        <%= content_tag(:div, class: 'span10') do @rfqquote.quote_note  end %>
+      </div>
+    </div>   
+    <br>
+    <div class="row">
+      <div class="span11">
+        <div class="span3"><b>Quotation Number:</b></div>
+        <%= content_tag(:div, class: 'span7') do @rfqquote.quote_number  end %>
+      </div>
+    </div>  
+    <div class="row">
+      <div class="span11">
+        <div class="span3"><b>Quotation Date:</b></div>
+        <%= content_tag(:div, class: 'span7') do @rfqquote.quote_date  end %>
+      </div>
+    </div>   
+    <div class="row">
+      <div class="span11">
+        <div class="span3"><b>Quotation Submitted by:</b></div>
+        <%= content_tag(:div, class: 'span7') do @rfqquote.submitted_by  end %>
+      </div>
+    </div>   
+    <div class="row">
+      <div class="span11">
+        <div class="span3"><b>Valid Till Date:</b></div>
+        <%= content_tag(:div, class: 'span7') do @rfqquote.valid_till  end %>
+      </div>
+    </div> 
+    <div class="row">
+      <div class="span11">
+        <div class="span3"><b>Quote with no Exceptions:</b></div>
+        <%= content_tag(:div, class: 'span7') do @rfqquote.no_exceptions.to_s  end %>
+      </div>
+    </div> 
+
+    <br><br>  
+
+    <% if !@rfqquote.submitted_to_tlx %>
+      <%= link_to "Edit", edit_rfqquote_path(@rfqquote.id), class: "btn btn-large btn-primary" %>   
+      <%= link_to "Submit RFQ to TLX", submit_to_tlx_rfqquote_path(@rfqquote.id), method: :post,  data: { confirm: "This form can no longer be changed once you submit. Continue?" }, class: "btn btn-large btn-warning" %>
+    <% end %>
+    <%= link_to "Save to PDF", rfqquote_path(@rfqquote.id, :format => :pdf), class: "btn btn-large btn-primary" %>             

@@ -1,0 +1,60 @@
+  <%= nested_form_for(@rfqquote) do |f| %>
+    <table id="parts_table" class="table table-striped table-bordered">
+      <tr>
+        <th>Quantity</th>
+        <th>Notes</th>
+        <th>Unit Price</th>
+        <th>Tooling</th>
+        <th>NRE</th>
+        <th>Feedback</th>
+      </tr>
+      <%= f.fields_for :rfqquote_eaus %>     
+    </table>
+
+    <div class="row">
+      <div class="span11">
+        <div class="span3"><b>Quotation Notes:</b></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="span11">
+        <%= f.text_area :quote_note,{ cols: 60, rows: 4, class: 'span10' } %>      
+      </div>
+    </div>   
+    <div class="row">
+      <div class="span11">
+        <div class="span3"><b>Quotation Number:</b></div>
+        <%= f.text_field :quote_number, placeholder: "Quotation Number", class: 'span4' %>        
+      </div>
+    </div>  
+    <div class="row">
+      <div class="span11">
+        <div class="span3"><b>Quotation Date:</b></div>        
+        <%= f.text_field :quote_date, placeholder: "Quotation Date", class: 'span4' %> 
+      </div>
+    </div>   
+    <div class="row">
+      <div class="span11">
+        <div class="span3"><b>Quotation Submitted by:</b></div>        
+        <%= f.text_field :submitted_by, placeholder: "Quotation Submitted by", class: 'span4' %>
+      </div>
+    </div>   
+    <div class="row">
+      <div class="span11">
+        <div class="span3"><b>Valid Till Date:</b></div>        
+        <%= f.text_field :valid_till, placeholder: "Valid till date", class: 'span4' %>
+      </div>
+    </div> 
+    <div class="row">
+      <div class="span11">
+        <div class="span3"><b>Quote with no Exceptions:</b></div>        
+        <%= f.check_box :no_exceptions %>
+      </div>
+    </div> 
+
+    <br>
+    <br>
+    <br>
+    <%= f.submit "Save changes", class: "btn btn-large btn-primary" %>
+    <%= link_to "Cancel", @rfqquote,  method: :get, class: "btn btn-large" %>         
+  <% end %>

@@ -6,6 +6,6 @@
 	<td><%= Part.find(rfqquote.part_id).name %></td>
 	<td><%= Rfqform.find(rfqquote.rfqform_id).date.to_s %></td>
 	<td><%= rfqquote.quote_number.to_s %></td>
-	<td><% if (rfqquote.status != 1) %> "Active" <% else %> "Closed" <% end %></td>
+	<td><% if (!rfqquote.feedback_sent?) %> "Active" <% else %> "Closed" <% end %></td>
 	
 </tr>

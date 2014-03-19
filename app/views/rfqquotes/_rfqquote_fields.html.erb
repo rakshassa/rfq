@@ -1,4 +1,4 @@
-    <%= form_for(@rfqquote) do |f| %>
+    <%= nested_form_for(@rfqquote) do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
 
       <%= content_tag(:div) do content_tag(:b,"RFQ: ") + @rfqquote.rfqform_id.to_s.rjust(4, '0') + "-" + @rfqquote.id.to_s.rjust(3, '0')  end %>
@@ -84,20 +84,24 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="span6">
-				<div class="span5"><b>PPAP or other sample quality verification:</b></div>
+			<div class="span4">
+				<div class="span4"><b>PPAP or other sample quality verification:</b></div>
 			</div>
-			<div class="span6">
-				<%= content_tag(:div, class: 'span5') do @rfqform.ppap  end %>
+			<div class="span7">
+				<%= content_tag(:div, class: 'span6') do @rfqform.ppap  end %>
 			</div>
 		</div>			
 		<hr>
 		<div class="row">
 			<div class="span11">
-				<div class="span6"><b>Additional Information:</b></div>
-				<%= content_tag(:div, class: 'span11') do @rfqform.info  end %>
+				<div class="span10"><b>Additional Information:</b></div>			
 			</div>
 		</div>
+		<div class="row">
+			<div class="span11">				
+				<%= content_tag(:div, class: 'span11') do @rfqform.info  end %>
+			</div>
+		</div>		
 		<div class="row">
 			<div class="span11">
 				<div class="span2"><b>Unit of Measure:</b></div>
@@ -105,7 +109,12 @@
 			</div>
 		</div>
 		<hr>
-		<div class="span4"><b>Insert table here</b></div>
+		<div class="row">
+			<div class="span11">				
+				<%= link_to "View Drawing", @rfqpart.drawing.url, class: "btn btn-small btn-primary" %>
+			</div>
+		</div>
+		
 		
 	</div> 
     <% end %>       

@@ -125,7 +125,12 @@ class RfqformsController < ApplicationController
               anysuccess = true;
             else 
               anyfail = true;
-            end            
+            end 
+
+            @rfqform.eaus.each do |eau|
+              quote_eau = quote.rfqquote_eaus.build(eau_id: eau.id)
+              quote_eau.save
+            end           
           end         
         end
       end    

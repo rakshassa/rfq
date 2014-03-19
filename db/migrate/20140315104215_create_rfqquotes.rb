@@ -5,18 +5,20 @@ class CreateRfqquotes < ActiveRecord::Migration
       t.integer :vendor_id
       t.integer :part_id
 
-      t.string :parts_note
-      t.float :unit_price
-      t.boolean :no_quote
+
 
       t.string :quote_note
       t.string :quote_number
-      t.date :quote_date
+      t.string :quote_date
       t.string :submitted_by
+      t.string :valid_till
+      t.boolean :no_exceptions
 
-      t.string :feedback
-
-      t.integer :status
+            
+      t.boolean :submitted_to_tlx
+      t.date :date_submitted
+      t.boolean :feedback_sent
+      t.date :date_feedback_sent
 
       t.timestamps
     end

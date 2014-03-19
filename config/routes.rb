@@ -7,7 +7,11 @@ Rfq::Application.routes.draw do
   	end
   end
 
-  resources :rfqquotes, :only => [:show, :edit, :update]
+  resources :rfqquotes, :only => [:show, :edit, :update] do 
+    member do
+      post :submit_to_tlx
+    end
+  end
 
   resources :parts do
   	member do
