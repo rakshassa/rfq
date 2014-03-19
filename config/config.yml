@@ -1,0 +1,12 @@
+defaults: &defaults
+  default_user_name: testTLX
+  #default_user_name: testVendor1
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults	

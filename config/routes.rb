@@ -19,6 +19,13 @@ Rfq::Application.routes.draw do
   	end
   end
 
+  resources :users do
+    member do
+      post :tlx
+      post :vendor
+    end
+  end
+
   root 'rfqforms#index'
 
 end

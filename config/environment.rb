@@ -5,3 +5,4 @@ require File.expand_path('../application', __FILE__)
 Rfq::Application.initialize!
 
 #ENV['RAILS_ENV'] ||= 'production'
+
