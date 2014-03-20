@@ -1,0 +1,15 @@
+<% provide(:title, 'All RFQ Forms') %>
+<h1>All RFQ Forms</h1>
+
+<% if current_user.isTLX %>
+	<%= link_to "Create an RFQ", new_rfqform_path, class: "btn btn-large btn-primary" %>
+<% end %>
+
+
+
+<p><%= link_to "Advanced Search", new_search_path %></p>
+
+<div id="rfqform_list">
+	<%= render 'rfqforms/rfqforms' %>
+</div>
+

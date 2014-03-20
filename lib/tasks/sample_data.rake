@@ -41,7 +41,7 @@ def make_parts
 	5.times do |n|
 		Part.create(name: "PA"+ n.to_s, description: Faker::Name.name)
 	end
-	20.times do |n|
+	30.times do |n|
 		Part.create(name: Faker::Name.name, description: Faker::Name.name)
 	end
 	
@@ -70,7 +70,7 @@ end
 
 def make_rfqforms
 	
-	3.times do |n|
+	30.times do |n|
 		form = Rfqform.new(
 			date: DateTime.now.to_date,
 			release_type: "Test",

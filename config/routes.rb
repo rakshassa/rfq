@@ -27,6 +27,8 @@ Rfq::Application.routes.draw do
     end
   end
 
+  resources :searches
+
   root 'rfqforms#index'
 
 end

@@ -10,6 +10,8 @@ class Rfqform < ActiveRecord::Base
 	accepts_nested_attributes_for :rfqparts, allow_destroy: true,
 			reject_if: :all_blank	
 
+	has_many :rfqquotes, dependent: :destroy
+
 	validates(:req_by,  presence: true, allow_nil: false )
 	validates(:engineer,  presence: true, allow_nil: false )
 	validates(:program,  presence: true, allow_nil: false )

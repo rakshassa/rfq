@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140319131851) do
+ActiveRecord::Schema.define(version: 20140320173716) do
 
   create_table "eaus", force: true do |t|
     t.integer  "rfqform_id"
@@ -118,6 +118,16 @@ ActiveRecord::Schema.define(version: 20140319131851) do
 
   add_index "rfqquotes", ["id"], name: "index_rfqquotes_on_id"
   add_index "rfqquotes", ["rfqform_id", "vendor_id", "part_id"], name: "index_rfqquotes_on_rfqform_id_and_vendor_id_and_part_id", unique: true
+
+  create_table "searches", force: true do |t|
+    t.string   "built"
+    t.string   "vendor"
+    t.integer  "program"
+    t.integer  "rfq"
+    t.string   "quote_number"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "name"

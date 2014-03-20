@@ -1,6 +1,10 @@
 class Rfqquote < ActiveRecord::Base
 	include SessionsHelper
 	
+	belongs_to :rfqform
+	belongs_to :vendor
+	
+
 	has_many :rfqquote_eaus, dependent: :destroy
 	accepts_nested_attributes_for :rfqquote_eaus, allow_destroy: false,
 			reject_if: :all_blank

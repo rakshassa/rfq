@@ -1,0 +1,32 @@
+<h1>Advanced Search</h1>
+
+<div class="container"> 
+
+<%= form_for @search do |f| %>
+	<div class="row">
+		<div class="span2"><%= f.label :vendor %></div>			
+		<div class="span6"><%= f.text_field :vendor %></div>				
+	</div>	
+	<div class="row">
+		<div class="span2"><%= f.label :program %></div>			
+		<div class="span6"><%= f.collection_select :program, Part.where("name LIKE 'PA%'").order("name asc"), :id, :name, :include_blank => 'Any' %></div>				
+	</div>
+	<div class="row">
+		<div class="span2"><%= f.label :rfq %></div>			
+		<div class="span6">
+			<%= f.select :rfq, 
+				Rfqform.all.order("id desc").map {|c| [c.id.to_s.rjust(4, '0'), c.id]},
+				{ :include_blank => 'Any' }, 
+	            { :selected => f.object.rfq } 
+			%>				
+		</div>				
+	</div>
+	<div class="row">
+		<div class="span2"><%= f.label :quote_number %></div>			
+		<div class="span6"><%= f.text_field :quote_number %></div>				
+	</div>
+	<br>
+	<div class="actions"><%= f.submit "Search", class: "btn btn-large btn-primary" %></div>
+<% end %>
+
+</div>
