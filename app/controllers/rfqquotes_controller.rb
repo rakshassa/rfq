@@ -2,18 +2,14 @@ class RfqquotesController < ApplicationController
 
   def show
   	@rfqquote = Rfqquote.find(params[:id])
-  	@rfqform = Rfqform.find(@rfqquote.rfqform_id)
-  	@rfq_contact = VendorContact.find(:first, "vendor_id = ?", @rfqquote.vendor_id)
-  	@rfqpart = Rfqpart.find(@rfqquote.part_id)
-  	@part = Part.find(@rfqpart.part_number)     	
+  	prep_instance_vars(@rfqquote)  
+    @action_type = "show"   	
   end
 
   def edit
   	@rfqquote = Rfqquote.find(params[:id])
-  	@rfqform = Rfqform.find(@rfqquote.rfqform_id)
-  	@rfq_contact = VendorContact.find(:first, "vendor_id = ?", @rfqquote.vendor_id)
-  	@rfqpart = Rfqpart.find(@rfqquote.part_id)
-  	@part = Part.find(@rfqpart.part_number)
+  	prep_instance_vars(@rfqquote)
+    @action_type = "edit"     
   end
 
   def update
@@ -27,23 +23,27 @@ class RfqquotesController < ApplicationController
       @rfqquote.update_attributes(date_submitted: DateTime.now.to_date)
       flash[:success] = "Updated"
       redirect_to @rfqquote
-    else
-      @rfqform = Rfqform.find(@rfqquote.rfqform_id)
-      @rfq_contact = VendorContact.find(:first, "vendor_id = ?", @rfqquote.vendor_id)
-      @rfqpart = Rfqpart.find(@rfqquote.part_id)
-      @part = Part.find(@rfqpart.part_number)
+    else      
+      prep_instance_vars(@rfqquote)
+      @action_type = "edit"
       render 'edit'
     end    
   end
 
   private
+    def prep_instance_vars(rfqquote)
+      @rfqform = Rfqform.find(rfqquote.rfqform_id)
+      @rfq_contact = VendorContact.find(:first, "vendor_id = ?", rfqquote.vendor_id)
+      @rfqpart = Rfqpart.find(rfqquote.part_id)
+      @part = Part.find(@rfqpart.part_number)
+    end
 
     def rfqquote_params
       params.require(:rfqquote).permit(:quote_note, :quote_number, :quote_date,
-        :submitted_by, :valid_till, :no_exceptions, :feedback, 
+        :submitted_by, :valid_till, :no_exceptions,
 
         rfqquote_eaus_attributes: [:id, :parts_note, :unit_price, 
-          :no_quote, :tooling, :nre ]
+          :no_quote, :tooling, :nre, :feedback ]
         )
     end     
 

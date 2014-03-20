@@ -1,4 +1,5 @@
-    <%= render 'rfqquotes/tlx_parts_table' %>
+  <%= form_for(@rfqquote) do |f| %>   
+    <%= render 'rfqquotes/tlx_parts_table', :f => f %>
 
     <div class="row">
       <div class="span11">
@@ -49,3 +50,4 @@
       <%= link_to "Submit RFQ to TLX", submit_to_tlx_rfqquote_path(@rfqquote.id), method: :post,  data: { confirm: "This form can no longer be changed once you submit. Continue?" }, class: "btn btn-large btn-warning" %>
     <% end %>
     <%= link_to "Save to PDF", rfqquote_path(@rfqquote.id, :format => :pdf), class: "btn btn-large btn-primary" %>             
+  <% end %>

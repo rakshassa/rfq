@@ -3,7 +3,11 @@
 
 <div class="row">
   <div class="span8">
-    <%= render 'rfqquotes/rfqquote_vendor_fields' %>
-    <%= render 'rfqquotes/rfqquote_vendor_edit_fields' %>
+  	<% if current_user.isTLX %>
+  		<%= render 'rfqquotes/rfqquote_tlx_fields' %>
+  	<% else %>  	
+    	<%= render 'rfqquotes/rfqquote_vendor_fields' %>
+    	<%= render 'rfqquotes/rfqquote_vendor_edit_fields' %>
+    <% end %>
   </div>
 </div>

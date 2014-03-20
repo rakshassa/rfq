@@ -1,16 +1,22 @@
+
     <table id="parts_table" class="table table-striped table-bordered">
       <tr>
         <th>Quantity</th>
-        <th>Notes</th>
+        <th class="notes">Notes</th>
         <th>Unit Price</th>
         <th>Tooling</th>
         <th>NRE</th>
-        <th>Feedback</th>
+        <th class="feedback">Feedback</th>
       </tr>
-      <% @rfqquote.rfqquote_eaus.each do |eau| %>
+      
+
+
+     <%= f.fields_for :rfqquote_eaus do |form_eau| %>
+        <% eau = form_eau.object %>
         <tr class="fields">
-          <td><%= content_tag(:div) do (@rfqpart.qty * Eau.find(eau.eau_id).value).to_s  end %></td>
-          <td><%= content_tag(:div) do eau.parts_note  end %></td>
+          
+          <td><%= content_tag(:div) do (Eau.find(eau.eau_id).value * @rfqpart.qty).to_s  end %></td>
+          <td><%= content_tag(:div, class: "notes") do eau.parts_note  end %></td>
           
           <% if eau.no_quote? %>
           <td><%= content_tag(:div) do "No Quote" end %></td>
@@ -20,7 +26,12 @@
 
           <td><%= content_tag(:div) do number_to_currency(eau.tooling)  end %></td>
           <td><%= content_tag(:div) do number_to_currency(eau.nre)  end %></td>
-          <td><%= content_tag(:div) do eau.feedback  end %></td>
+
+          <% if (current_user.isTLX && @action_type == 'edit') %>
+            <td><%= form_eau.text_field :feedback, placeholder: "Feedback" %></td>
+          <% else %>
+            <td><%= content_tag(:div, class: "feedback") do eau.feedback  end %></td>
+          <%end %>
         </tr>
       <% end %>
     </table>

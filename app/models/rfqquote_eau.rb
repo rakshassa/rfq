@@ -1,4 +1,6 @@
 class RfqquoteEau < ActiveRecord::Base
+	include SessionsHelper
+	
 	belongs_to :Rfqquote
 
 	validates(:tooling,  allow_nil: true, :numericality => {:greater_than => 0, :on => :update} )
@@ -8,7 +10,7 @@ class RfqquoteEau < ActiveRecord::Base
 		:numericality => {:greater_than => 0}, on: :update, if: :valid_unit_price )	
 
 	def valid_unit_price
-		if (self.no_quote) then false
+		if (self.no_quote || current_user.isTLX) then false
 		else true
 		end
 	end
