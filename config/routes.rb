@@ -10,6 +10,7 @@ Rfq::Application.routes.draw do
   resources :rfqquotes, :only => [:show, :edit, :update] do 
     member do
       post :submit_to_tlx
+      post :send_feedback
     end
   end
 

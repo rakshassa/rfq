@@ -1,2 +1,75 @@
-<h3>Request for Quote</h3>
-<div>to do</div>
+	<%= nested_form_for(@rfqquote) do |f| %>
+	  <%= render 'shared/error_messages', object: f.object %>
+
+	  <%= content_tag(:div) do content_tag(:b,"RFQ: ") + @rfqquote.rfqform_id.to_s.rjust(4, '0') + "-" + @rfqquote.id.to_s.rjust(3, '0')  end %>
+	  <%= content_tag(:div) do content_tag(:b,"Date: ") + @rfqform.date.to_s  end %>
+	  
+		<div class="container"> 
+			<hr> 
+			<%= render 'rfqquotes/rfqquote_shared_fields' %>
+
+			<hr>
+
+			<div class="row">
+				<div class="span6">
+					<div class="span3"><b>Quotation Number:</b></div>
+					<%= content_tag(:div, class: 'span2') do @rfqquote.quote_number  end %>
+				</div>
+				<div class="span6">
+					<div class="span3"><b>Quotation Date:</b></div>
+					<%= content_tag(:div, class: 'span2') do @rfqquote.quote_date  end %>	
+				</div>
+			</div>	
+			<div class="row">
+				<div class="span6">
+					<div class="span3"><b>Quotation Submitted by:</b></div>
+					<%= content_tag(:div, class: 'span2') do @rfqquote.submitted_by  end %>
+				</div>
+				<div class="span6">
+					<div class="span3"><b>Valid Till:</b></div>
+					<%= content_tag(:div, class: 'span2') do @rfqquote.valid_till  end %>	
+				</div>
+			</div>		
+			<div class="row">
+				<div class="span6">
+					<div class="span3"><b>Quoted with no Exceptions:</b></div>
+					<%= content_tag(:div, class: 'span2') do @rfqquote.no_exceptions.to_s  end %>
+				</div>				
+			</div>		
+
+			<hr>
+
+
+			<div class="row">
+				<div class="span11">
+					<div class="span2"><b>Unit of Measure:</b></div>
+					<%= content_tag(:div, class: 'span7') do @rfqpart.units  end %>
+				</div>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="span11">				
+					<%= link_to "View Drawing", @rfqpart.drawing.url, class: "btn btn-small btn-primary" %>
+				</div>
+			</div>		
+		</div>
+
+		<%= render 'rfqquotes/tlx_parts_table' %>
+
+	    <div class="row">
+	      <div class="span11">
+	        <div class="span3"><b>Quotation Notes:</b></div>
+	      </div>
+	    </div>
+	    <div class="row">
+	      <div class="span11">
+	        <%= content_tag(:pre, class: 'span10') do @rfqquote.quote_note  end %>     
+	      </div>
+	    </div>  
+
+	    <% if !@rfqquote.feedback_sent %>
+	      <%= link_to "Edit", edit_rfqquote_path(@rfqquote.id), class: "btn btn-large btn-primary" %>   
+	      <%= link_to "Send Feedback to Vendor", send_feedback_rfqquote_path(@rfqquote.id), method: :post,  data: { confirm: "This form can no longer be changed once you send feedback. Continue?" }, class: "btn btn-large btn-warning" %>
+	    <% end %>
+	    <%= link_to "Save to PDF", rfqquote_path(@rfqquote.id, :format => :pdf), class: "btn btn-large btn-primary" %>    	    		 
+    <% end %>         

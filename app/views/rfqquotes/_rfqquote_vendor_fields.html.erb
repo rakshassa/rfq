@@ -2,7 +2,9 @@
       <%= render 'shared/error_messages', object: f.object %>
 
       <%= content_tag(:div) do content_tag(:b,"RFQ: ") + @rfqquote.rfqform_id.to_s.rjust(4, '0') + "-" + @rfqquote.id.to_s.rjust(3, '0')  end %>
-      <%= content_tag(:div) do content_tag(:b,"Date: ") + "include date_sent here"  end %>
+      <%= content_tag(:div) do content_tag(:b,"Date: ") + @rfqform.date.to_s  end %>
+
+	<div class="container">
       <hr>
       <%= content_tag(:div, "A. All information and specifications relative to this quote are proprietary", class: 'indent_small') %>
 	  <%= content_tag(:div, "B. Quote per piece price only according to the listed unit of measure", class: 'indent_small') %>
@@ -12,96 +14,8 @@
 	  <%= content_tag(:div, "F. TLX Technologies, LLC will not accept overruns or underruns", class: 'indent_small') %>
 	  <hr>	  
 	  
-	<div class="container">  
-		<div class="row">  
-		  <div class="span6">
-			  <row>
-			  	<div class="span2"><b>Vendor:</b></div>  
-			  	<%= content_tag(:div, class: 'span3') do Vendor.find(@rfqquote.vendor_id).name  end %>	  	
-			  </row>
-			  <row>
-			  	<div class="span2"></div>  
-			  	<%= content_tag(:div, class: 'span3') do "Stree Address"  end %>	  	
-			  </row>
-			  <row>
-			  	<div class="span2"></div>  
-			  	<%= content_tag(:div, class: 'span3') do "city state zip"  end %>	  	
-			  </row>
-			  <row>
-			  	<div class="span2"></div>  
-			  	<%= content_tag(:div, class: 'span3') do "phone"  end %>	  	
-			  </row>	  	  	  
-			   <row>
-			  	<div class="span2"><b>RFQ Contact:</b></div>  
-			  	<%= content_tag(:div, class: 'span3') do @rfq_contact.name  end %>
-			  </row>
-			  <row>
-			  	<div class="span2"></div>  
-			  	<%= content_tag(:div, class: 'span3') do @rfq_contact.email  end %>
-			  </row>	
-		  </div>
-		  <div class="span6">
-		  	  <row>
-			  	<div class="span2"><b>Requisitioned by:</b></div>  
-			  	<%= content_tag(:div, class: 'span3') do Employee.find(@rfqform.req_by).name  end %>
-			  </row>
-		  	  <row>
-			  	<div class="span2"></div>  
-			  	<%= content_tag(:div, class: 'span3') do Employee.find(@rfqform.req_by).email  end %>
-			  </row>	  
-		  	  <row>
-			  	<div class="span2"><b>Engineer:</b></div>  
-			  	<%= content_tag(:div, class: 'span3') do Employee.find(@rfqform.engineer).name  end %>
-			  </row>
-		  	  <row>
-			  	<div class="span2"></div>  
-			  	<%= content_tag(:div, class: 'span3') do Employee.find(@rfqform.engineer).email  end %>
-			  </row>	
-		  </div> 
-		</div>    
-	
-		<hr>
-		<div class="row">
-			<div class="span6">
-				<div class="span2"><b>Part Number:</b></div>
-				<%= content_tag(:div, class: 'span1') do @part.name  end %>
-				<div class="span1"><b>Revision:</b></div>
-				<%= content_tag(:div, class: 'span1') do @rfqpart.revision  end %>
-			</div>
-			<div class="span6">
-				<div class="span2"><b>Description:</b></div>
-				<%= content_tag(:div, class: 'span3') do @part.description  end %>
-			</div>
-		</div>	
-		<div class="row">
-			<div class="span6">
-				<div class="span2"><b>PO/Release type:</b></div>
-				<%= content_tag(:div, class: 'span3') do @rfqform.release_type  end %>
-			</div>
-			<div class="span6">
-				<div class="span3"><b>Expected Launch Date:</b></div>
-				<%= content_tag(:div, class: 'span2') do @rfqform.launch_date.to_s  end %>	
-			</div>
-		</div>
-		<div class="row">
-			<div class="span4">
-				<div class="span4"><b>PPAP or other sample quality verification:</b></div>
-			</div>
-			<div class="span7">
-				<%= content_tag(:div, class: 'span6') do @rfqform.ppap  end %>
-			</div>
-		</div>			
-		<hr>
-		<div class="row">
-			<div class="span11">
-				<div class="span10"><b>Additional Information:</b></div>			
-			</div>
-		</div>
-		<div class="row">
-			<div class="span11">				
-				<%= content_tag(:div, class: 'span11') do @rfqform.info  end %>
-			</div>
-		</div>		
+  
+		<%= render 'rfqquotes/rfqquote_shared_fields' %>
 		<div class="row">
 			<div class="span11">
 				<div class="span2"><b>Unit of Measure:</b></div>
@@ -113,8 +27,6 @@
 			<div class="span11">				
 				<%= link_to "View Drawing", @rfqpart.drawing.url, class: "btn btn-small btn-primary" %>
 			</div>
-		</div>
-		
-		
+		</div>		
 	</div> 
     <% end %>       

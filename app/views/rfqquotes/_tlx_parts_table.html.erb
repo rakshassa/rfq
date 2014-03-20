@@ -1,0 +1,26 @@
+    <table id="parts_table" class="table table-striped table-bordered">
+      <tr>
+        <th>Quantity</th>
+        <th>Notes</th>
+        <th>Unit Price</th>
+        <th>Tooling</th>
+        <th>NRE</th>
+        <th>Feedback</th>
+      </tr>
+      <% @rfqquote.rfqquote_eaus.each do |eau| %>
+        <tr class="fields">
+          <td><%= content_tag(:div) do (@rfqpart.qty * Eau.find(eau.eau_id).value).to_s  end %></td>
+          <td><%= content_tag(:div) do eau.parts_note  end %></td>
+          
+          <% if eau.no_quote? %>
+          <td><%= content_tag(:div) do "No Quote" end %></td>
+          <% else %>
+          <td><%= content_tag(:div) do number_to_currency(eau.unit_price)  end %></td>
+          <% end %>
+
+          <td><%= content_tag(:div) do number_to_currency(eau.tooling)  end %></td>
+          <td><%= content_tag(:div) do number_to_currency(eau.nre)  end %></td>
+          <td><%= content_tag(:div) do eau.feedback  end %></td>
+        </tr>
+      <% end %>
+    </table>
