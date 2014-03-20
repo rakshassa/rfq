@@ -143,7 +143,9 @@ class RfqformsController < ApplicationController
       @rfqform.update_attributes(built: true, date: DateTime.now.to_date)
       
       flash[:success] = "Built!"
-      redirect_to rfqforms_path
+      search_id = @rfqform.create_search
+
+      redirect_to search_path(search_id)
     else 
       if !anyfail then
         (flash[:error] ||= []) << "There are no vendors in this RFQ."

@@ -21,6 +21,11 @@ class Rfqform < ActiveRecord::Base
 	    if self.eaus.size < 1 || self.eaus.all?{|eau| eau.marked_for_destruction? }
 	      self.errors[:base] << ("Must have at least one EAU.")
 	    end
-    end		
+    end	
+
+    def create_search
+    	newSearch = Search.create!(rfq: id)
+    	return newSearch.id
+    end
 
 end
