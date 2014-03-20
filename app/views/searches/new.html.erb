@@ -4,6 +4,16 @@
 
 <%= form_for @search do |f| %>
 	<div class="row">
+		<div class="span2"><%= f.label :built %></div>					
+		<div class="span6">
+			<%= f.select :built, 
+				options_for_select([['Built', true],['Unbuilt',false]]),
+				{ :include_blank => 'Any' }, 
+	            { :selected => f.object.rfq } 
+			%>						
+		</div>				
+	</div>	
+	<div class="row">
 		<div class="span2"><%= f.label :vendor %></div>			
 		<div class="span6"><%= f.text_field :vendor %></div>				
 	</div>	

@@ -11,6 +11,7 @@ class Search < ActiveRecord::Base
 
       forms = Rfqform.order("id DESC");
       forms = forms.where('rfqforms.id=?', rfq) if rfq.present?
+      forms = forms.where('rfqforms.built=?', built.to_bool) if built.present?
       forms = forms.joins(rfqquotes: :vendor) if (vendor.present? || quote_number.present?)
       forms = forms.where('rfqquotes.vendor_id=?', current_user.vendor_id) if !current_user.isTLX
       forms = forms.where('rfqquotes.quote_number like ?', "%#{quote_number}%") if quote_number.present?
