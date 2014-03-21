@@ -11,7 +11,25 @@ namespace :db do
 		
 		make_rfqforms
 	end
+
+	task images: :environment do
+		make_attachments
+	end
 end
+
+def make_attachments
+	p = Rfqpart.new
+
+	p.rfqform_id = 1
+	p.part_number = 1
+	p.revision = "First"
+	p.qty = 5
+	p.units = "pounds"
+	p.rfqpartvendors = Array[1,2]
+	p.drawing = File.open(Rails.root.join('tmp','Form.png'))
+	p.save
+end
+
 
 def make_employees
 	20.times do |n|
@@ -87,6 +105,7 @@ def make_rfqforms
 			:revision => "First",
 			:qty => 5,
 			:units => "pounds",
+			:drawing => File.open(Rails.root.join('tmp','Form.png')),
 			:rfqpartvendors => Array[1,2])
 		form.eaus.build(:value => 1)
 		form.eaus.build(:value => 2)

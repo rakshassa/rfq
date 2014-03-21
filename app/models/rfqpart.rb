@@ -11,7 +11,7 @@ class Rfqpart < ActiveRecord::Base
 	validates(:qty,  :numericality => {:only_integer => false} )
 	validates(:units,  presence: true, allow_nil: false )
 	validate :check_vendors
-	#validates(:drawing,  presence: true, allow_nil: false )
+	validates(:drawing,  presence: true, allow_nil: false )
 
 	def check_vendors
 	    if self.rfqpartvendors.blank? || self.rfqpartvendors.reject(&:blank?).blank?
