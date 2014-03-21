@@ -3,7 +3,15 @@ class RfqquotesController < ApplicationController
   def show
   	@rfqquote = Rfqquote.find(params[:id])
   	prep_instance_vars(@rfqquote)  
-    @action_type = "show"   	
+    @action_type = "show" 
+
+    respond_to do |format|
+      format.pdf do        
+        prawnto filename: "TLX-RFQ-#{@rfqform.id.to_s.rjust(4, '0') + "-" + @rfqquote.rfqquote_display_id.to_s.rjust(3,'0')}.pdf", :inline => false
+      end
+      format.html
+      
+    end        	
   end
 
   def edit
@@ -36,6 +44,7 @@ class RfqquotesController < ApplicationController
       @rfq_contact = VendorContact.find(:first, "vendor_id = ?", rfqquote.vendor_id)
       @rfqpart = Rfqpart.find(rfqquote.part_id)
       @part = Part.find(@rfqpart.part_number)
+      @vendor = Vendor.find(rfqquote.vendor_id)
     end
 
     def rfqquote_params

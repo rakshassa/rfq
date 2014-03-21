@@ -280,3 +280,15 @@ hr {
 .indent_small {
   margin-left: 20px;
 }
+
+
+.no-overrun {
+  white-space: nowrap;
+  overflow:hidden;
+  text-overflow: ellipsis;
+}
+
+.no-overrun:hover {
+  text-overflow:inherit;
+  overflow:visible;
+}

@@ -11,8 +11,7 @@ class RfqformsController < ApplicationController
   	@rfqform = Rfqform.find(params[:id])
 
     respond_to do |format|
-      format.pdf do
-        #uncomment to force download instead of immediate view.
+      format.pdf do        
         prawnto filename: "Rfq #{@rfqform.id.to_s.rjust(4, '0')}.pdf", :inline => false
       end
       format.html
