@@ -1,8 +1,10 @@
 class Rfqpart < ActiveRecord::Base
 	belongs_to :rfqform
-	default_scope { order(:id) }
+	has_one :rfqquote
 
-	has_attached_file :drawing
+	default_scope { order(:id) }
+	
+	mount_uploader :drawing, DrawingUploader
 
 	validates(:part_number,  presence: true, allow_nil: false )
 	validates(:revision,  presence: true, allow_nil: false )

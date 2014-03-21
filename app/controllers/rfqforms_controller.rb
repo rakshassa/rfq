@@ -166,7 +166,7 @@ class RfqformsController < ApplicationController
 
         eaus_attributes: [:id, :value, :_destroy],
         rfqparts_attributes: [:id, :part_number, :revision, 
-          :qty, :units, :drawing, :_destroy,
+          :qty, :units, :drawing, :drawing_cache, :_destroy,
           rfqpartvendors: []])
     end  
 

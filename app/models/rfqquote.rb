@@ -3,6 +3,7 @@ class Rfqquote < ActiveRecord::Base
 	
 	belongs_to :rfqform
 	belongs_to :vendor
+	belongs_to :rfqpart, :foreign_key => "part_id"
 	
 
 	has_many :rfqquote_eaus, dependent: :destroy

@@ -8,7 +8,8 @@ class CreateRfqparts < ActiveRecord::Migration
       t.string :units
       t.text :rfqpartvendors
 
-      t.attachment :drawing
+      #t.attachment :drawing
+      t.string :drawing
 
       t.timestamps
     end

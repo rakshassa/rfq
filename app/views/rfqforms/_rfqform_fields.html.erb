@@ -1,4 +1,4 @@
-    <%= nested_form_for(@rfqform) do |f| %>
+    <%= nested_form_for @rfqform, :html => {:multipart => true} do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
 
       

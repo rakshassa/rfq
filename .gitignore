@@ -21,3 +21,4 @@ doc/
 
 # Ignore all downloaded image files
 /public/system/*
+/public/uploads/*

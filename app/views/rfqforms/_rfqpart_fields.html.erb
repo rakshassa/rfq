@@ -24,9 +24,14 @@
 			placeholder: "Unit of Measure", class: 'units'  %></td>
     <td><%= f.collection_select(:rfqpartvendors, Vendor.where(:active_rfq => true).order("name asc"), :id, :name,
             { }, { :multiple => true,  :selected => f.object.rfqpartvendors, :class => 'vendors'} ) %></td>		
-    <td><a href="<%= f.object.drawing.url %>" > View File </a>
-    	<div><%= f.object.drawing_file_name if !f.object.drawing.url.blank? %></div>    	
-    	<%= f.file_field :drawing, :class => 'drawing', :onchange => "drawing_selected(this)" %></td>
+    <td>
+    	<% if f.object.drawing? %>
+    		<a href="<%= f.object.drawing %>" > View File </a>
+    		<div><%= f.object.drawing.file.filename if f.object.drawing? %></div> 
+    	<% end %>   	
+    	<%= f.file_field :drawing, :class => 'drawing', :onchange => "drawing_selected(this)" %>
+    	<%= f.hidden_field :drawing_cache %>
+    </td>
 			
 
 </tr>

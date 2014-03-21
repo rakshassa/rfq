@@ -18,7 +18,11 @@
             <td><%= content_tag :div, part.qty  %></td>
             <td><%= content_tag :div, part.units  %></td>
             <td><%= content_tag :div, part.rfqpartvendors.reject(&:blank?).map { |f| Vendor.find(f).name }.join(', ')  %></td>
-            <td><a href="<%= part.drawing.url %>" > Drawing </a></td>
+            <td>
+              <% if part.drawing? %>
+                <a href="<%= part.drawing %>" > View File </a>        
+              <% end %>              
+            </td>
           </tr>
         <% end %>
       </table>

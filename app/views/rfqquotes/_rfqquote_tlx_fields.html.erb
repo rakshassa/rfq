@@ -48,8 +48,10 @@
 			</div>
 			<hr>
 			<div class="row">
-				<div class="span11">				
-					<%= link_to "View Drawing", @rfqpart.drawing.url, class: "btn btn-small btn-primary" %>
+				<div class="span11">
+					<% if @rfqpart.drawing? %> 						 
+						<a class="btn btn-small btn-primary" href="<%= @rfqpart.drawing %>" > View Drawing </a>                                		
+					<% end %>				
 				</div>
 			</div>		
 		</div>
