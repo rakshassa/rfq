@@ -123,6 +123,8 @@ ActiveRecord::Schema.define(version: 20140320173716) do
     t.integer  "program"
     t.integer  "rfq"
     t.string   "quote_number"
+    t.string   "date_built"
+    t.string   "date_quoted"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

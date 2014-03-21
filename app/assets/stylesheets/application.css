@@ -10,5 +10,7 @@
  *
  *= require_self
  *= require jquery.ui.all
+ *= require bootstrap
+ *= require daterangepicker-bs3.css
  *= require_tree .
  */

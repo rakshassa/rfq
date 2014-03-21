@@ -6,6 +6,8 @@ class CreateSearches < ActiveRecord::Migration
       t.integer :program
       t.integer :rfq
       t.string :quote_number
+      t.string :date_built
+      t.string :date_quoted
 
       t.timestamps
     end

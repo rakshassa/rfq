@@ -3,6 +3,7 @@
 <div class="container"> 
 
 <%= form_for @search do |f| %>
+	<%= render 'shared/error_messages', object: f.object %>
 	<div class="row">
 		<div class="span2"><%= f.label :built %></div>					
 		<div class="span6">
@@ -12,6 +13,14 @@
 	            { :selected => f.object.rfq } 
 			%>						
 		</div>				
+	</div>	
+	<div class="row">
+		<div class="span2"><%= f.label :date_built, "Build Date" %></div>
+		<div class="span4"><%= f.text_field :date_built, id: "build_date", class: "wide" %></div>	
+	</div>	
+	<div class="row">
+		<div class="span2"><%= f.label :date_quoted, "Quote Date" %></div>
+		<div class="span4"><%= f.text_field :date_quoted, id: "quote_date", class: "wide" %></div>	
 	</div>	
 	<div class="row">
 		<div class="span2"><%= f.label :vendor %></div>			
@@ -35,6 +44,7 @@
 		<div class="span2"><%= f.label :quote_number %></div>			
 		<div class="span6"><%= f.text_field :quote_number %></div>				
 	</div>
+
 	<br>
 	<div class="actions"><%= f.submit "Search", class: "btn btn-large btn-primary" %></div>
 <% end %>

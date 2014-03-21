@@ -15,5 +15,7 @@
 //= require jquery.ui.all
 //= require jquery_nested_form
 //= require bootstrap
+//= require moment
+//= require daterangepicker
 //= require_tree .
 

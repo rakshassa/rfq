@@ -8,6 +8,8 @@ class SearchesController < ApplicationController
 	def create		
 		if (!current_user.isTLX) then redirect_to rfqforms_path and return end
 
+
+
 		@search = Search.new(search_params)		
 
 	    if @search.save	      	      
@@ -28,6 +30,7 @@ class SearchesController < ApplicationController
   private
 
     def search_params
-      params.require(:search).permit(:built, :vendor, :program, :rfq, :quote_number)
+      params.require(:search).permit(:built, :vendor, :program, :rfq, 
+      	:quote_number, :date_built, :date_quoted, :part)
     end  	
 end

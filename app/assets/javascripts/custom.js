@@ -15,6 +15,7 @@ function employee_changed(target_node, employee) {
 	target_node.innerHTML = employee.item(employee.selectedIndex).getAttribute("email");
 }
 
+
 function NoQuoteChanged(target_node1, target_node2, target_node3) {
 	if (target_node1.style.visibility == "hidden") {
 		target_node1.style.visibility="visible";
@@ -40,4 +41,42 @@ $(function() {
     window.location = $(this).attr('href');
     return false;
   });
+});
+
+$(document).ready(function() {
+
+  $('#build_date').daterangepicker(
+      {
+        ranges: {
+           'Today': [moment(), moment()],
+           'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+           'Last 7 Days': [moment().subtract('days', 6), moment()],
+           'Last 30 Days': [moment().subtract('days', 29), moment()],
+           'This Month': [moment().startOf('month'), moment().endOf('month')],
+           'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+        },
+        format: 'YYYY/MM/DD',
+        startDate: moment().subtract('days', 29),
+        endDate: moment(),
+        showDropdowns: true
+      }
+  );
+
+  $('#quote_date').daterangepicker(
+      {
+        ranges: {
+           'Today': [moment(), moment()],
+           'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+           'Last 7 Days': [moment().subtract('days', 6), moment()],
+           'Last 30 Days': [moment().subtract('days', 29), moment()],
+           'This Month': [moment().startOf('month'), moment().endOf('month')],
+           'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+        },
+        format: 'YYYY/MM/DD',
+        startDate: moment().subtract('days', 29),
+        endDate: moment(),
+        showDropdowns: true
+      }
+  );
+
 });

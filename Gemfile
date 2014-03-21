@@ -50,6 +50,8 @@ gem 'jquery-ui-rails', '4.2.0'
 #gem 'turbolinks', '1.1.1'
 gem 'jbuilder', '1.0.2'
 gem 'sprockets', '2.11.0'
+gem 'momentjs-rails'
+gem 'bootstrap-daterangepicker-rails', :git => "git://github.com/jordanbrock/bootstrap-daterangepicker-rails.git", :branch => "rails4"
 
 group :doc do
   gem 'sdoc', '0.3.20', require: false
