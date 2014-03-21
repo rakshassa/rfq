@@ -1,9 +1,13 @@
 class SearchesController < ApplicationController
 	def new
+		if (!current_user.isTLX) then redirect_to rfqforms_path and return end
+			
 		@search = Search.new
 	end
 
 	def create		
+		if (!current_user.isTLX) then redirect_to rfqforms_path and return end
+
 		@search = Search.new(search_params)		
 
 	    if @search.save	      	      
@@ -14,6 +18,8 @@ class SearchesController < ApplicationController
 	end
 
 	def show
+		if (!current_user.isTLX) then redirect_to rfqforms_path and return end
+
 		@search = Search.find(params[:id])
 		@rfqforms = @search.search_results(params[:page])		
     	@quotes = @search.GetQuotes(@rfqforms)    	

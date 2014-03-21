@@ -4,7 +4,7 @@ class CreateRfqparts < ActiveRecord::Migration
       t.integer :rfqform_id
       t.integer :part_number
       t.string :revision
-      t.integer :qty
+      t.float :qty
       t.string :units
       t.text :rfqpartvendors
 

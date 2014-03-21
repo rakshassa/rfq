@@ -29,9 +29,9 @@ class Search < ActiveRecord::Base
         if (form.built) then
           quotes[form.id] = []
           if (current_user.isTLX) then
-            quotes[form.id] << Rfqquote.where("rfqform_id=?", form.id)
+            quotes[form.id] << Rfqquote.where("rfqform_id=?", form.id).order("rfqquote_display_id ASC")
           else
-            quotes[form.id] << Rfqquote.where("rfqform_id=? and vendor_id=?", form.id,  current_user.vendor_id)
+            quotes[form.id] << Rfqquote.where("rfqform_id=? and vendor_id=?", form.id,  current_user.vendor_id).order("rfqquote_display_id ASC")
           end
         end
       end

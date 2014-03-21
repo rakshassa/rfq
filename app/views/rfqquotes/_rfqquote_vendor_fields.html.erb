@@ -1,7 +1,7 @@
     <%= nested_form_for(@rfqquote) do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
 
-      <%= content_tag(:div) do content_tag(:b,"RFQ: ") + @rfqquote.rfqform_id.to_s.rjust(4, '0') + "-" + @rfqquote.id.to_s.rjust(3, '0')  end %>
+      <%= content_tag(:div) do content_tag(:b,"RFQ: ") + @rfqquote.rfqform_id.to_s.rjust(4, '0') + "-" + @rfqquote.rfqquote_display_id.to_s.rjust(3, '0')  end %>
       <%= content_tag(:div) do content_tag(:b,"Date: ") + @rfqform.date.to_s  end %>
 
 	<div class="container">

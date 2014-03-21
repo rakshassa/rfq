@@ -1,11 +1,11 @@
 <tr>
 
-	<td><%= link_to rfqquote.rfqform_id.to_s.rjust(4, '0') + "-" + rfqquote.id.to_s.rjust(3, '0'), rfqquote_path(rfqquote.id) %></td>
+	<td><%= link_to rfqquote.rfqform_id.to_s.rjust(4, '0') + "-" + rfqquote.rfqquote_display_id.to_s.rjust(3, '0'), rfqquote_path(rfqquote.id) %></td>
 	<td><%= Vendor.find(rfqquote.vendor_id).name %></td>
 	<td><%= Part.find(Rfqform.find(rfqquote.rfqform_id).program).name %></td>
 	<td><%= Part.find(Rfqpart.find(rfqquote.part_id).part_number).name %></td>
 	<td><%= Rfqform.find(rfqquote.rfqform_id).date.to_s %></td>
 	<td><%= rfqquote.quote_number.to_s %></td>
-	<td><% if (!rfqquote.feedback_sent?) %> "Active" <% else %> "Closed" <% end %></td>
+	<td><% if (rfqquote.feedback_sent?) %> Closed <% elsif (rfqquote.submitted_to_tlx?) %> Submitted <% else %> Active <% end %></td>
 	
 </tr>

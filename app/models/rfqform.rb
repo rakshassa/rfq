@@ -1,7 +1,5 @@
 class Rfqform < ActiveRecord::Base
 
-	#default_scope { order(:id) }
-
 	has_many :eaus, dependent: :destroy
 	accepts_nested_attributes_for :eaus, allow_destroy: true,
 			reject_if: :all_blank
@@ -10,7 +8,7 @@ class Rfqform < ActiveRecord::Base
 	accepts_nested_attributes_for :rfqparts, allow_destroy: true,
 			reject_if: :all_blank	
 
-	has_many :rfqquotes, dependent: :destroy
+	has_many :rfqquotes, dependent: :destroy, :order => 'rfqquote_display_id ASC'
 
 	validates(:req_by,  presence: true, allow_nil: false )
 	validates(:engineer,  presence: true, allow_nil: false )

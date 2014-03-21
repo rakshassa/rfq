@@ -6,7 +6,7 @@ class Rfqpart < ActiveRecord::Base
 
 	validates(:part_number,  presence: true, allow_nil: false )
 	validates(:revision,  presence: true, allow_nil: false )
-	validates(:qty,  :numericality => {:only_integer => true} )
+	validates(:qty,  :numericality => {:only_integer => false} )
 	validates(:units,  presence: true, allow_nil: false )
 	validate :check_vendors
 	#validates(:drawing,  presence: true, allow_nil: false )

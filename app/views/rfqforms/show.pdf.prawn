@@ -1,8 +1,8 @@
 pdf.text "RFQ Request", :align => :center, :size => 40, :style => :bold
 
-pdf.text "<b>Rfq:</b>  #{@rfqform.id.to_s.rjust(4, '0')}", :inline_format => true
-pdf.text "<b>Date:</b>  #{@rfqform.date.to_s}", :inline_format => true
-pdf.text "<b>Program:</b>  #{Part.find(@rfqform.program).name.to_s}", :inline_format => true
+pdf.text "<b>RFQ:</b>  #{@rfqform.id.to_s.rjust(4, '0')}", :inline_format => true, :size => 20
+pdf.text "<b>Date:</b>  #{@rfqform.date.to_s}", :inline_format => true, :size => 20
+pdf.text "<b>Program:</b>  #{Part.find(@rfqform.program).name.to_s}", :inline_format => true, :size => 20
 
 pdf.move_down(20)
 pdf.text "Program Detail", :style => :bold, :size => 20
@@ -35,7 +35,7 @@ pdf.move_down(20)
 
 
 parts = []
-parts << ["Part", "Description", "Rev", "Qty", "Units", "vendors", "Drawing"]
+parts << ["Part", "Description", "Rev", "Qty", "Units", "Vendors"]
 
 
 @rfqform.rfqparts.map do |part|
@@ -45,8 +45,7 @@ parts << ["Part", "Description", "Rev", "Qty", "Units", "vendors", "Drawing"]
 	part.revision,
 	part.qty,
 	part.units,
-	part.rfqpartvendors.reject(&:blank?).map { |f| Vendor.find(f).name }.join(', '),
-	part.drawing_file_name
+	part.rfqpartvendors.reject(&:blank?).map { |f| Vendor.find(f).name }.join("\n")
 ]
 
 end
@@ -54,7 +53,7 @@ end
 pdf.table parts, 
 	:row_colors => ["FFFFFF", "DDDDDD"], 
 	:header => true,
-	:column_widths => [100,110,50,50,50,100,80] do 
+	:column_widths => [100,110,50,50,50,180] do 
 
 	row(0).font_style = :bold
 	row(0).border_width = 2

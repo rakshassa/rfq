@@ -15,11 +15,15 @@ function employee_changed(target_node, employee) {
 	target_node.innerHTML = employee.item(employee.selectedIndex).getAttribute("email");
 }
 
-function NoQuoteChanged(target_node) {
-	if (target_node.style.visibility == "hidden") {
-		target_node.style.visibility="visible";
+function NoQuoteChanged(target_node1, target_node2, target_node3) {
+	if (target_node1.style.visibility == "hidden") {
+		target_node1.style.visibility="visible";
+    target_node2.style.visibility="visible";
+    target_node3.style.visibility="visible";
 	} else { 
-		target_node.style.visibility="hidden";
+		target_node1.style.visibility="hidden";
+    target_node2.style.visibility="hidden";
+    target_node3.style.visibility="hidden";
 	}
 }
 

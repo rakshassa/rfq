@@ -1,18 +1,19 @@
 class CreateRfqquotes < ActiveRecord::Migration
   def change
     create_table :rfqquotes do |t|
+
       t.integer :rfqform_id
       t.integer :vendor_id
       t.integer :part_id
-
+      t.integer :rfqquote_display_id
 
 
       t.string :quote_note
       t.string :quote_number
-      t.string :quote_date
+      t.date :quote_date
       t.string :submitted_by
-      t.string :valid_till
-      t.boolean :no_exceptions
+      t.date :valid_till
+      t.boolean :exceptions
 
             
       t.boolean :submitted_to_tlx

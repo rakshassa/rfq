@@ -3,7 +3,7 @@
           <td><%= f.text_field :parts_note, placeholder: "Note" %></td>
           
           <td>
-            <% eng_ec = 'NoQuoteChanged(price_' + f.object.eau_id.to_s + ')' %>
+            <% eng_ec = 'NoQuoteChanged(price_' + f.object.eau_id.to_s + ', tooling_' + f.object.eau_id.to_s + ', nre_' + f.object.eau_id.to_s + ' )' %>
             <% if f.object.no_quote? %>
               <%= f.text_field :unit_price, placeholder: "Unit Price", 
                 id: "price_"+f.object.eau_id.to_s, :style => "visibility:hidden" %>
@@ -17,7 +17,23 @@
           </td>
                    
 
-          <td><%= f.text_field :tooling, placeholder: "Unit Price" %></td>
-          <td><%= f.text_field :nre, placeholder: "Unit Price" %></td>
+          <td>
+            <% if f.object.no_quote? %>
+              <%= f.text_field :tooling, placeholder: "Tooling", 
+                id: "tooling_"+f.object.eau_id.to_s, :style => "visibility:hidden" %>
+            <% else %>
+              <%= f.text_field :tooling, placeholder: "Tooling", 
+                id: "tooling_"+f.object.eau_id.to_s %>
+            <% end %>
+          </td>
+          <td>
+            <% if f.object.no_quote? %>
+              <%= f.text_field :nre, placeholder: "NRE", 
+                id: "nre_"+f.object.eau_id.to_s, :style => "visibility:hidden" %>
+            <% else %>
+              <%= f.text_field :nre, placeholder: "NRE", 
+                id: "nre_"+f.object.eau_id.to_s %>
+            <% end %>
+          </td>                  
           <td><%= content_tag(:div) do f.object.feedback  end %></td>
         </tr>

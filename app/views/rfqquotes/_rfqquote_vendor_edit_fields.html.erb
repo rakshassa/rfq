@@ -30,7 +30,12 @@
     <div class="row">
       <div class="span11">
         <div class="span3"><b>Quotation Date:</b></div>        
-        <%= f.text_field :quote_date, placeholder: "Quotation Date", class: 'span4' %> 
+        
+        <%= f.date_select :quote_date, {
+          :use_two_digit_numbers => false, :use_short_month => true, 
+          :order => [:month, :day, :year], :include_blank => false,
+          :default => DateTime.now.to_date, :prompt => true 
+        } %>
       </div>
     </div>   
     <div class="row">
@@ -41,14 +46,19 @@
     </div>   
     <div class="row">
       <div class="span11">
-        <div class="span3"><b>Valid Till Date:</b></div>        
-        <%= f.text_field :valid_till, placeholder: "Valid till date", class: 'span4' %>
+        <div class="span3"><b>Valid Till Date:</b></div>                
+        <%= f.date_select :valid_till, {
+          :use_two_digit_numbers => false, :use_short_month => true, 
+          :order => [:month, :day, :year], :include_blank => false,
+          :default => DateTime.now.to_date, :prompt => true 
+        } %>
       </div>
     </div> 
     <div class="row">
       <div class="span11">
-        <div class="span3"><b>Quote with no Exceptions:</b></div>        
-        <%= f.check_box :no_exceptions %>
+        <div class="span3"><b>Quote with Exceptions:</b></div>        
+        <div class="span1"><%= f.check_box :exceptions %></div>
+        <div class="span4"><i>Please list Exceptions in Quotation Notes</i></div>
       </div>
     </div> 
 

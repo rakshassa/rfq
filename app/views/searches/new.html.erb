@@ -22,7 +22,7 @@
 		<div class="span6"><%= f.collection_select :program, Part.where("name LIKE 'PA%'").order("name asc"), :id, :name, :include_blank => 'Any' %></div>				
 	</div>
 	<div class="row">
-		<div class="span2"><%= f.label :rfq %></div>			
+		<div class="span2"><%= f.label :rfq, "RFQ" %></div>			
 		<div class="span6">
 			<%= f.select :rfq, 
 				Rfqform.all.order("id desc").map {|c| [c.id.to_s.rjust(4, '0'), c.id]},

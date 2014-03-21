@@ -19,13 +19,22 @@
           <td><%= content_tag(:div, class: "notes") do eau.parts_note  end %></td>
           
           <% if eau.no_quote? %>
-          <td><%= content_tag(:div) do "No Quote" end %></td>
+            <td><%= content_tag(:div, class: "price") do "No Quote" end %></td>
           <% else %>
-          <td><%= content_tag(:div) do number_to_currency(eau.unit_price)  end %></td>
+            <td><%= content_tag(:div, class: "price") do number_to_currency(eau.unit_price)  end %></td>
           <% end %>
 
-          <td><%= content_tag(:div) do number_to_currency(eau.tooling)  end %></td>
-          <td><%= content_tag(:div) do number_to_currency(eau.nre)  end %></td>
+          <% if eau.no_quote? %>
+            <td><%= content_tag(:div) do "" end %></td>
+          <% else %>
+            <td><%= content_tag(:div) do number_to_currency(eau.tooling)  end %></td>
+          <% end %>          
+
+          <% if eau.no_quote? %>
+            <td><%= content_tag(:div) do "" end %></td>
+          <% else %>
+            <td><%= content_tag(:div) do number_to_currency(eau.nre)  end %></td>
+          <% end %>                      
 
           <% if (current_user.isTLX && @action_type == 'edit') %>
             <td><%= form_eau.text_field :feedback, placeholder: "Feedback" %></td>

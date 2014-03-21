@@ -21,7 +21,7 @@
     <div class="row">
       <div class="span11">
         <div class="span3"><b>Quotation Date:</b></div>
-        <%= content_tag(:div, class: 'span7') do @rfqquote.quote_date  end %>
+        <%= content_tag(:div, class: 'span7') do @rfqquote.quote_date.to_s  end %>
       </div>
     </div>   
     <div class="row">
@@ -33,13 +33,13 @@
     <div class="row">
       <div class="span11">
         <div class="span3"><b>Valid Till Date:</b></div>
-        <%= content_tag(:div, class: 'span7') do @rfqquote.valid_till  end %>
+        <%= content_tag(:div, class: 'span7') do @rfqquote.valid_till.to_s  end %>
       </div>
     </div> 
     <div class="row">
       <div class="span11">
-        <div class="span3"><b>Quote with no Exceptions:</b></div>
-        <%= content_tag(:div, class: 'span7') do @rfqquote.no_exceptions.to_s  end %>
+        <div class="span3"><b>Quote with Exceptions:</b></div>
+        <div class="span3"><% if @rfqquote.exceptions? %>Yes<% else %>No<% end %></div>
       </div>
     </div> 
 

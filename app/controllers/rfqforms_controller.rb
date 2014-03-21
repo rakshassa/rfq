@@ -110,13 +110,15 @@ class RfqformsController < ApplicationController
     anysuccess = false;
     if (@rfqform.rfqparts.any?) then
       @rfqform.rfqparts.each do |part| 
-        if (part.rfqpartvendors.any?) then   
+        if (part.rfqpartvendors.any?) then 
+          counter = 1  
           part.rfqpartvendors.reject(&:blank?).each do |vendor|
             quote = Rfqquote.new(
+              rfqquote_display_id: counter,
               rfqform_id: @rfqform.id,
               vendor_id: vendor.to_i,
               part_id: part.id)
-
+            counter = counter + 1
             result = nil
             begin
               result = quote.save
@@ -185,9 +187,9 @@ class RfqformsController < ApplicationController
         if (form.built) then
           quotes[form.id] = []
           if (current_user.isTLX) then
-            quotes[form.id] << Rfqquote.where("rfqform_id=?", form.id)
+            quotes[form.id] << Rfqquote.where("rfqform_id=?", form.id).order("rfqquote_display_id ASC")
           else
-            quotes[form.id] << Rfqquote.where("rfqform_id=? and vendor_id=?", form.id,  current_user.vendor_id)
+            quotes[form.id] << Rfqquote.where("rfqform_id=? and vendor_id=?", form.id,  current_user.vendor_id).order("rfqquote_display_id ASC")
           end
         end
       end

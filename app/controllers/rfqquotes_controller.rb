@@ -40,7 +40,7 @@ class RfqquotesController < ApplicationController
 
     def rfqquote_params
       params.require(:rfqquote).permit(:quote_note, :quote_number, :quote_date,
-        :submitted_by, :valid_till, :no_exceptions,
+        :submitted_by, :valid_till, :exceptions,
 
         rfqquote_eaus_attributes: [:id, :parts_note, :unit_price, 
           :no_quote, :tooling, :nre, :feedback ]
