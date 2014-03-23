@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 20140320173716) do
     t.datetime "updated_at"
   end
 
-  add_index "eaus", ["rfqform_id"], name: "index_eaus_on_rfqform_id"
+  add_index "eaus", ["rfqform_id"], name: "index_eaus_on_rfqform_id", using: :btree
 
   create_table "employees", force: true do |t|
     t.string   "name"
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 20140320173716) do
     t.datetime "updated_at"
   end
 
-  add_index "employees", ["id"], name: "index_employees_on_id"
+  add_index "employees", ["id"], name: "index_employees_on_id", using: :btree
 
   create_table "feedbacks", force: true do |t|
     t.string   "name"
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 20140320173716) do
     t.datetime "updated_at"
   end
 
-  add_index "feedbacks", ["id"], name: "index_feedbacks_on_id"
+  add_index "feedbacks", ["id"], name: "index_feedbacks_on_id", using: :btree
 
   create_table "parts", force: true do |t|
     t.string   "name"
@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(version: 20140320173716) do
     t.datetime "updated_at"
   end
 
-  add_index "parts", ["id"], name: "index_parts_on_id"
+  add_index "parts", ["id"], name: "index_parts_on_id", using: :btree
 
   create_table "rfqforms", force: true do |t|
     t.date     "date"
@@ -62,7 +62,7 @@ ActiveRecord::Schema.define(version: 20140320173716) do
     t.datetime "updated_at"
   end
 
-  add_index "rfqforms", ["id"], name: "index_rfqforms_on_id"
+  add_index "rfqforms", ["id"], name: "index_rfqforms_on_id", using: :btree
 
   create_table "rfqparts", force: true do |t|
     t.integer  "rfqform_id"
@@ -76,8 +76,8 @@ ActiveRecord::Schema.define(version: 20140320173716) do
     t.datetime "updated_at"
   end
 
-  add_index "rfqparts", ["id"], name: "index_rfqparts_on_id"
-  add_index "rfqparts", ["rfqform_id"], name: "index_rfqparts_on_rfqform_id"
+  add_index "rfqparts", ["id"], name: "index_rfqparts_on_id", using: :btree
+  add_index "rfqparts", ["rfqform_id"], name: "index_rfqparts_on_rfqform_id", using: :btree
 
   create_table "rfqquote_eaus", force: true do |t|
     t.integer  "rfqquote_id"
@@ -92,8 +92,8 @@ ActiveRecord::Schema.define(version: 20140320173716) do
     t.datetime "updated_at"
   end
 
-  add_index "rfqquote_eaus", ["rfqquote_id", "eau_id"], name: "index_rfqquote_eaus_on_rfqquote_id_and_eau_id", unique: true
-  add_index "rfqquote_eaus", ["rfqquote_id"], name: "index_rfqquote_eaus_on_rfqquote_id"
+  add_index "rfqquote_eaus", ["rfqquote_id", "eau_id"], name: "index_rfqquote_eaus_on_rfqquote_id_and_eau_id", unique: true, using: :btree
+  add_index "rfqquote_eaus", ["rfqquote_id"], name: "index_rfqquote_eaus_on_rfqquote_id", using: :btree
 
   create_table "rfqquotes", force: true do |t|
     t.integer  "rfqform_id"
@@ -114,8 +114,8 @@ ActiveRecord::Schema.define(version: 20140320173716) do
     t.datetime "updated_at"
   end
 
-  add_index "rfqquotes", ["id"], name: "index_rfqquotes_on_id"
-  add_index "rfqquotes", ["rfqform_id", "vendor_id", "part_id"], name: "index_rfqquotes_on_rfqform_id_and_vendor_id_and_part_id", unique: true
+  add_index "rfqquotes", ["id"], name: "index_rfqquotes_on_id", using: :btree
+  add_index "rfqquotes", ["rfqform_id", "vendor_id", "part_id"], name: "index_rfqquotes_on_rfqform_id_and_vendor_id_and_part_id", unique: true, using: :btree
 
   create_table "searches", force: true do |t|
     t.string   "built"
@@ -137,7 +137,7 @@ ActiveRecord::Schema.define(version: 20140320173716) do
     t.datetime "updated_at"
   end
 
-  add_index "users", ["id"], name: "index_users_on_id"
+  add_index "users", ["id"], name: "index_users_on_id", using: :btree
 
   create_table "vendor_contacts", force: true do |t|
     t.integer  "vendor_id"
@@ -147,7 +147,7 @@ ActiveRecord::Schema.define(version: 20140320173716) do
     t.datetime "updated_at"
   end
 
-  add_index "vendor_contacts", ["id"], name: "index_vendor_contacts_on_id"
+  add_index "vendor_contacts", ["id"], name: "index_vendor_contacts_on_id", using: :btree
 
   create_table "vendors", force: true do |t|
     t.string   "name"
@@ -157,6 +157,6 @@ ActiveRecord::Schema.define(version: 20140320173716) do
     t.datetime "updated_at"
   end
 
-  add_index "vendors", ["id"], name: "index_vendors_on_id"
+  add_index "vendors", ["id"], name: "index_vendors_on_id", using: :btree
 
 end

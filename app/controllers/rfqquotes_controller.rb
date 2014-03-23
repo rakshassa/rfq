@@ -45,7 +45,6 @@ class RfqquotesController < ApplicationController
     end
 
     if @rfqquote.update_attributes(rfqquote_params)
-      @rfqquote.update_attributes(date_submitted: DateTime.now.to_date)
       flash[:success] = "Updated"
       redirect_to @rfqquote
     else      

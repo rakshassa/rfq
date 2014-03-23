@@ -15,7 +15,8 @@ gem 'carrierwave', '0.10.0'
 gem 'prawnto_2', :require => "prawnto"
 
 group :development, :test do
-  gem 'sqlite3', '1.3.8'
+  #gem 'sqlite3', '1.3.8'
+  gem 'mysql2', '0.3.11'
   gem 'rspec-rails', '2.13.1'
   gem 'guard-rspec', '2.5.0'
 
