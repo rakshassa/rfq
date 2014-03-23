@@ -92,7 +92,7 @@ class RfqquotesController < ApplicationController
     end
 
     @rfqquote.rfqquote_eaus.each do |rfqquote_eau|
-      if (@rfqquote_eau.feedback.blank?) then
+      if (rfqquote_eau.feedback.blank?) then
         flash.now[:error] = "Please enter feedback for all quotes before sending feedback."
         @action_type = "show" 
         prep_instance_vars(@rfqquote)

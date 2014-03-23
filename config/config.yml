@@ -1,5 +1,7 @@
 defaults: &defaults
   default_user_name: testTLX
+  default_email_from: rakshassa@gmail.com
+  #default_email_from: purchasing@tlxtech.com
   #default_user_name: testVendor1
 
 development:

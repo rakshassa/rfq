@@ -1,5 +1,5 @@
 class RfqMailer < ActionMailer::Base
-  default from: "no_reply@tlxtech.com"
+  default from: APP_CONFIG['default_email_from']
 
   def send_new_rfq(rfqform)
   	@rfqform = rfqform
@@ -11,14 +11,14 @@ class RfqMailer < ActionMailer::Base
   		end
   	end
 
-  	mail(from: "no_reply@tlxtech.com", to: @targets, subject: "TLX is requesting a quote: " + @quote_number)
+  	mail(from: APP_CONFIG['default_email_from'], to: @targets, 
+  		subject: "TLX is requesting a quote: " + @quote_number)
   end
 
   def submit_quote(rfqquote)
   	@rfqquote = rfqquote
   	@quote_number = @rfqquote.rfqform_id.to_s.rjust(4,'0') + "-" + @rfqquote.rfqquote_display_id.to_s.rjust(3,'0')
-  	#@target = "purchasing@tlxtech.com" 
-  	@target = "rakshassa@gmail.com"
+  	@target = APP_CONFIG['default_email_from']  	
   	@sender = VendorContact.find(@rfqquote.vendor_id).email
 
   	mail(to: @target, from: @sender,
@@ -31,7 +31,8 @@ class RfqMailer < ActionMailer::Base
   	@rfqquote = rfqquote
   	@quote_number = @rfqquote.rfqform_id.to_s.rjust(4,'0') + "-" + @rfqquote.rfqquote_display_id.to_s.rjust(3,'0')
   	@target = VendorContact.find(@rfqquote.vendor_id).email
-  	mail(to: @target, subject: "Feedback received on RFQ Quote " + @quote_number)
+  	mail(from: APP_CONFIG['default_email_from'], to: @target, 
+  		subject: "Feedback received on RFQ Quote " + @quote_number)
   end  
 
 end
