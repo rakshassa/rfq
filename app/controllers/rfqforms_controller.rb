@@ -146,6 +146,8 @@ class RfqformsController < ApplicationController
       flash[:success] = "Built!"
       search_id = @rfqform.create_search
 
+      RfqMailer.send_new_rfq(@rfqform).deliver
+
       redirect_to search_path(search_id)
     else 
       if !anyfail then

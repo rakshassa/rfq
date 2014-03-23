@@ -1,7 +1,7 @@
 class RfqquotesController < ApplicationController
 
   def show
-  	@rfqquote = Rfqquote.find(params[:id])
+  	@rfqquote = Rfqquote.find(params[:id])    
   	prep_instance_vars(@rfqquote)  
     @action_type = "show" 
 
@@ -16,13 +16,30 @@ class RfqquotesController < ApplicationController
 
   def edit
   	@rfqquote = Rfqquote.find(params[:id])
+
+    if (@rfqquote.feedback_sent) then
+      flash[:error] = "This quote is closed."
+      redirect_to rfqforms_path and return
+    end
+
+    if (@rfqquote.submitted_to_tlx && !current_user.isTLX) then
+      flash[:error] = "This quote has already been submitted."
+      redirect_to rfqforms_path and return
+    end
+
   	prep_instance_vars(@rfqquote)
     @action_type = "edit"     
   end
 
   def update
     @rfqquote = Rfqquote.find(params[:id])
-    if (@rfqquote.submitted_to_tlx) then
+
+    if (@rfqquote.feedback_sent) then
+      flash[:error] = "This quote is closed."
+      redirect_to rfqforms_path and return
+    end
+
+    if (@rfqquote.submitted_to_tlx && !current_user.isTLX) then
       flash[:error] = "This quote has already been submitted."
       redirect_to rfqforms_path and return
     end
@@ -37,6 +54,61 @@ class RfqquotesController < ApplicationController
       render 'edit'
     end    
   end
+
+  def submit_to_tlx
+    @rfqquote = Rfqquote.find(params[:id])
+
+    if (@rfqquote.submitted_to_tlx?) then
+        flash.now[:error] = "Your quote was previously submitted."
+        @action_type = "show" 
+        prep_instance_vars(@rfqquote)
+        render 'show' and return
+    end
+
+    if (@rfqquote.quote_number.blank?) then
+      flash.now[:error] = "Please enter quote information before submitting to TLX."
+      @action_type = "show" 
+      prep_instance_vars(@rfqquote)
+      render 'show' and return
+    end    
+
+    @rfqquote.submitted_to_tlx = true
+    @rfqquote.date_submitted = DateTime.now.to_date
+    @rfqquote.save
+
+    RfqMailer.submit_quote(@rfqquote).deliver
+    flash[:success] = "Submitted"
+    redirect_to rfqforms_path
+  end
+
+  def send_feedback
+    @rfqquote = Rfqquote.find(params[:id])
+    
+    if (@rfqquote.feedback_sent?) then
+        flash.now[:error] = "Feedback was already sent on this RFQ."
+        @action_type = "show" 
+        prep_instance_vars(@rfqquote)
+        render 'show' and return
+    end
+
+    @rfqquote.rfqquote_eaus.each do |rfqquote_eau|
+      if (@rfqquote_eau.feedback.blank?) then
+        flash.now[:error] = "Please enter feedback for all quotes before sending feedback."
+        @action_type = "show" 
+        prep_instance_vars(@rfqquote)
+        render 'show' and return
+      end
+    end
+
+    @rfqquote.feedback_sent = true
+    @rfqquote.date_feedback_sent = DateTime.now.to_date
+    @rfqquote.save
+
+    RfqMailer.send_feedback(@rfqquote).deliver
+    flash[:success] = "Feedback Sent"
+    redirect_to rfqforms_path
+  end
+
 
   private
     def prep_instance_vars(rfqquote)
