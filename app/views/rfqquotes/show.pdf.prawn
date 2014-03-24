@@ -21,9 +21,10 @@ bounding_box([0, @col_start], :width=>(full/2)) do
 	end
 	bounding_box([(full/4), bounds.top], :width=>((full/4)-gap)) do
 		pdf.text "#{@vendor.name}"
-		pdf.text "Street Address"
-		pdf.text "City, State, Zip"
-		pdf.text "Phone Number"
+		pdf.text "#{@vendor.vendor_addresses.primary.address1}"
+		pdf.text "#{@vendor.vendor_addresses.primary.address2}"
+		pdf.text "#{@vendor.vendor_addresses.primary.city}, #{@vendor.vendor_addresses.primary.state} #{@vendor.vendor_addresses.primary.zip}"		
+		pdf.text "#{@vendor.phone}"
 	end	
 end
 

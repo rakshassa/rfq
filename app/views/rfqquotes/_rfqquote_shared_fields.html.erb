@@ -6,15 +6,23 @@
 			  </row>
 			  <row>
 			  	<div class="span2"></div>  
-			  	<%= content_tag(:div, class: 'span3') do "Street Address"  end %>	  	
+			  	<%= content_tag(:div, class: 'span3') do @rfqquote.vendor.vendor_addresses.primary.address1  end %>	  	
+			  </row>
+
+			  <% if !@rfqquote.vendor.vendor_addresses.primary.address2.blank? %>
+			  <row>
+			  	<div class="span2"></div>  
+			  	<%= content_tag(:div, class: 'span3') do @rfqquote.vendor.vendor_addresses.primary.address2  end %>	  	
+			  </row>
+			  <% end %>			  
+
+			  <row>
+			  	<div class="span2"></div>  
+			  	<%= content_tag(:div, class: 'span3') do @rfqquote.vendor.vendor_addresses.primary.city + ", " + @rfqquote.vendor.vendor_addresses.primary.state + " " + @rfqquote.vendor.vendor_addresses.primary.zip  end %>	  	
 			  </row>
 			  <row>
 			  	<div class="span2"></div>  
-			  	<%= content_tag(:div, class: 'span3') do "city state zip"  end %>	  	
-			  </row>
-			  <row>
-			  	<div class="span2"></div>  
-			  	<%= content_tag(:div, class: 'span3') do "phone"  end %>	  	
+			  	<%= content_tag(:div, class: 'span3') do @rfqquote.vendor.phone  end %>	  	
 			  </row>	  	  	  
 			   <row>
 			  	<div class="span2"><b>RFQ Contact:</b></div>  

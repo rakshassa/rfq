@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140324174429) do
+ActiveRecord::Schema.define(version: 20140324185547) do
 
   create_table "contact_roles", force: true do |t|
     t.string   "name"
@@ -149,6 +149,22 @@ ActiveRecord::Schema.define(version: 20140324174429) do
 
   add_index "users", ["id"], name: "index_users_on_id", using: :btree
 
+  create_table "vendor_addresses", force: true do |t|
+    t.integer  "vendor_id"
+    t.string   "address1"
+    t.string   "address2"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.integer  "address_type_id"
+    t.boolean  "primary"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "vendor_addresses", ["id"], name: "index_vendor_addresses_on_id", using: :btree
+  add_index "vendor_addresses", ["vendor_id"], name: "index_vendor_addresses_on_vendor_id", using: :btree
+
   create_table "vendor_contact_roles", force: true do |t|
     t.integer  "vendor_contact_id"
     t.integer  "contact_role_id"
@@ -173,6 +189,7 @@ ActiveRecord::Schema.define(version: 20140324174429) do
   create_table "vendors", force: true do |t|
     t.string   "name"
     t.boolean  "active_rfq"
+    t.string   "phone"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

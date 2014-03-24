@@ -3,6 +3,7 @@ class CreateVendors < ActiveRecord::Migration
     create_table :vendors do |t|
       t.string :name
       t.boolean :active_rfq
+      t.string :phone
 
       t.timestamps
     end

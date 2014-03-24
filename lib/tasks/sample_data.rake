@@ -2,7 +2,7 @@ namespace :db do
 	desc "Fill database with sample data"
 	task populate: :environment do
 		make_employees
-		make_roles
+		make_roles			
 		make_vendors
 		make_vendor_contacts
 		make_parts
@@ -50,14 +50,40 @@ def make_roles
 	ContactRole.create(name: "Silly Contact")
 end
 
+
 def make_vendors
 	20.times do |n|
-		Vendor.create(name: Faker::Name.name, active_rfq: true)
+		v = Vendor.create(name: Faker::Name.name, phone: Faker::PhoneNumber.phone_number, active_rfq: true)
+		make_vendor_addresses(v)
 	end
 	5.times do |n|
-		Vendor.create(name: Faker::Name.name, active_rfq: false)
+		v = Vendor.create(name: Faker::Name.name, phone: Faker::PhoneNumber.phone_number, active_rfq: false)
+		make_vendor_addresses(v)
 	end	
 end
+
+def make_vendor_addresses(vendor)
+	a = vendor.vendor_addresses.build(
+                 address1: Faker::Address.street_address,
+                 address2: Faker::Address.secondary_address,
+                 city: Faker::Address.city,
+                 state: Faker::Address.state_abbr,
+                 zip: Faker::Address.zip_code,
+                 address_type_id: 1,
+                 primary: true)  
+	a.save
+
+	a = vendor.vendor_addresses.build(
+                 address1: Faker::Address.street_address,
+                 address2: Faker::Address.secondary_address,
+                 city: Faker::Address.city,
+                 state: Faker::Address.state_abbr,
+                 zip: Faker::Address.zip_code,
+                 address_type_id: 2,
+                 primary: false)  
+    a.save                    
+end
+
 
 def make_vendor_contacts
 	roleId = ContactRole.where("name = ?", "RFQ Contact").first
