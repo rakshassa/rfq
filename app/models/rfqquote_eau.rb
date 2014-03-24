@@ -1,7 +1,8 @@
 class RfqquoteEau < ActiveRecord::Base
 	include SessionsHelper
 	
-	belongs_to :Rfqquote
+	belongs_to :rfqquote
+	belongs_to :eau
 
 	validates(:tooling,  allow_nil: true, :numericality => {:greater_than => 0, :on => :update} )
 	validates(:nre,  allow_nil: true, :numericality => {:greater_than => 0, :on => :update} )
@@ -13,5 +14,9 @@ class RfqquoteEau < ActiveRecord::Base
 		if (self.no_quote || current_user.isTLX) then false
 		else true
 		end
+	end
+
+	def eau_qty
+		return (rfqquote.rfqpart.qty * eau.value).round(2)
 	end
 end

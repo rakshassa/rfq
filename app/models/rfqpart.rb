@@ -20,6 +20,10 @@ class Rfqpart < ActiveRecord::Base
 	    end
 	end
 
+	def vendor_name_list
+		return self.rfqpartvendors.reject(&:blank?).map { |f| Vendor.find(f).name }.join("\n")
+	end
+
 	#validates_attachment :drawing, 
   	#	:content_type => { :content_type => /\Aimage\/.*\Z/ },
   	#	:size => { :in => 0..500.kilobytes }

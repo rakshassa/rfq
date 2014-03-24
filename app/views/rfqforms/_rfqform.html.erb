@@ -10,7 +10,7 @@
 	  <%=  rfqform.date.to_s  %>
 	  &nbsp&nbsp&nbsp&nbsp
 
-	  <%=  Part.find(rfqform.program).name.to_s  %>
+	  <%=  rfqform.program_name  %>
 	  &nbsp&nbsp&nbsp&nbsp
 
 	  <% if current_user.isTLX %>

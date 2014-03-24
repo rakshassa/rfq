@@ -20,14 +20,14 @@ Rfq::Application.routes.draw do
   	end
   end
 
-  resources :users do
+  resources :users, :only => [] do
     member do
       post :tlx
       post :vendor
     end
   end
 
-  resources :searches
+  resources :searches, :only => [:show, :new, :create]
 
   root 'rfqforms#index'
 

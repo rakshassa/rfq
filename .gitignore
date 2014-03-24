@@ -22,3 +22,7 @@ doc/
 # Ignore all downloaded image files
 /public/system/*
 /public/uploads/*
+
+#ignore code coverage and best_practices
+coverage/
+rails_best_practices_output.html

@@ -1,6 +1,6 @@
       <%= content_tag(:div) do content_tag(:b,"RFQ: ") + @rfqform.printable_id if !@rfqform.id.blank? end %> 
       <%= content_tag(:div) do content_tag(:b,"Date: ") + @rfqform.date.to_s if !@rfqform.date.blank? end %>
-      <%= content_tag(:div) do content_tag(:b,"Program: ") + Part.find(@rfqform.program).name if !@rfqform.program.blank? end %>
+      <%= content_tag(:div) do content_tag(:b,"Program: ") + @rfqform.program_name if !@rfqform.program.blank? end %>
 
       <br> 
       <h3>Program Detail</h3> 
@@ -19,12 +19,12 @@
 
 	  <h3>Contact Info</h3>
 	  <div class="form-inline span11">
-		  <%= content_tag(:div, class: 'span5') do content_tag(:b,"Requisitioned by: ") + Employee.find(@rfqform.req_by).name end %>
-		  <%= content_tag(:div, class: 'span5') do content_tag(:b,"    Email: ") + Employee.find(@rfqform.req_by).email  end %>
+		  <%= content_tag(:div, class: 'span5') do content_tag(:b,"Requisitioned by: ") + @rfqform.req_by_employee.name end %>
+		  <%= content_tag(:div, class: 'span5') do content_tag(:b,"    Email: ") + @rfqform.req_by_employee.email  end %>
 	  </div>
 	  <div class="form-inline span11">
-	  	<%= content_tag(:div, class: 'span5') do content_tag(:b,"Engineer: ") + Employee.find(@rfqform.engineer).name end %>
-	  	<%= content_tag(:div, class: 'span5') do content_tag(:b,"    Email: ") + Employee.find(@rfqform.engineer).email  end %>
+	  	<%= content_tag(:div, class: 'span5') do content_tag(:b,"Engineer: ") + @rfqform.engineer_employee.name end %>
+	  	<%= content_tag(:div, class: 'span5') do content_tag(:b,"    Email: ") + @rfqform.engineer_employee.email  end %>
 	  	<br><br>
 	  </div>
 	  

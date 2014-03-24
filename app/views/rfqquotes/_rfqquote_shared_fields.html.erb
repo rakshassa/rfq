@@ -2,7 +2,7 @@
 		  <div class="span6">
 			  <row>
 			  	<div class="span2"><b>Vendor:</b></div>  
-			  	<%= content_tag(:div, class: 'span3') do Vendor.find(@rfqquote.vendor_id).name  end %>	  	
+			  	<%= content_tag(:div, class: 'span3') do @rfqquote.vendor.name  end %>	  	
 			  </row>
 			  <row>
 			  	<div class="span2"></div>  
@@ -36,19 +36,19 @@
 		  <div class="span6">
 		  	  <row>
 			  	<div class="span2"><b>Requisitioned by:</b></div>  
-			  	<%= content_tag(:div, class: 'span3') do Employee.find(@rfqform.req_by).name  end %>
+			  	<%= content_tag(:div, class: 'span3') do @rfqform.req_by_employee.name  end %>
 			  </row>
 		  	  <row>
 			  	<div class="span2"></div>  
-			  	<%= content_tag(:div, class: 'span3') do Employee.find(@rfqform.req_by).email  end %>
+			  	<%= content_tag(:div, class: 'span3') do @rfqform.req_by_employee.email  end %>
 			  </row>	  
 		  	  <row>
 			  	<div class="span2"><b>Engineer:</b></div>  
-			  	<%= content_tag(:div, class: 'span3') do Employee.find(@rfqform.engineer).name  end %>
+			  	<%= content_tag(:div, class: 'span3') do @rfqform.engineer_employee.name  end %>
 			  </row>
 		  	  <row>
 			  	<div class="span2"></div>  
-			  	<%= content_tag(:div, class: 'span3') do Employee.find(@rfqform.engineer).email  end %>
+			  	<%= content_tag(:div, class: 'span3') do @rfqform.engineer_employee.email  end %>
 			  </row>	
 		  </div> 
 		</div>    

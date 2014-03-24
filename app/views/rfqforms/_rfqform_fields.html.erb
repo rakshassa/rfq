@@ -40,7 +40,7 @@
             } 
         %>                          
         <div id="req_email_<%=f.object.id.to_s%>"  class="add-on">
-          <%= content_tag :div, Employee.find(f.object.req_by).email if !f.object.req_by.blank? %>
+          <%= content_tag :div, f.object.req_by_employee.email if !f.object.req_by.blank? %>
         </div>
       </div>                          
 
@@ -58,7 +58,7 @@
             } 
         %>                          
         <div id="eng_email_<%=f.object.id.to_s%>"  class="add-on">
-          <%= content_tag :div, Employee.find(f.object.engineer).email if !f.object.engineer.blank? %>
+          <%= content_tag :div, f.object.engineer_employee.email if !f.object.engineer.blank? %>
         </div>
       </div>  
 

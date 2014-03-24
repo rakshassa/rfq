@@ -7,5 +7,6 @@ class CreateVendorContactRoles < ActiveRecord::Migration
       t.timestamps
     end
     add_index :vendor_contact_roles, :vendor_contact_id
+    add_index :vendor_contact_roles, :contact_role_id
   end
 end

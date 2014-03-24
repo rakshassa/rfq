@@ -34,10 +34,10 @@ end
 
 def make_employees
 	10.times do |n|
-		Employee.create(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.email, inactive: true)
+		Employee.create(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.email, inactive: false)
 	end
 	10.times do |n|
-		Employee.create(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.email, inactive: false)
+		Employee.create(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.email, inactive: true)
 	end
 end
 

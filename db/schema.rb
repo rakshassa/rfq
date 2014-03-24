@@ -172,6 +172,7 @@ ActiveRecord::Schema.define(version: 20140324185547) do
     t.datetime "updated_at"
   end
 
+  add_index "vendor_contact_roles", ["contact_role_id"], name: "index_vendor_contact_roles_on_contact_role_id", using: :btree
   add_index "vendor_contact_roles", ["vendor_contact_id"], name: "index_vendor_contact_roles_on_vendor_contact_id", using: :btree
 
   create_table "vendor_contacts", force: true do |t|

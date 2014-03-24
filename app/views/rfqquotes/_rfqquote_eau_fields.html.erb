@@ -1,5 +1,5 @@
         <tr class="fields">
-          <td><%= content_tag(:div) do (@rfqpart.qty * Eau.find(f.object.eau_id).value).to_s  end %></td>
+          <td><%= content_tag(:div) do f.object.eau_qty.to_s  end %></td>
           <td><%= f.text_field :parts_note, placeholder: "Note" %></td>
           
           <td>

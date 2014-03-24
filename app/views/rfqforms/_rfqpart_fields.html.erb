@@ -15,7 +15,7 @@
 
     </td>
 
-	<td><div id="desc_<%= f.object.id %>"><%= content_tag :div, Part.find(f.object.id).description if !f.object.id.blank? %></div></td>
+	<td><div id="desc_<%= f.object.id %>"><%= content_tag :div, f.object.part.description if !f.object.id.blank? %></div></td>
 	<td><%= f.text_field :revision, 
 			placeholder: "Revision", class: 'revision'  %></td>
 	<td><%= f.text_field :qty, 

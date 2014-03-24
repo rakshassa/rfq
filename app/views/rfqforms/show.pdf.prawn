@@ -19,13 +19,13 @@ pdf.move_down(20)
 pdf.text "Contact Info", :style => :bold, :size => 20
 
 if  !@rfqform.req_by.blank? then 
-	pdf.text "<b>Requisitioned by:</b>  #{Employee.find(@rfqform.req_by).name}", :inline_format => true
+	pdf.text "<b>Requisitioned by:</b>  #{@rfqform.req_by_employee.name}", :inline_format => true
 else 
 	pdf.text "<b>Requisitioned by:</b>  <i>None Selected</i>", :inline_format => true
 end
 
 if !@rfqform.engineer.nil? then
-    pdf.text "<b>Engineer:</b>  #{Employee.find(@rfqform.engineer).name}", :inline_format => true
+    pdf.text "<b>Engineer:</b>  #{@rfqform.engineer_employee.name}", :inline_format => true
 else
 	pdf.text "<b>Engineer:</b>  <i>None Selected</i>", :inline_format => true
 end
@@ -45,7 +45,7 @@ parts << ["Part", "Description", "Rev", "Qty", "Units", "Vendors"]
 	part.revision,
 	part.qty,
 	part.units,
-	part.rfqpartvendors.reject(&:blank?).map { |f| Vendor.find(f).name }.join("\n")
+	part.vendor_name_list
 ]
 
 end

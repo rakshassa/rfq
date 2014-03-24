@@ -47,8 +47,8 @@ bounding_box([((full+gap)/2), @col_start], :width=>(full/2)) do
 		pdf.text "<b>Requisitioned by:</b>", :inline_format => true
 	end
 	bounding_box([(full/4), bounds.top], :width=>((full/4)-gap)) do
-		pdf.text "#{Employee.find(@rfqform.req_by).name}"
-		pdf.text "#{Employee.find(@rfqform.req_by).email}"
+		pdf.text "#{@rfqform.req_by_employee.name}"
+		pdf.text "#{@rfqform.req_by_employee.email}"
 	end			
 end
 
@@ -59,8 +59,8 @@ bounding_box([((full+gap)/2), cursor], :width=>(full/2)) do
 		pdf.text "<b>Engineer:</b>", :inline_format => true
 	end
 	bounding_box([(full/4), bounds.top], :width=>((full/4)-gap)) do
-		pdf.text "#{Employee.find(@rfqform.engineer).name}"
-		pdf.text "#{Employee.find(@rfqform.engineer).email}"
+		pdf.text "#{@rfqform.engineer_employee.name}"
+		pdf.text "#{@rfqform.engineer_employee.email}"
 	end			
 end	
 
@@ -80,7 +80,7 @@ bounding_box([0, @col_start], :width=>(full/2)) do
 		pdf.text "<b>Part Number:</b>", :inline_format => true
 	end
 	bounding_box([(full/4), bounds.top], :width=>((full/4)-gap)) do			
-		pdf.text "#{@part.name}  <b>Revision: </b> #{@rfqpart.revision}", :inline_format => true
+		pdf.text "#{@part.name}  <b>Rev: </b> #{@rfqpart.revision}", :inline_format => true
 	end	
 end	
 
@@ -221,7 +221,7 @@ parts << ["Quantity", "Notes", "Unit Price", "Tooling", "NRE", "Feedback"]
 
 
 @rfqquote.rfqquote_eaus.map do |eau|
-	qty = (@rfqpart.qty * Eau.find(eau.eau_id).value).to_s
+	qty = eau.eau_qty.to_s
 
 	if (eau.no_quote) then
 		parts << [

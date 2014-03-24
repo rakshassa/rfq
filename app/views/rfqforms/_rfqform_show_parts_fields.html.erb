@@ -12,12 +12,12 @@
 
         <% @rfqform.rfqparts.map do |part| %>
           <tr>
-            <td><%= content_tag :div, Part.find(part.part_number).name  %></td>
-            <td><%= content_tag :div, Part.find(part.part_number).description  %></td>
+            <td><%= content_tag :div, part.part.name  %></td>
+            <td><%= content_tag :div, part.part.description  %></td>
             <td><%= content_tag :div, part.revision  %></td>
             <td><%= content_tag :div, part.qty  %></td>
             <td><%= content_tag :div, part.units  %></td>
-            <td><%= content_tag :div, part.rfqpartvendors.reject(&:blank?).map { |f| Vendor.find(f).name }.join(', ')  %></td>
+            <td><%= content_tag :pre, part.vendor_name_list  %></td>
             <td>
               <% if part.drawing? %>
                 <a href="<%= part.drawing %>" > View File </a>        

@@ -2,7 +2,7 @@ class RfqformsController < ApplicationController
 
   def index
     @rfqforms = GetForms().paginate(page: params[:page], :order => "id DESC", :per_page => 10 )
-    @quotes = GetQuotes(@rfqforms)
+    @quotes = GetQuotes(@rfqforms)    
   end	
 
   def show
@@ -180,12 +180,7 @@ class RfqformsController < ApplicationController
       quotes = {}
       rfqforms.each do |form|
         if (form.built) then
-          quotes[form.id] = []
-          if (current_user.isTLX) then
-            quotes[form.id] << form.rfqquotes
-          else
-            quotes[form.id] << form.rfqquotes.limit_to_vendor(current_user.vendor_id)            
-          end
+          quotes[form.id] = form.auth_quotes          
         end
       end
 

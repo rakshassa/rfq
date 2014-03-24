@@ -15,7 +15,7 @@
         <% eau = form_eau.object %>
         <tr class="fields">
           
-          <td><%= content_tag(:div) do (Eau.find(eau.eau_id).value * @rfqpart.qty).to_s  end %></td>
+          <td><%= content_tag(:div) do eau.eau_qty.to_s  end %></td>
           <td><%= content_tag(:div, class: "notes") do eau.parts_note  end %></td>
           
           <% if eau.no_quote? %>
