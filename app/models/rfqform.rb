@@ -1,4 +1,4 @@
-class Rfqform < ActiveRecord::Base
+class Rfqform < ActiveRecord::Base	
 
 	has_many :eaus, dependent: :destroy
 	accepts_nested_attributes_for :eaus, allow_destroy: true,
@@ -24,6 +24,10 @@ class Rfqform < ActiveRecord::Base
     def create_search
     	newSearch = Search.create!(rfq: id)
     	return newSearch.id
+    end
+
+    def printable_id
+    	self.id.to_s.rjust(4, '0')
     end
 
 end

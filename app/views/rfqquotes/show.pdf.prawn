@@ -2,7 +2,7 @@ font_size 10
 
 pdf.text "RFQ Request", :align => :center, :size => 40, :style => :bold
 
-pdf.text "<b>RFQ:</b>  #{@rfqform.id.to_s.rjust(4, '0') + "-" + @rfqquote.rfqquote_display_id.to_s.rjust(3,'0')}", :inline_format => true, :size => 20
+pdf.text "<b>RFQ:</b>  #{@rfqquote.whole_printable_id}", :inline_format => true, :size => 20
 pdf.text "<b>Date:</b>  #{@rfqform.date.to_s}", :inline_format => true, :size => 20
 
 pdf.move_down(10)

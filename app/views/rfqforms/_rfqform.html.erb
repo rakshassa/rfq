@@ -1,9 +1,9 @@
 <div id="rfqform_<%= rfqform.id %>">
 	<li >
 	  <% if current_user.isTLX %>
-	  	<%= link_to rfqform.id.to_s.rjust(4, '0'), rfqform_path(rfqform), id: "keep_link" %>
+	  	<%= link_to rfqform.printable_id, rfqform_path(rfqform), id: "keep_link" %>
 	  <% else %>
-	  	<%= link_to rfqform.id.to_s.rjust(4, '0'), '#' %>	  		
+	  	<%= link_to rfqform.printable_id, '#' %>	  		
 	  <% end %>
 	  &nbsp&nbsp&nbsp&nbsp
 

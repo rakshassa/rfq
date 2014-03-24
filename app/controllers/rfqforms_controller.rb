@@ -12,7 +12,7 @@ class RfqformsController < ApplicationController
 
     respond_to do |format|
       format.pdf do        
-        prawnto filename: "Rfq #{@rfqform.id.to_s.rjust(4, '0')}.pdf", :inline => false
+        prawnto filename: "Rfq #{@rfqform.printable_id}.pdf", :inline => false
       end
       format.html
       

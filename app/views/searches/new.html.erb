@@ -34,7 +34,7 @@
 		<div class="span2"><%= f.label :rfq, "RFQ" %></div>			
 		<div class="span6">
 			<%= f.select :rfq, 
-				Rfqform.all.order("id desc").map {|c| [c.id.to_s.rjust(4, '0'), c.id]},
+				Rfqform.all.order("id desc").map {|c| [c.printable_id, c.id]},
 				{ :include_blank => 'Any' }, 
 	            { :selected => f.object.rfq } 
 			%>				

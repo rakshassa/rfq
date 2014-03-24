@@ -2,7 +2,7 @@
       <%= render 'shared/error_messages', object: f.object %>
 
       
-      <%= content_tag(:div) do content_tag(:b,"RFQ: ") + f.object.id.to_s.rjust(4, '0') if !f.object.id.blank? end %> 
+      <%= content_tag(:div) do content_tag(:b,"RFQ: ") + f.object.printable_id if !f.object.id.blank? end %> 
       <%= content_tag(:div) do content_tag(:b,"Date: ") + f.object.date.to_s if !f.object.date.blank? end %>   
       
       <%= f.label :program, "Program" %>

@@ -7,7 +7,7 @@ class RfqquotesController < ApplicationController
 
     respond_to do |format|
       format.pdf do        
-        prawnto filename: "TLX-RFQ-#{@rfqform.id.to_s.rjust(4, '0') + "-" + @rfqquote.rfqquote_display_id.to_s.rjust(3,'0')}.pdf", :inline => false
+        prawnto filename: "TLX-RFQ-#{@rfqquote.whole_printable_id}.pdf", :inline => false
       end
       format.html
       
@@ -17,13 +17,7 @@ class RfqquotesController < ApplicationController
   def edit
   	@rfqquote = Rfqquote.find(params[:id])
 
-    if (@rfqquote.feedback_sent) then
-      flash[:error] = "This quote is closed."
-      redirect_to rfqforms_path and return
-    end
-
-    if (@rfqquote.submitted_to_tlx && !current_user.isTLX) then
-      flash[:error] = "This quote has already been submitted."
+    if (!authorize_change(@rfqquote)) then
       redirect_to rfqforms_path and return
     end
 
@@ -34,13 +28,7 @@ class RfqquotesController < ApplicationController
   def update
     @rfqquote = Rfqquote.find(params[:id])
 
-    if (@rfqquote.feedback_sent) then
-      flash[:error] = "This quote is closed."
-      redirect_to rfqforms_path and return
-    end
-
-    if (@rfqquote.submitted_to_tlx && !current_user.isTLX) then
-      flash[:error] = "This quote has already been submitted."
+    if (!authorize_change(@rfqquote)) then
       redirect_to rfqforms_path and return
     end
 
@@ -57,19 +45,11 @@ class RfqquotesController < ApplicationController
   def submit_to_tlx
     @rfqquote = Rfqquote.find(params[:id])
 
-    if (@rfqquote.submitted_to_tlx?) then
-        flash.now[:error] = "Your quote was previously submitted."
+    if (!authorize_submit_to_tlx(@rfqquote)) then
         @action_type = "show" 
         prep_instance_vars(@rfqquote)
         render 'show' and return
     end
-
-    if (@rfqquote.quote_number.blank?) then
-      flash.now[:error] = "Please enter quote information before submitting to TLX."
-      @action_type = "show" 
-      prep_instance_vars(@rfqquote)
-      render 'show' and return
-    end    
 
     @rfqquote.submitted_to_tlx = true
     @rfqquote.date_submitted = DateTime.now.to_date
@@ -83,20 +63,10 @@ class RfqquotesController < ApplicationController
   def send_feedback
     @rfqquote = Rfqquote.find(params[:id])
     
-    if (@rfqquote.feedback_sent?) then
-        flash.now[:error] = "Feedback was already sent on this RFQ."
+    if (!authorize_feedback(@rfqquote)) then
         @action_type = "show" 
         prep_instance_vars(@rfqquote)
         render 'show' and return
-    end
-
-    @rfqquote.rfqquote_eaus.each do |rfqquote_eau|
-      if (rfqquote_eau.feedback.blank?) then
-        flash.now[:error] = "Please enter feedback for all quotes before sending feedback."
-        @action_type = "show" 
-        prep_instance_vars(@rfqquote)
-        render 'show' and return
-      end
     end
 
     @rfqquote.feedback_sent = true
@@ -126,5 +96,50 @@ class RfqquotesController < ApplicationController
           :no_quote, :tooling, :nre, :feedback ]
         )
     end     
+
+    def authorize_change(rfqquote)
+      if (rfqquote.feedback_sent) then
+        flash[:error] = "This quote is closed."
+        return false
+      end     
+
+      if (rfqquote.submitted_to_tlx && !current_user.isTLX) then
+        flash[:error] = "This quote has already been submitted."
+        return false
+      end
+
+      return true
+    end
+
+    def authorize_submit_to_tlx(rfqquote)
+      if (rfqquote.submitted_to_tlx?) then
+          flash.now[:error] = "Your quote was previously submitted."
+          return false
+      end
+
+      if (rfqquote.quote_number.blank?) then
+        flash.now[:error] = "Please enter quote information before submitting to TLX."
+        return false
+      end 
+
+      return true         
+    end
+
+    def authorize_feedback(rfqquote)
+      if (rfqquote.feedback_sent?) then
+          flash.now[:error] = "Feedback was already sent on this RFQ."
+          return false
+      end
+
+      rfqquote.rfqquote_eaus.each do |rfqquote_eau|
+        if (rfqquote_eau.feedback.blank?) then
+          flash.now[:error] = "Please enter feedback for all quotes before sending feedback."
+          return false
+        end
+      end   
+
+      return true   
+    end
+
 
 end

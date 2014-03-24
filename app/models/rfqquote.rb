@@ -20,5 +20,13 @@ class Rfqquote < ActiveRecord::Base
 		else true
 		end
 	end
+
+    def printable_id
+    	self.rfqquote_display_id.to_s.rjust(3, '0')
+    end
+
+    def whole_printable_id
+    	self.rfqform.printable_id + "-" + self.printable_id
+    end	
 end
      

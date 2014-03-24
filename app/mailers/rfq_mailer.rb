@@ -3,7 +3,7 @@ class RfqMailer < ActionMailer::Base
 
   def send_new_rfq(rfqform)
   	@rfqform = rfqform
-  	@quote_number = @rfqform.id.to_s.rjust(4,'0')
+  	@quote_number = @rfqform.printable_id
   	@targets = []
   	@rfqform.rfqparts.each do |rfqpart|
   		rfqpart.rfqpartvendors.reject(&:blank?).each do |vendor|  			
@@ -17,7 +17,7 @@ class RfqMailer < ActionMailer::Base
 
   def submit_quote(rfqquote)
   	@rfqquote = rfqquote
-  	@quote_number = @rfqquote.rfqform_id.to_s.rjust(4,'0') + "-" + @rfqquote.rfqquote_display_id.to_s.rjust(3,'0')
+  	@quote_number = @rfqquote.whole_printable_id
   	@target = APP_CONFIG['default_email_from']  	
   	@sender = VendorContact.find(@rfqquote.vendor_id).email
 
@@ -29,7 +29,7 @@ class RfqMailer < ActionMailer::Base
 
   def send_feedback(rfqquote)
   	@rfqquote = rfqquote
-  	@quote_number = @rfqquote.rfqform_id.to_s.rjust(4,'0') + "-" + @rfqquote.rfqquote_display_id.to_s.rjust(3,'0')
+  	@quote_number = @rfqquote.whole_printable_id
   	@target = VendorContact.find(@rfqquote.vendor_id).email
   	mail(from: APP_CONFIG['default_email_from'], to: @target, 
   		subject: "Feedback received on RFQ Quote " + @quote_number)

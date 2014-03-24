@@ -1,4 +1,4 @@
-      <%= content_tag(:div) do content_tag(:b,"RFQ: ") + @rfqform.id.to_s.rjust(4, '0') if !@rfqform.id.blank? end %> 
+      <%= content_tag(:div) do content_tag(:b,"RFQ: ") + @rfqform.printable_id if !@rfqform.id.blank? end %> 
       <%= content_tag(:div) do content_tag(:b,"Date: ") + @rfqform.date.to_s if !@rfqform.date.blank? end %>
       <%= content_tag(:div) do content_tag(:b,"Program: ") + Part.find(@rfqform.program).name if !@rfqform.program.blank? end %>
 
