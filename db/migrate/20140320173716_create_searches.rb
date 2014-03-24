@@ -11,5 +11,6 @@ class CreateSearches < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :searches, :id
   end
 end

@@ -71,7 +71,7 @@ class Search < ActiveRecord::Base
       forms = forms.where('vendors.name like ?', "%#{vendor}%") if vendor.present?
       forms = forms.uniq
       forms = forms.paginate(page: page, :order => "id DESC", :per_page => 10 )
-      forms
+      return forms
     end
 
 

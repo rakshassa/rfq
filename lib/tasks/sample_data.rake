@@ -2,6 +2,7 @@ namespace :db do
 	desc "Fill database with sample data"
 	task populate: :environment do
 		make_employees
+		make_roles
 		make_vendors
 		make_vendor_contacts
 		make_parts
@@ -32,9 +33,21 @@ end
 
 
 def make_employees
-	20.times do |n|
-		Employee.create(name: Faker::Name.name, email: Faker::Internet.email)
+	10.times do |n|
+		Employee.create(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.email, inactive: true)
 	end
+	10.times do |n|
+		Employee.create(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.email, inactive: false)
+	end
+end
+
+def make_roles
+	ContactRole.create(name: "Contact 1")
+	ContactRole.create(name: "Contact 2")
+	ContactRole.create(name: "Contact 3")
+	ContactRole.create(name: "RFQ Contact")
+	ContactRole.create(name: "Other Contact")
+	ContactRole.create(name: "Silly Contact")
 end
 
 def make_vendors
@@ -47,11 +60,19 @@ def make_vendors
 end
 
 def make_vendor_contacts
+	roleId = ContactRole.where("name = ?", "RFQ Contact").first
+
 	Vendor.all.each do |v|
-		c = v.vendor_contacts.build(name: Faker::Name.name, email: Faker::Internet.email)
+		c = v.vendor_contacts.build(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.email)
 		c.save
-		v.rfq_contact_id = c.id
+
+		VendorContactRole.create(vendor_contact_id: c.id, contact_role_id: roleId.id)
 	end
+
+	VendorContactRole.create(vendor_contact_id: 1, contact_role_id: 1)
+	VendorContactRole.create(vendor_contact_id: 2, contact_role_id: 2)
+	VendorContactRole.create(vendor_contact_id: 1, contact_role_id: 5)
+	VendorContactRole.create(vendor_contact_id: 2, contact_role_id: 5)
 end
 
 

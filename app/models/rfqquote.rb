@@ -1,5 +1,8 @@
 class Rfqquote < ActiveRecord::Base
 	include SessionsHelper
+
+	scope :limit_to_vendor, ->(vendor_id_param) { where(:vendor_id => vendor_id_param) }
+	scope :sorted, -> { order("rfqquote_display_id ASC") }
 	
 	belongs_to :rfqform
 	belongs_to :vendor

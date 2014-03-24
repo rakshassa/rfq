@@ -1,5 +1,7 @@
 class Rfqform < ActiveRecord::Base	
 
+	scope :limit_to_vendor, ->(vendor_id_param) { joins(:rfqquotes).where(:rfqquotes => { :vendor_id => vendor_id_param } ).uniq }
+
 	has_many :eaus, dependent: :destroy
 	accepts_nested_attributes_for :eaus, allow_destroy: true,
 			reject_if: :all_blank

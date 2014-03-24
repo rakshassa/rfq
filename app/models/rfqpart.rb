@@ -1,5 +1,6 @@
 class Rfqpart < ActiveRecord::Base
 	belongs_to :rfqform
+	belongs_to :part, :foreign_key => "part_number"
 	has_one :rfqquote
 
 	default_scope { order(:id) }

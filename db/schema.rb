@@ -11,7 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140320173716) do
+ActiveRecord::Schema.define(version: 20140324174429) do
+
+  create_table "contact_roles", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "eaus", force: true do |t|
     t.integer  "rfqform_id"
@@ -23,8 +29,10 @@ ActiveRecord::Schema.define(version: 20140320173716) do
   add_index "eaus", ["rfqform_id"], name: "index_eaus_on_rfqform_id", using: :btree
 
   create_table "employees", force: true do |t|
-    t.string   "name"
+    t.string   "first_name"
+    t.string   "last_name"
     t.string   "email"
+    t.boolean  "inactive"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -129,6 +137,8 @@ ActiveRecord::Schema.define(version: 20140320173716) do
     t.datetime "updated_at"
   end
 
+  add_index "searches", ["id"], name: "index_searches_on_id", using: :btree
+
   create_table "users", force: true do |t|
     t.string   "name"
     t.boolean  "isTLX"
@@ -139,20 +149,30 @@ ActiveRecord::Schema.define(version: 20140320173716) do
 
   add_index "users", ["id"], name: "index_users_on_id", using: :btree
 
+  create_table "vendor_contact_roles", force: true do |t|
+    t.integer  "vendor_contact_id"
+    t.integer  "contact_role_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "vendor_contact_roles", ["vendor_contact_id"], name: "index_vendor_contact_roles_on_vendor_contact_id", using: :btree
+
   create_table "vendor_contacts", force: true do |t|
     t.integer  "vendor_id"
-    t.string   "name"
+    t.string   "first_name"
+    t.string   "last_name"
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "vendor_contacts", ["id"], name: "index_vendor_contacts_on_id", using: :btree
+  add_index "vendor_contacts", ["vendor_id"], name: "index_vendor_contacts_on_vendor_id", using: :btree
 
   create_table "vendors", force: true do |t|
     t.string   "name"
     t.boolean  "active_rfq"
-    t.integer  "rfq_contact_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

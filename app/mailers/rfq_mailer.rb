@@ -7,11 +7,11 @@ class RfqMailer < ActionMailer::Base
   	@targets = []
   	@rfqform.rfqparts.each do |rfqpart|
   		rfqpart.rfqpartvendors.reject(&:blank?).each do |vendor|  			
-  			@targets << VendorContact.find(vendor).email
+  			@targets << Vendor.find(vendor).rfq_contact.email
   		end
   	end
 
-  	mail(from: APP_CONFIG['default_email_from'], to: @targets, 
+  	mail(from: APP_CONFIG['default_email_from'], bcc: @targets, 
   		subject: "TLX is requesting a quote: " + @quote_number)
   end
 
@@ -19,7 +19,7 @@ class RfqMailer < ActionMailer::Base
   	@rfqquote = rfqquote
   	@quote_number = @rfqquote.whole_printable_id
   	@target = APP_CONFIG['default_email_from']  	
-  	@sender = VendorContact.find(@rfqquote.vendor_id).email
+  	@sender = @rfqquote.vendor.rfq_contact.email
 
   	mail(to: @target, from: @sender,
   		subject: "RFQ Quote " + @quote_number + " has been submitted.",
@@ -30,7 +30,7 @@ class RfqMailer < ActionMailer::Base
   def send_feedback(rfqquote)
   	@rfqquote = rfqquote
   	@quote_number = @rfqquote.whole_printable_id
-  	@target = VendorContact.find(@rfqquote.vendor_id).email
+  	@target = @rfqquote.vendor.rfq_contact.email
   	mail(from: APP_CONFIG['default_email_from'], to: @target, 
   		subject: "Feedback received on RFQ Quote " + @quote_number)
   end  

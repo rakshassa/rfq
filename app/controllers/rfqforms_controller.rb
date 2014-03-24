@@ -1,7 +1,7 @@
 class RfqformsController < ApplicationController
 
   def index
-    @rfqforms = GetForms(params[:page])
+    @rfqforms = GetForms().paginate(page: params[:page], :order => "id DESC", :per_page => 10 )
     @quotes = GetQuotes(@rfqforms)
   end	
 
@@ -46,8 +46,7 @@ class RfqformsController < ApplicationController
       
       redirect_to @rfqform
     else
-      @programs = Part.where("name LIKE 'PA%'").order("name asc")
-      @employees = Employee.all.order("name asc")
+      prep_edit_variables
       render 'new'
     end
   end
@@ -59,8 +58,7 @@ class RfqformsController < ApplicationController
     @address = @rfqform.eaus.build 
     @contact = @rfqform.rfqparts.build
     @rfqform.date = DateTime.now.to_date
-    @programs = Part.where("name LIKE 'PA%'").order("name asc")
-    @employees = Employee.all.order("name asc")
+    prep_edit_variables
   end  
 
   def edit
@@ -72,8 +70,7 @@ class RfqformsController < ApplicationController
       redirect_to rfqforms_path and return
     end
 
-    @programs = Part.where("name LIKE 'PA%'").order("name asc")
-    @employees = Employee.all.order("name asc")
+    prep_edit_variables    
   end  
 
   def update
@@ -90,8 +87,7 @@ class RfqformsController < ApplicationController
       flash[:success] = "Updated"
       redirect_to @rfqform
     else
-      @programs = Part.where("name LIKE 'PA%'").order("name asc")
-      @employees = Employee.all.order("name asc")
+      prep_edit_variables
       render 'edit'
     end
   end    
@@ -108,9 +104,9 @@ class RfqformsController < ApplicationController
     anyfail = false;
     anysuccess = false;
     if (@rfqform.rfqparts.any?) then
+      counter = 1 
       @rfqform.rfqparts.each do |part| 
-        if (part.rfqpartvendors.any?) then 
-          counter = 1  
+        if (part.rfqpartvendors.any?) then            
           part.rfqpartvendors.reject(&:blank?).each do |vendor|
             quote = Rfqquote.new(
               rfqquote_display_id: counter,
@@ -171,14 +167,12 @@ class RfqformsController < ApplicationController
           rfqpartvendors: []])
     end  
 
-    def GetForms(page)
+    def GetForms()
       if (current_user.isTLX) then
-        return Rfqform.paginate(page: page, :order => "id DESC", :per_page => 10 )
+        return Rfqform.all
       end
 
-      quotes = Rfqquote.where("vendor_id=?", current_user.vendor_id)
-      valid_form_ids = quotes.map { |quote| quote.rfqform_id }
-      return Rfqform.where(:id => valid_form_ids).paginate(page: page, :order => "id DESC", :per_page => 10 )
+      return Rfqform.all.limit_to_vendor(current_user.vendor_id)
 
     end
 
@@ -188,13 +182,18 @@ class RfqformsController < ApplicationController
         if (form.built) then
           quotes[form.id] = []
           if (current_user.isTLX) then
-            quotes[form.id] << Rfqquote.where("rfqform_id=?", form.id).order("rfqquote_display_id ASC")
+            quotes[form.id] << form.rfqquotes
           else
-            quotes[form.id] << Rfqquote.where("rfqform_id=? and vendor_id=?", form.id,  current_user.vendor_id).order("rfqquote_display_id ASC")
+            quotes[form.id] << form.rfqquotes.limit_to_vendor(current_user.vendor_id)            
           end
         end
       end
 
       return quotes      
+    end
+
+    def prep_edit_variables
+      @programs = Part.programs
+      @employees = Employee.active.sorted
     end
 end

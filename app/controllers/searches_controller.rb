@@ -8,8 +8,6 @@ class SearchesController < ApplicationController
 	def create		
 		if (!current_user.isTLX) then redirect_to rfqforms_path and return end
 
-
-
 		@search = Search.new(search_params)		
 
 	    if @search.save	      	      

@@ -80,12 +80,12 @@ class RfqquotesController < ApplicationController
 
 
   private
-    def prep_instance_vars(rfqquote)
-      @rfqform = Rfqform.find(rfqquote.rfqform_id)
-      @rfq_contact = VendorContact.find(:first, "vendor_id = ?", rfqquote.vendor_id)
-      @rfqpart = Rfqpart.find(rfqquote.part_id)
-      @part = Part.find(@rfqpart.part_number)
-      @vendor = Vendor.find(rfqquote.vendor_id)
+    def prep_instance_vars(rfqquote)      
+      @rfqform = rfqquote.rfqform
+      @rfq_contact = rfqquote.vendor.rfq_contact          
+      @rfqpart = rfqquote.rfqpart
+      @part = rfqquote.rfqpart.part     
+      @vendor = rfqquote.vendor
     end
 
     def rfqquote_params
