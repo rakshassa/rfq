@@ -1,5 +1,10 @@
-  <div class="form-inline">   
+  <div class="form-inline">  
+  	<% if f.object._destroy %> 
+  	  <%= f.hidden_field :value %>
+  	  <%= f.hidden_field :_destroy %>
+    <% else %>
   	  <%= f.number_field :value, min: 0, step: 1, max: 10000000,  size: 8, placeholder: "EAU" %>
      
-      <%= f.link_to_remove "remove" %>
+      <%= f.link_to_remove "remove" %>    
+    <% end %>
   </div>
