@@ -1,3 +1,5 @@
+image "#{Rails.root}/app/assets/images/tlx_letterhead.png", :width => 500
+
 font_size 10
 
 pdf.text "RFQ Request", :align => :center, :size => 40, :style => :bold

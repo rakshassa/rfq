@@ -5,10 +5,26 @@ function drawing_selected(selector) {
 
 }
 
-function part_changed(target_node, part) {
-	//alert(target_node + " changing to " + part.item(part.selectedIndex).getAttribute("desc"));
-	target_node.innerHTML = part.item(part.selectedIndex).getAttribute("desc");
+function part_changed(part) {
+
+      var sel = $("option:selected", part);
+      var desc = sel.attr('desc');
+      alert(desc);    
+      
+      alert($(part).closest('td').next().find('.descclass').attr('id'));
+      
+      $(part).closest('td').next().find('.descclass').html(desc);
+  
+
+  //alert(part.id);
+  //var desc = $(part.id);
+  //alert (desc.type);
+  //var sel = desc.prev().find('input:last');
+  //alert (sel.val());
+
 }
+
+
 
 function employee_changed(target_node, employee) {
 	//alert(target_node + " changing to " + part.item(part.selectedIndex).getAttribute("desc"));
@@ -78,5 +94,11 @@ $(document).ready(function() {
         showDropdowns: true
       }
   );
+
+  //$('.part_sel').change(function () {
+  //    var sel = $("option:selected", this);
+  //    var desc = sel.attr('desc');    
+  //    $(this).closest('td').next().find('.descclass').html(desc);
+  //});  
 
 });

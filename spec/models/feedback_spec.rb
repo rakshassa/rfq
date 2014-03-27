@@ -1,5 +1,12 @@
 require 'spec_helper'
 
 describe Feedback do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+	let!(:feedback) { Feedback.create(:name => "test feedback") }
+
+	subject { feedback }
+
+	it { should respond_to(:id) }
+	it { should respond_to(:name) }
+
 end

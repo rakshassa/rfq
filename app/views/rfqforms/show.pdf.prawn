@@ -1,3 +1,4 @@
+
 pdf.text "RFQ Request", :align => :center, :size => 40, :style => :bold
 
 pdf.text "<b>RFQ:</b>  #{@rfqform.printable_id}", :inline_format => true, :size => 20

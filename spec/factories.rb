@@ -87,7 +87,7 @@ FactoryGirl.define do
 
 	factory :vendor_contact_role do
 		vendor_contact
-		contact_role_id 4
+		contact_role 
 	end
 
 	factory :vendor_contact do
@@ -113,6 +113,10 @@ FactoryGirl.define do
 		tooling 3.21
 		nre 1.23
 		feedback "None"
+	end
+
+	factory :contact_role do
+		name "First Contact"
 	end
 
 end

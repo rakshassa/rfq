@@ -1,13 +1,15 @@
 <tr class="fields">	
 	<td><%= f.link_to_remove "Remove" %></td>
 	<td>
-		<% pc = 'part_changed(desc_' + f.object.id.to_s + ', part_select_' + f.object.id.to_s + ')' %>
+        <% pid = f.object.id.to_s %>
+        <% if pid.blank? then pid = "from_blank" end %>
+		<% pc = 'part_changed(this)' %>
 		<%= f.select :part_number, 
 			Part.all.order("name asc").map {|c| [c.name, c.id, {:'desc' => c.description}]},
 			{ :include_blank => 'Select a Part' }, 
             { :selected => f.object.part_number, 
-              :class => 'part_number',
-              :id => 'part_select_' + f.object.id.to_s,
+              :class => 'part_number part_sel',
+              :id => 'part_select_' + pid,
               :onchange => pc
             } 
 
@@ -15,7 +17,7 @@
 
     </td>
 
-	<td><div id="desc_<%= f.object.id %>"><%= content_tag :div, f.object.part.description if !f.object.id.blank? %></div></td>
+	<td><div id="desc_<%= pid %>" class="descclass"><%= content_tag :div, f.object.part.description if !f.object.part.blank? %></div></td>
 	<td><%= f.text_field :revision, 
 			placeholder: "Revision", class: 'revision'  %></td>
 	<td><%= f.text_field :qty, 

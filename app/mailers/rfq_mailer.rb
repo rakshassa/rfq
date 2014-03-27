@@ -12,7 +12,7 @@ class RfqMailer < ActionMailer::Base
   	end
 
   	mail(from: APP_CONFIG['default_email_from'], bcc: @targets, 
-  		subject: "TLX is requesting a quote: " + @quote_number)
+  		subject: "New RFQ Request (" + @quote_number + ")")
   end
 
   def submit_quote(rfqquote)
@@ -22,9 +22,11 @@ class RfqMailer < ActionMailer::Base
   	@sender = @rfqquote.vendor.rfq_contact.email
 
   	mail(to: @target, from: @sender,
-  		subject: "RFQ Quote " + @quote_number + " has been submitted.",
+  		subject: "RFQ Quote (" + @quote_number + ") submittal.",
   		content_type: "text/html",
-  		body: "RFQ Quote " + @quote_number + " submission has been received.")
+  		body: @rfqquote.vendor.name + 
+        " has submitted a quote for RFQ " + 
+        @quote_number + " for your review")
   end
 
   def send_feedback(rfqquote)
@@ -32,7 +34,7 @@ class RfqMailer < ActionMailer::Base
   	@quote_number = @rfqquote.whole_printable_id
   	@target = @rfqquote.vendor.rfq_contact.email
   	mail(from: APP_CONFIG['default_email_from'], to: @target, 
-  		subject: "Feedback received on RFQ Quote " + @quote_number)
+  		subject: "RFQ Feedback from TLX")
   end  
 
 end

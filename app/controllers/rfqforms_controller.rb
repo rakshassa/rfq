@@ -101,54 +101,17 @@ class RfqformsController < ApplicationController
       redirect_to rfqforms_path and return
     end
     
-    anyfail = false;
-    anysuccess = false;
-    if (@rfqform.rfqparts.any?) then
-      counter = 1 
-      @rfqform.rfqparts.each do |part| 
-        if (part.rfqpartvendors.any?) then            
-          part.rfqpartvendors.reject(&:blank?).each do |vendor|
-            quote = Rfqquote.new(
-              rfqquote_display_id: counter,
-              rfqform_id: @rfqform.id,
-              vendor_id: vendor.to_i,
-              part_id: part.id)
-            counter = counter + 1
-            result = nil
-            begin
-              result = quote.save
-            rescue Exception
-              (flash[:error] ||= []) << "This form has already been built."
-            end
-            if (result)  then              
-              anysuccess = true;
-            else 
-              anyfail = true;
-            end 
+    quotes = @rfqform.build()
 
-            @rfqform.eaus.each do |eau|
-              quote_eau = quote.rfqquote_eaus.build(eau_id: eau.id)
-              quote_eau.save
-            end           
-          end         
-        end
-      end    
-    end
-
-    if (anysuccess)  then
-      @rfqform.built = true;
-      @rfqform.update_attributes(built: true, date: DateTime.now.to_date)
-      
+    if (quotes.size > 0)  then
       flash[:success] = "Built!"
       search_id = @rfqform.create_search
 
       RfqMailer.send_new_rfq(@rfqform).deliver
 
       redirect_to search_path(search_id)
-    else 
-      if !anyfail then
-        (flash[:error] ||= []) << "There are no vendors in this RFQ."
-      end
+    else       
+      (flash[:error] ||= []) << "There was a problem building this RFQ."      
       redirect_to rfqforms_path
     end  
 

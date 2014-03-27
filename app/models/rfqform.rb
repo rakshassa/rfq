@@ -55,4 +55,45 @@ class Rfqform < ActiveRecord::Base
       return self.rfqquotes.limit_to_vendor(current_user.vendor_id).sorted
     end
 
+    def build() 
+    	results = []
+	    anysuccess = false;
+	    if (self.rfqparts.any?) then
+	      counter = 1 
+	      self.rfqparts.each do |part| 
+	        if (part.rfqpartvendors.any?) then            
+	          part.rfqpartvendors.reject(&:blank?).each do |vendor|
+	            quote = Rfqquote.new(
+	              rfqquote_display_id: counter,
+	              rfqform_id: self.id,
+	              vendor_id: vendor.to_i,
+	              part_id: part.id)
+	            counter = counter + 1
+	            result = nil
+	            begin
+	              result = quote.save
+	            rescue Exception
+	              (flash[:error] ||= []) << "This form has already been built."
+	            end
+	            if (result)  then              
+	              anysuccess = true;
+	              self.eaus.each do |eau|
+	              	quote_eau = quote.rfqquote_eaus.build(eau_id: eau.id)
+	              	quote_eau.save
+	              end
+	              results << quote
+	            end    
+	          end         
+	        end
+	      end    
+	    end
+
+	    if (anysuccess)  then
+	      self.built = true;
+	      self.update_attributes(built: true, date: DateTime.now.to_date)
+	    end
+
+	    return results
+    end
+
 end
