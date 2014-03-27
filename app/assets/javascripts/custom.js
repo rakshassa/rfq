@@ -9,9 +9,9 @@ function part_changed(part) {
 
       var sel = $("option:selected", part);
       var desc = sel.attr('desc');
-      alert(desc);    
+      //alert(desc);    
       
-      alert($(part).closest('td').next().find('.descclass').attr('id'));
+      //alert($(part).closest('td').next().find('.descclass').attr('id'));
       
       $(part).closest('td').next().find('.descclass').html(desc);
   
