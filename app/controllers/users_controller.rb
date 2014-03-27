@@ -8,7 +8,7 @@ class UsersController < ApplicationController
 
   def vendor
   	user = User.find_by(name: "testVendor1")
-	set_user(user)
-	redirect_to root_path
+	  set_user(user)
+	  redirect_to root_path
   end
 end

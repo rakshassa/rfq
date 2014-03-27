@@ -1,18 +1,35 @@
 FactoryGirl.define do 
 
+
+	factory :user do
+
+		factory :tlx_user do
+			name "testTLX"			
+			isTLX true
+		end
+
+		factory :vendor_user do
+			name "testVendor1"
+			vendor_id 1
+			isTLX false
+		end
+	end
+
 	factory :part do
 		name "PA12"
 		description "Part Assembly 12"
 	end
 
 	factory :rfqpart do
+		
 		rfqform
 		part_number 1
 		revision "rev 1"
 		qty 5
 		units "feet"
-		rfqpartvendors Array[1,2]
 		drawing File.open(Rails.root.join('tmp','Form.png'))
+		rfqpartvendors Array[1,2]
+		
 	end
 
 	factory :eau do
@@ -29,18 +46,15 @@ FactoryGirl.define do
 		engineer 1
 		info "No Info"		
 		program 1
+		built false
 
-		factory :built do
-			built true
-		end
-
-		factory :rfqform_with_associations do
+		factory :rfqform_with_eaus do
 			ignore do
-				rfqforms_count 5
+				#rfqparts_count 5
 				eaus_count 3
 			end
 			after(:create) do |rfqform, evaluator|
-				create_list(:rfqpart, evaluator.rfqforms_count, rfqform: rfqform)
+				#create_list(:rfqpart, evaluator.rfqparts_count, rfqform: rfqform, part_number: rfqform.program)
 				create_list(:eau, evaluator.eaus_count, rfqform: rfqform)
 			end
 		end
@@ -64,11 +78,30 @@ FactoryGirl.define do
 		date_feedback_sent DateTime.now.to_date
 	end
 
+	factory :employee do
+		first_name "test"
+    	last_name "tester"
+    	email "test@test.com"
+    	inactive false
+    end
+
+	factory :vendor_contact_role do
+		vendor_contact
+		contact_role_id 4
+	end
+
+	factory :vendor_contact do
+		vendor
+	    first_name "Firsty"
+		last_name "Lasty"
+		email "test_email@test.com"
+	end	
+
 	factory :vendor do
 		name "Vendor1"
 		active_rfq true
 		phone "555-555-9777"
-	end
+	end	
 
 	factory :rfqquote_eau do
 		rfqquote

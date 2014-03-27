@@ -48,7 +48,11 @@ Spork.prefork do
     #     --seed 1234
     config.order = "random"
     config.include Capybara::DSL
+    config.include FactoryGirl::Syntax::Methods
     config.include Rails.application.routes.url_helpers
+
+    config.include(MailerMacros)
+    config.before(:each) { reset_email }
   end
 end
 

@@ -1,7 +1,7 @@
 class RfqformsController < ApplicationController
 
   def index
-    @rfqforms = GetForms().paginate(page: params[:page], :order => "id DESC", :per_page => 10 )
+    @rfqforms = GetForms().order('id DESC').paginate(page: params[:page], :per_page => 10 )
     @quotes = GetQuotes(@rfqforms)    
   end	
 
