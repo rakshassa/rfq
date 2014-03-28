@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 20140324185547) do
 
   create_table "eaus", force: true do |t|
     t.integer  "rfqform_id"
-    t.integer  "value"
+    t.integer  "value",      limit: 8
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -91,10 +91,10 @@ ActiveRecord::Schema.define(version: 20140324185547) do
     t.integer  "rfqquote_id"
     t.integer  "eau_id"
     t.string   "parts_note"
-    t.float    "unit_price"
+    t.integer  "unit_price",  limit: 8
     t.boolean  "no_quote"
-    t.float    "tooling"
-    t.float    "nre"
+    t.integer  "tooling",     limit: 8
+    t.integer  "nre",         limit: 8
     t.string   "feedback"
     t.datetime "created_at"
     t.datetime "updated_at"

@@ -21,19 +21,19 @@
           <% if eau.no_quote? %>
             <td><%= content_tag(:div, class: "price") do "No Quote" end %></td>
           <% else %>
-            <td><%= content_tag(:div, class: "price") do number_to_currency(eau.unit_price)  end %></td>
+            <td><%= content_tag(:div, class: "price") do number_to_currency(eau.unit_price, precision: 0)  end %></td>
           <% end %>
 
           <% if eau.no_quote? %>
             <td><%= content_tag(:div) do "" end %></td>
           <% else %>
-            <td><%= content_tag(:div) do number_to_currency(eau.tooling)  end %></td>
+            <td><%= content_tag(:div) do number_to_currency(eau.tooling, precision: 0)  end %></td>
           <% end %>          
 
           <% if eau.no_quote? %>
             <td><%= content_tag(:div) do "" end %></td>
           <% else %>
-            <td><%= content_tag(:div) do number_to_currency(eau.nre)  end %></td>
+            <td><%= content_tag(:div) do number_to_currency(eau.nre, precision: 0)  end %></td>
           <% end %>                      
 
           <% if (current_user.isTLX && @action_type == 'edit') %>

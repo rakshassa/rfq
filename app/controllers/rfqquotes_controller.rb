@@ -7,7 +7,7 @@ class RfqquotesController < ApplicationController
 
     respond_to do |format|
       format.pdf do        
-        prawnto filename: "TLX-RFQ-#{@rfqquote.whole_printable_id}.pdf", :inline => false
+        prawnto :prawn=>{:top_margin => 2}, filename: "TLX-RFQ-#{@rfqquote.whole_printable_id}.pdf", :inline => false
       end
       format.html
       

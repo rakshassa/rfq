@@ -57,8 +57,12 @@ describe RfqquoteEau do
 	end
 
 	describe "when tooling" do
-		describe "is a positive number" do
+		describe "is a decimal number" do
 			before { rfqquote_eau.tooling = 3.4567 }
+			it { should_not be_valid }
+		end
+		describe "is a positive number" do
+			before { rfqquote_eau.tooling = 3 }
 			it { should be_valid }
 		end
 		describe "is a negative number" do
@@ -72,8 +76,12 @@ describe RfqquoteEau do
 	end
 
 	describe "when nre" do
-		describe "is a positive number" do
+		describe "is a decimal number" do
 			before { rfqquote_eau.nre = 3.4567 }
+			it { should_not be_valid }
+		end
+		describe "is a positive number" do
+			before { rfqquote_eau.nre = 3 }
 			it { should be_valid }
 		end
 		describe "is a negative number" do
@@ -90,7 +98,11 @@ describe RfqquoteEau do
 		describe "as tlx" do
 			before { set_user(tlx_user) }
 			describe "is a positive number" do
-				before { rfqquote_eau.unit_price = 3.4567 }
+				before { rfqquote_eau.unit_price = 3 }
+				it { should be_valid }
+			end
+			describe "is a decimal number" do
+				before { rfqquote_eau.unit_price = 3.23 }
 				it { should be_valid }
 			end
 			describe "is a negative number" do
@@ -109,11 +121,15 @@ describe RfqquoteEau do
 		describe "as vendor" do
 			before { set_user(vendor_user) }
 			describe "is a positive number" do
-				before { rfqquote_eau.unit_price = 3.4567 }
+				before { rfqquote_eau.unit_price = 3 }
 				it { should be_valid }
 			end
+			describe "is a decimal number" do
+				before { rfqquote_eau.unit_price = 3.23 }
+				it { should_not be_valid }
+			end
 			describe "is a negative number" do
-				before { rfqquote_eau.unit_price = -3.4567 }
+				before { rfqquote_eau.unit_price = -3 }
 				it { should_not be_valid }
 			end
 			describe "is not a number" do

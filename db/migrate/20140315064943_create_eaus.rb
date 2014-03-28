@@ -2,7 +2,7 @@ class CreateEaus < ActiveRecord::Migration
   def change
     create_table :eaus do |t|
       t.integer :rfqform_id
-      t.integer :value
+      t.integer :value, :limit => 8
 
       t.timestamps
     end

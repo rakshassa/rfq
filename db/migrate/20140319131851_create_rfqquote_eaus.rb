@@ -5,10 +5,10 @@ class CreateRfqquoteEaus < ActiveRecord::Migration
       t.integer :eau_id
 
       t.string :parts_note
-      t.float :unit_price
+      t.integer :unit_price, :limit => 8
       t.boolean :no_quote
-      t.float :tooling
-      t.float :nre
+      t.integer :tooling, :limit => 8
+      t.integer :nre, :limit => 8
 
       t.string :feedback
 

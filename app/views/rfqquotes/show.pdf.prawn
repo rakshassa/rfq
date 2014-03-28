@@ -1,11 +1,11 @@
-image "#{Rails.root}/app/assets/images/tlx_letterhead.png", :width => 500
+image "#{Rails.root}/app/assets/images/tlx_letterhead.png", :width => 550
 
 font_size 10
 
-pdf.text "RFQ Request", :align => :center, :size => 40, :style => :bold
+pdf.text "RFQ Request", :align => :center, :size => 26, :style => :bold
 
-pdf.text "<b>RFQ:</b>  #{@rfqquote.whole_printable_id}", :inline_format => true, :size => 20
-pdf.text "<b>Date:</b>  #{@rfqform.date.to_s}", :inline_format => true, :size => 20
+pdf.text "<b>RFQ:</b>  #{@rfqquote.whole_printable_id}", :inline_format => true, :size => 14
+pdf.text "<b>Date:</b>  #{@rfqform.date.to_s}", :inline_format => true, :size => 14
 
 pdf.move_down(10)
 stroke_horizontal_rule
@@ -16,12 +16,15 @@ gap = 10
 @lowest = cursor
 
 @col_start = cursor
+
+col1_width = 70
+col2_width=((full/2)-col1_width-gap)
 	
 bounding_box([0, @col_start], :width=>(full/2)) do
-	bounding_box([0, 0], :width=>((full/4)-gap)) do
+	bounding_box([0, 0], :width=>col1_width) do
 		pdf.text "<b>Vendor:</b>", :inline_format => true
 	end
-	bounding_box([(full/4), bounds.top], :width=>((full/4)-gap)) do
+	bounding_box([col1_width + gap, bounds.top], :width=>col2_width) do
 		pdf.text "#{@vendor.name}"
 		pdf.text "#{@vendor.vendor_addresses.primary.address1}"
 		pdf.text "#{@vendor.vendor_addresses.primary.address2}"
@@ -33,10 +36,10 @@ end
 pdf.move_down(gap)
 
 bounding_box([0,cursor], :width=>(full/2)) do
-	bounding_box([0, 0], :width=>((full/4)-gap)) do
+	bounding_box([0, 0], :width=>col1_width) do
 		pdf.text "<b>RFQ Contact:</b>", :inline_format => true
 	end
-	bounding_box([(full/4), bounds.top], :width=>((full/4)-gap)) do
+	bounding_box([col1_width+gap, bounds.top], :width=>col2_width) do
 		pdf.text "#{@rfq_contact.name}"
 		pdf.text "#{@rfq_contact.email}"
 	end	
@@ -44,11 +47,14 @@ end
 
 @lowest = cursor
 
+col1_width = 90
+col2_width=((full/2)-col1_width-gap)
+
 bounding_box([((full+gap)/2), @col_start], :width=>(full/2)) do
-	bounding_box([0, 0], :width=>((full/4)-gap)) do
+	bounding_box([0, 0], :width=>col1_width) do
 		pdf.text "<b>Requisitioned by:</b>", :inline_format => true
 	end
-	bounding_box([(full/4), bounds.top], :width=>((full/4)-gap)) do
+	bounding_box([col1_width+gap, bounds.top], :width=>col2_width) do
 		pdf.text "#{@rfqform.req_by_employee.name}"
 		pdf.text "#{@rfqform.req_by_employee.email}"
 	end			
@@ -57,10 +63,10 @@ end
 pdf.move_down(gap)
 
 bounding_box([((full+gap)/2), cursor], :width=>(full/2)) do
-	bounding_box([0, 0], :width=>((full/4)-gap)) do
+	bounding_box([0, 0], :width=>col1_width) do
 		pdf.text "<b>Engineer:</b>", :inline_format => true
 	end
-	bounding_box([(full/4), bounds.top], :width=>((full/4)-gap)) do
+	bounding_box([col1_width+gap, bounds.top], :width=>col2_width) do
 		pdf.text "#{@rfqform.engineer_employee.name}"
 		pdf.text "#{@rfqform.engineer_employee.email}"
 	end			
@@ -238,9 +244,9 @@ parts << ["Quantity", "Notes", "Unit Price", "Tooling", "NRE", "Feedback"]
 		parts << [
 			qty,
 			eau.parts_note,
-			number_to_currency(eau.unit_price),
-			number_to_currency(eau.tooling),
-			number_to_currency(eau.nre),
+			number_to_currency(eau.unit_price, precision: 0),
+			number_to_currency(eau.tooling, precision: 0),
+			number_to_currency(eau.nre, precision: 0),
 			eau.feedback
 		]	
 	end
@@ -252,8 +258,9 @@ end
 pdf.table parts, 
 	:row_colors => ["FFFFFF", "DDDDDD"], 
 	:header => true,
-	:column_widths => [100,110,50,50,50,180] do 
+	:column_widths => [100,110,70,70,70,120] do 
 
+	columns(2..4).style( {overflow: :shrink_to_fit, single_line: true} )
 	row(0).font_style = :bold
 	row(0).border_width = 2
 
