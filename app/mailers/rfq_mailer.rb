@@ -6,8 +6,13 @@ class RfqMailer < ActionMailer::Base
   	@quote_number = @rfqform.printable_id
   	@targets = []
   	@rfqform.rfqparts.each do |rfqpart|
-  		rfqpart.rfqpartvendors.reject(&:blank?).each do |vendor|  			
-  			@targets << Vendor.find(vendor).rfq_contact.email
+  		rfqpart.rfqpartvendors.reject(&:blank?).each do |vendor|  
+        v = Vendor.find(vendor)			
+        if (!v.blank? && !v.rfq_contact.blank?) then
+  			  @targets << Vendor.find(vendor).rfq_contact.email
+        else
+          logger.error ( v.name + " has no RFQ contacts. No email was sent." )
+        end
   		end
   	end
 
@@ -19,22 +24,32 @@ class RfqMailer < ActionMailer::Base
   	@rfqquote = rfqquote
   	@quote_number = @rfqquote.whole_printable_id
   	@target = APP_CONFIG['default_email_from']  	
-  	@sender = @rfqquote.vendor.rfq_contact.email
 
-  	mail(to: @target, from: @sender,
-  		subject: "RFQ Quote (" + @quote_number + ") submittal.",
-  		content_type: "text/html",
-  		body: @rfqquote.vendor.name + 
-        " has submitted a quote for RFQ " + 
-        @quote_number + " for your review")
+    if (!@rfqquote.vendor.blank? && !@rfqquote.vendor.rfq_contact.blank?) then
+      @sender = @rfqquote.vendor.rfq_contact.email    
+
+    	mail(to: @target, from: @sender,
+    		subject: "RFQ Quote (" + @quote_number + ") submittal.",
+    		content_type: "text/html",
+    		body: @rfqquote.vendor.name + 
+          " has submitted a quote for RFQ " + 
+          @quote_number + " for your review")
+    else
+      logger.error ( @rfqquote.vendor.name + " has no RFQ contacts.")
+    end    
   end
 
   def send_feedback(rfqquote)
   	@rfqquote = rfqquote
   	@quote_number = @rfqquote.whole_printable_id
-  	@target = @rfqquote.vendor.rfq_contact.email
-  	mail(from: APP_CONFIG['default_email_from'], to: @target, 
-  		subject: "RFQ Feedback from TLX")
+
+    if (!@rfqquote.vendor.blank? && !@rfqquote.vendor.rfq_contact.blank?) then
+    	@target = @rfqquote.vendor.rfq_contact.email
+    	mail(from: APP_CONFIG['default_email_from'], to: @target, 
+    		subject: "RFQ Feedback from TLX")
+    else
+      logger.error ( @rfqquote.vendor.name + " has no RFQ contacts." )
+    end
   end  
 
 end

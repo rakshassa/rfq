@@ -4,7 +4,7 @@ class VendorContact < ActiveRecord::Base
 
 	scope :role, ->(role) { 
 		joins(:vendor_contact_roles).
-		where(:vendor_contact_roles => { :contact_role_id => role } ).first }
+		where('vendor_contact_roles.contact_role_id = ?', role ) }
 
 	belongs_to :vendor
 

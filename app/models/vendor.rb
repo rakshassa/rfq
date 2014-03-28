@@ -4,6 +4,6 @@ class Vendor < ActiveRecord::Base
 	has_many :vendor_addresses, dependent: :destroy
 
 	def rfq_contact
-		return self.vendor_contacts.role(APP_CONFIG['rfq_contact_role'])
+		return self.vendor_contacts.role(APP_CONFIG['rfq_contact_role']).first
 	end
 end
