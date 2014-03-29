@@ -35,15 +35,19 @@ describe "BuildQuotes" do
 
 
 		it "creates quotes" do	
-
-			puts "Parts: " + rfqform.rfqparts.count.to_s
-
 			visit rfqforms_path
+			
+			page.should have_xpath("//ul//div//div[contains(@id,'rfqform_')]", :count => 1)
+			
 			click_link "Build"
 
-			puts ActionMailer::Base.deliveries.inspect
-			#last_email.to.should include(vcontact2.email)
-			current_path.should eq(search_path(Search.last.id))			
+			#puts ActionMailer::Base.deliveries.inspect
+			last_email.bcc.should include(vcontact2.email, vcontact.email)
+
+			current_path.should eq(search_path(Search.last.id))	
+
+			page.should have_xpath("//ul//div//div[contains(@id,'rfqform_')]", :count => 1)		
+			page.should have_xpath("//td//a[contains(@href,'rfqquotes')]", :count => 4)	
 
 			Rfqquote.all.count.should eq(4)
 			rfqform.rfqparts.count.should eq(2)
@@ -62,5 +66,27 @@ describe "BuildQuotes" do
 
 			find('#rfqform_' + rfqform.id.to_s).should have_link("View")
 		end
+
+		describe "rebuild" do
+			let!(:last_form) { Rfqform.last }
+
+			before do
+				visit rfqforms_path
+				last_form.built = true
+				last_form.save
+			end
+			it "doesnt rebuild" do
+				page.should have_xpath("//ul//div//div[contains(@id,'rfqform_')]", :count => 1)
+			
+				click_link "Build"
+
+				current_path.should eq(rfqforms_path)
+				page.should have_css('div.alert-error')
+				page.should have_content("already been built")
+				page.should have_xpath("//ul//div//div[contains(@id,'rfqform_')]", :count => 1)
+				page.should_not have_xpath("//td//a[contains(@href,'rfqquotes')]")	
+			end
+		end
+
 	end
 end

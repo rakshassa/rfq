@@ -87,6 +87,12 @@
       <br>
       <br>
       <%= f.submit "Save changes", class: "btn btn-large btn-primary" %>
-      <%= link_to "Cancel", rfqforms_path,  method: :get, class: "btn btn-large" %>
+
+      <% if @rfqform.id.blank? %>
+        <%= link_to "Cancel", rfqforms_path,  method: :get, class: "btn btn-large" %>
+      <% else %>
+        <%= link_to "Cancel", rfqform_path(@rfqform),  method: :get, class: "btn btn-large" %>
+      <% end %>
+      
             
     <% end %>      

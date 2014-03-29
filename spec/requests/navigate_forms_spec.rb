@@ -59,6 +59,28 @@ describe "NavigateForms" do
 
 			find('#rfqform_' + rfqform.id.to_s).should have_link("View")			
 		end	
+
+=begin - rspec doesn't use the remote-true ajax call to do the deletion - so this test can't pass.
+		describe "Delete RFQ" do
+			before do
+				visit rfqforms_path
+				click_link "Delete"
+			end
+
+			it "should delete" do
+				current_path.should eq(rfqforms_path)
+
+				Rfqforms.count.should eq(0)
+				Rfqquotes.count.should eq(0)
+				Rfqparts.count.should eq(0)
+
+				page.should_not have_xpath("//ul//div//div[contains(@id,'rfqform_')]")		
+				page.should_not have_xpath("//td//a[contains(@href,'rfqquotes')]")	
+				page.should_not have_css('div.alert-error')
+			end
+		end
+=end
+
 	
 
 		describe "Create Quote" do
@@ -93,7 +115,7 @@ describe "NavigateForms" do
 				end
 
 				it "fails to save" do				
-					page.should have_content("errors")
+					page.should have_css('div.alert-error')
 
 					page.should have_content("New RFQ Request")
 					page.should have_link("Home")
@@ -124,9 +146,9 @@ describe "NavigateForms" do
 			end
 
 			it "saves" do
-				page.should_not have_content("errors")
+				page.should_not have_css('div.alert-error')
 
-				puts "Forms: " + Rfqform.all.count.to_s
+				#puts "Forms: " + Rfqform.all.count.to_s
 
 				current_path.should eq(rfqform_path(Rfqform.last.id))					
 				page.should have_link("Home")
@@ -139,6 +161,82 @@ describe "NavigateForms" do
 			end		
 		end
 
-	end
+		describe "edit rfqform" do
+			before do
+				visit rfqform_path(Rfqform.last.id)
+				click_link "Edit"
+			end
 
+			it "has correct content" do
+				current_path.should eq(edit_rfqform_path(Rfqform.last.id))
+				page.should_not have_css('div.alert-error')
+
+				page.should have_button("Save")
+				page.should have_link("Cancel")
+			end
+
+			it "saves" do				
+				page.fill_in 'rfqform[ppap]', :with => 'New PPAP Value'
+				click_button("Save")
+
+				current_path.should eq(rfqform_path(Rfqform.last.id))
+				page.should_not have_css('div.alert-error')
+				page.should have_content("New PPAP Value")
+			end
+
+			it "cancels" do				
+				page.fill_in 'rfqform[ppap]', :with => 'New PPAP Value'
+				click_link("Cancel")
+
+				current_path.should eq(rfqform_path(Rfqform.last.id))
+				page.should_not have_css('div.alert-error')
+				page.should_not have_content("New PPAP Value")
+			end			
+
+			it "fails to save" do
+				page.select 'Select a Program', :from => 'Program'
+				click_button("Save")
+
+				#current_path.should eq(edit_rfqform_path(Rfqform.last.id))
+				#rails bug: when validation fails, the url isn't set correctly
+				page.should have_css('div.alert-error')				
+				page.should have_button("Save")
+				page.should have_link("Cancel")
+				page.should_not have_link("Build")
+			end
+		end
+
+		describe "invalid edits" do
+			let!(:last_form) { Rfqform.last }
+			before do
+				last_form.built = true
+				last_form.save
+
+				visit edit_rfqform_path(last_form.id)
+			end
+
+			it "should error" do
+				current_path.should eq(rfqforms_path)
+				page.should have_css('div.alert-error')
+				page.should have_content("already been built")
+			end
+		end
+
+		describe "invalid updates" do
+			let!(:last_form) { Rfqform.last }
+			before do
+				visit edit_rfqform_path(last_form.id)
+				last_form.built = true
+				last_form.save
+
+				click_button("Save")
+			end
+
+			it "should error" do
+				current_path.should eq(rfqforms_path)
+				page.should have_css('div.alert-error')
+				page.should have_content("already been built")
+			end
+		end
+	end
 end
