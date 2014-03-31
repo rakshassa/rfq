@@ -20,9 +20,9 @@ doc/
 .secret
 
 # Ignore all downloaded image files
-/public/system/*
+
 /public/uploads/*
-/public/Library/*
+
 
 #ignore code coverage and best_practices
 coverage/
