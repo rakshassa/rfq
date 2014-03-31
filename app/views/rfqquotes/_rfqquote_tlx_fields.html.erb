@@ -3,6 +3,7 @@
 
 	  <%= content_tag(:div) do content_tag(:b,"RFQ: ") + @rfqquote.whole_printable_id  end %>
 	  <%= content_tag(:div) do content_tag(:b,"Date: ") + @rfqquote.rfqform.date.to_s  end %>
+	  <%= content_tag(:div) do content_tag(:b,"RFQ Due Date: ") + @rfqquote.rfqform.due_date.to_s  end %>
 	  
 		<div class="container"> 
 			<hr> 

@@ -1,5 +1,6 @@
       <%= content_tag(:div) do content_tag(:b,"RFQ: ") + @rfqform.printable_id if !@rfqform.id.blank? end %> 
       <%= content_tag(:div) do content_tag(:b,"Date: ") + @rfqform.date.to_s if !@rfqform.date.blank? end %>
+      <%= content_tag(:div) do content_tag(:b,"RFQ Due Date: ") + @rfqform.due_date.to_s if !@rfqform.due_date.blank? end %>
       <%= content_tag(:div) do content_tag(:b,"Program: ") + @rfqform.program_name if !@rfqform.program.blank? end %>
 
       <br> 

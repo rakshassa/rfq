@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140324185547) do
+ActiveRecord::Schema.define(version: 20140331174554) do
 
   create_table "contact_roles", force: true do |t|
     t.string   "name"
@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(version: 20140324185547) do
     t.integer  "program"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.date     "due_date"
   end
 
   add_index "rfqforms", ["id"], name: "index_rfqforms_on_id", using: :btree

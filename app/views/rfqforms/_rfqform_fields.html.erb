@@ -3,7 +3,15 @@
 
       
       <%= content_tag(:div) do content_tag(:b,"RFQ: ") + f.object.printable_id if !f.object.id.blank? end %> 
-      <%= content_tag(:div) do content_tag(:b,"Date: ") + f.object.date.to_s if !f.object.date.blank? end %>   
+      <%= content_tag(:div) do content_tag(:b,"Date: ") + f.object.date.to_s if !f.object.date.blank? end %>
+      <br>
+      <%= f.label :due_date, "RFQ Due Date" %>
+      <%= f.date_select :due_date, {
+          :use_two_digit_numbers => false, :use_short_month => true, 
+          :start_year => Time.now.year,
+          :order => [:month, :day, :year], :include_blank => false,
+          :default => (DateTime.now.to_date + 10.days), :prompt => true 
+        } %>   
       
       <%= f.label :program, "Program" %>
       <%= f.collection_select(:program, @programs, :id, :name,

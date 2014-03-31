@@ -6,6 +6,7 @@ pdf.text "RFQ Request", :align => :center, :size => 26, :style => :bold
 
 pdf.text "<b>RFQ:</b>  #{@rfqquote.whole_printable_id}", :inline_format => true, :size => 14
 pdf.text "<b>Date:</b>  #{@rfqform.date.to_s}", :inline_format => true, :size => 14
+pdf.text "<b>RFQ Due Date:</b>  #{@rfqform.due_date.to_s}", :inline_format => true, :size => 14
 
 pdf.move_down(10)
 stroke_horizontal_rule

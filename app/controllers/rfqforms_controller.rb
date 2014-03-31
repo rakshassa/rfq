@@ -121,7 +121,7 @@ class RfqformsController < ApplicationController
   private
 
     def rfqforms_params
-      params.require(:rfqform).permit(:date, :release_type, :launch_date,
+      params.require(:rfqform).permit(:date, :due_date, :release_type, :launch_date,
         :ppap, :req_by, :engineer, :info, :program,
 
         eaus_attributes: [:id, :value, :_destroy],

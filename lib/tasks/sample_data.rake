@@ -138,6 +138,7 @@ def make_rfqforms
 	30.times do |n|
 		form = Rfqform.new(
 			date: DateTime.now.to_date,
+			due_date: (DateTime.now + 10.days).to_s,
 			release_type: "Test",
 			launch_date: "Yesterday",
 			ppap: "Test ppap",
