@@ -18,9 +18,10 @@ class Rfqform < ActiveRecord::Base
 	belongs_to :engineer_employee, foreign_key: :engineer, class_name: "Employee"
 
 
-	validates(:req_by,  presence: true, allow_nil: false )
-	validates(:engineer,  presence: true, allow_nil: false )
+	validates(:req_by,   presence: true, allow_nil: false )
+	validates(:engineer, presence: true, allow_nil: false )
 	validates(:program,  presence: true, allow_nil: false )
+	validates(:due_date, presence: true, allow_nil: false )
 	validate :check_eaus
 
 	def check_eaus

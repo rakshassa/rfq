@@ -1,3 +1,12 @@
+font_families.update("OpenSans" => {	
+	:normal => Rails.root.join('public','Library','opensans','OpenSans-Regular.ttf').to_s,
+	:italic => Rails.root.join('public','Library','opensans','OpenSans-Italic.ttf').to_s,
+	:bold => Rails.root.join('public','Library','opensans','OpenSans-Bold.ttf').to_s,
+	:bold_italic => Rails.root.join('public','Library','opensans','OpenSans-BoldItalic.ttf').to_s
+})
+
+font "OpenSans"
+
 image "#{Rails.root}/app/assets/images/hires-tlx_letterhead.png", :width => 550
 
 font_size 10

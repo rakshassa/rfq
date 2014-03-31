@@ -1,3 +1,11 @@
+font_families.update("OpenSans" => {	
+	:normal => Rails.root.join('public','Library','opensans','OpenSans-Regular.ttf').to_s,
+	:italic => Rails.root.join('public','Library','opensans','OpenSans-Italic.ttf').to_s,
+	:bold => Rails.root.join('public','Library','opensans','OpenSans-Bold.ttf').to_s,
+	:bold_italic => Rails.root.join('public','Library','opensans','OpenSans-BoldItalic.ttf').to_s
+})
+
+font "OpenSans"
 
 pdf.text "RFQ Request", :align => :center, :size => 40, :style => :bold
 

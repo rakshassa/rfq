@@ -30,6 +30,7 @@ describe Rfqform do
 	subject { rfqform }
 
 	it { should respond_to(:date) }
+	it { should respond_to(:due_date) }
 	it { should respond_to(:release_type) }
 	it { should respond_to(:launch_date) }
 	it { should respond_to(:ppap) }
