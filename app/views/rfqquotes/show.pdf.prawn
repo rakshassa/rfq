@@ -1,4 +1,4 @@
-image "#{Rails.root}/app/assets/images/tlx_letterhead.png", :width => 550
+image "#{Rails.root}/app/assets/images/hires-tlx_letterhead.png", :width => 550
 
 font_size 10
 
