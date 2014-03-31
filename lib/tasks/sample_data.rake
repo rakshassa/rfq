@@ -7,10 +7,17 @@ namespace :db do
 		make_vendor_contacts
 		make_parts
 		make_users
-		make_feedback
-
 		
 		make_rfqforms
+	end
+
+	task base_data: :environment do
+		if (Employee.count == 0) then make_employees end
+		if (ContactRole.count == 0) then make_roles end
+		if (Vendor.count == 0) then make_vendors end
+		if (VendorContact.count == 0) then make_vendor_contacts end
+		if (Part.count == 0) then make_parts end
+		if (User.count == 0) then make_users end
 	end
 
 	task images: :environment do
@@ -126,11 +133,6 @@ def make_users
 	end
 end
 
-def make_feedback
-	Feedback.create(name: "Too high")
-	Feedback.create(name: "Design change")
-	Feedback.create(name: "Other")
-end
 
 
 def make_rfqforms
