@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe "BuildQuotes" do
-	let (:user) { FactoryGirl.create(:tlx_user) }
-	before do APP_CONFIG['default_user_name'] = user.name end
+	let (:tlx_user) { FactoryGirl.create(:tlx_user) }
+	before do APP_CONFIG['default_user_name'] = tlx_user.name end
 
 	describe "Build Quotes" do
 	
@@ -19,10 +19,12 @@ describe "BuildQuotes" do
 
 
 		let!(:vendor) { FactoryGirl.create(:vendor, :name => "First Vendor") }
+		let!(:vendor_address) { FactoryGirl.create(:vendor_address, :vendor => vendor)}
 		let!(:vcontact) { FactoryGirl.create(:vendor_contact, :vendor => vendor, :email => "some@abc.com") }
 		let!(:vcontact_role) { FactoryGirl.create(:vendor_contact_role, :contact_role => rfq_role, :vendor_contact => vcontact) }
 
 		let!(:vendor2) { FactoryGirl.create(:vendor) }
+		let!(:vendor_address2) { FactoryGirl.create(:vendor_address, :vendor => vendor2)}
 		let!(:vcontact2) { FactoryGirl.create(:vendor_contact, :vendor => vendor2, :email => "other@def.com") }
 		let!(:vcontact_role2) { FactoryGirl.create(:vendor_contact_role, :contact_role => rfq_role, :vendor_contact => vcontact2) }
 
@@ -33,38 +35,97 @@ describe "BuildQuotes" do
 		let!(:rfqpart2) { FactoryGirl.create(:rfqpart,
 			rfqform: rfqform, part_number: part2.id, rfqpartvendors: [vendor,vendor2].map(&:id))}
 
+		let (:vendor_user) { FactoryGirl.create(:vendor_user, :vendor_id => vendor.id) }
 
-		it "creates quotes" do	
-			visit rfqforms_path
-			
-			page.should have_xpath("//ul//div//div[contains(@id,'rfqform_')]", :count => 1)
-			
-			click_link "Build"
+		describe "good build" do
+			before do
+				visit rfqforms_path
+				
+				page.should have_xpath("//ul//div//div[contains(@id,'rfqform_')]", :count => 1)
+				
+				click_link "Build"
+			end
 
-			#puts ActionMailer::Base.deliveries.inspect
-			last_email.bcc.should include(vcontact2.email, vcontact.email)
+			it "creates quotes" do	
+				last_email.bcc.should include(vcontact2.email, vcontact.email)
 
-			current_path.should eq(search_path(Search.last.id))	
+				current_path.should eq(search_path(Search.last.id))	
 
-			page.should have_xpath("//ul//div//div[contains(@id,'rfqform_')]", :count => 1)		
-			page.should have_xpath("//td//a[contains(@href,'rfqquotes')]", :count => 4)	
+				page.should have_xpath("//ul//div//div[contains(@id,'rfqform_')]", :count => 1)		
+				page.should have_xpath("//td//a[contains(@href,'rfqquotes')]", :count => 4)	
 
-			Rfqquote.all.count.should eq(4)
-			rfqform.rfqparts.count.should eq(2)
-			rfqform.rfqparts.first.rfqpartvendors.should include(vendor.id, vendor2.id)
+				Rfqquote.all.count.should eq(4)
+				rfqform.rfqparts.count.should eq(2)
+				rfqform.rfqparts.first.rfqpartvendors.should include(vendor.id, vendor2.id)
 
-			page.should have_link("Search")
-			page.should have_link("Home")
-			page.should have_link("RFQ Forms")
-			page.should have_link("Create")
-			page.should have_content("All RFQ Forms")
+				page.should have_link("Search")
+				page.should have_link("Home")
+				page.should have_link("RFQ Forms")
+				page.should have_link("Create")
+				page.should have_content("All RFQ Forms")
 
-			page.should have_link("View")
-			page.should have_link("Print")
-			page.should_not have_link("Build")
-			page.should_not have_link("Delete")
+				page.should have_link("View")
+				page.should have_link("Print")
+				page.should_not have_link("Build")
+				page.should_not have_link("Delete")
 
-			find('#rfqform_' + rfqform.id.to_s).should have_link("View")
+				page.should have_link("-001")
+
+				find('#rfqform_' + rfqform.id.to_s).should have_link("View")
+			end
+
+			describe "view quote" do
+				before do
+					APP_CONFIG['default_user_name'] = tlx_user.name
+					click_link "-001"
+				end
+				it "should view quote" do
+					current_path.should eq(rfqquote_path(Rfqquote.first.id))
+
+					page.should have_content("Request For Quote")
+					page.should have_link("Drawing")
+					page.should have_link("Edit")
+					page.should have_link("Feedback")
+					page.should have_link("PDF")
+
+					page.should_not have_content("A. All info")
+				end
+
+				describe "edit feedback" do
+					before do
+						click_link "Edit"
+					end
+
+					it "should edit" do
+						current_path.should eq(edit_rfqquote_path(Rfqquote.first.id))
+
+						page.should have_content("Request For Quote")
+
+						page.should have_xpath("//td//input[contains(@name,'[feedback]')]", :count => rfqform.eaus.count)
+
+						page.should have_link("Drawing")
+						page.should have_button("Save")
+						page.should have_link("Cancel")
+					end
+
+					describe "save successful" do
+						before do
+							page.fill_in 'rfqquote[rfqquote_eaus_attributes][0][feedback]', :with => 'too low'
+							page.fill_in 'rfqquote[rfqquote_eaus_attributes][1][feedback]', :with => 'too high'
+							click_button "Save"
+						end
+
+						it "should save" do
+							current_path.should eq(rfqquote_path(Rfqquote.first.id))
+
+							page.should_not have_xpath("//td//input[contains(@name,'[feedback]')]")
+
+							page.should have_content("too low")
+							page.should have_content("too high")
+						end
+					end
+				end
+			end
 		end
 
 		describe "rebuild" do

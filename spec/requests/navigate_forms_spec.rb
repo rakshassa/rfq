@@ -132,6 +132,10 @@ describe "NavigateForms" do
 				click_link "Create"		
 
 				page.fill_in 'rfqform[eaus_attributes][0][value]', :with => '5'
+				page.select 'Jan', :from => 'rfqform[due_date(2i)]'
+				page.select '1', :from => 'rfqform[due_date(3i)]'
+				page.select '2019', :from => 'rfqform[due_date(1i)]'
+
 				page.select 'PA01', :from => 'Program'
 				page.select 'Bob Smith', :from => 'rfqform[req_by]'
 				page.select 'Bob Smith', :from => 'rfqform[engineer]'

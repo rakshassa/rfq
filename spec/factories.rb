@@ -39,6 +39,7 @@ FactoryGirl.define do
 
 	factory :rfqform do
 		date DateTime.now.to_date
+		due_date (DateTime.now + 10.days).to_date
 		release_type "release type 1"
 		launch_date DateTime.now.to_date
 		ppap "PPAP1"
@@ -118,6 +119,17 @@ FactoryGirl.define do
 	factory :contact_role do
 		name "First Contact"
 	end
+
+	factory :vendor_address do
+    	vendor 
+    	address1 "3111 test rd"
+    	address2 "apt 32"
+    	city "Milwaukee"
+    	state "WI"
+    	zip "53005"
+    	address_type_id 1
+      	primary	true	
+    end
 
 end
 
