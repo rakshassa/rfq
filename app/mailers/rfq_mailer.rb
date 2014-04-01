@@ -10,8 +10,7 @@ class RfqMailer < ActionMailer::Base
         v = Vendor.find(vendor)			
         if (!v.blank? && !v.rfq_contact.blank?) then
   			  @targets << Vendor.find(vendor).rfq_contact.email
-        else
-          logger.error ( v.name + " has no RFQ contacts. No email was sent." )
+       
         end
   		end
   	end
@@ -34,8 +33,7 @@ class RfqMailer < ActionMailer::Base
     		body: @rfqquote.vendor.name + 
           " has submitted a quote for RFQ " + 
           @quote_number + " for your review")
-    else
-      logger.error ( @rfqquote.vendor.name + " has no RFQ contacts.")
+    
     end    
   end
 
@@ -47,8 +45,7 @@ class RfqMailer < ActionMailer::Base
     	@target = @rfqquote.vendor.rfq_contact.email
     	mail(from: APP_CONFIG['default_email_from'], to: @target, 
     		subject: "RFQ Feedback from TLX")
-    else
-      logger.error ( @rfqquote.vendor.name + " has no RFQ contacts." )
+    
     end
   end  
 

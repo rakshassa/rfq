@@ -2,8 +2,8 @@
 require 'spec_helper'
 
 describe "StartSearches" do
-	let (:user) { FactoryGirl.create(:tlx_user) }
-	before do APP_CONFIG['default_user_name'] = user.name end
+	let (:tlx_user) { FactoryGirl.create(:tlx_user) }
+	before do set_user_name(tlx_user.name) end
 
 	it "opens search when clicking advanced search" do
 
@@ -14,9 +14,7 @@ describe "StartSearches" do
 
 		current_path.should eq(search_path(Search.last.id))
 
-		page.should have_content("All RFQ Forms")
-
-		
+		page.should have_content("All RFQ Forms")		
 	end
 
 	describe "search by built" do
@@ -33,7 +31,5 @@ describe "StartSearches" do
 			page.should have_content("All RFQ Forms")			
 		end	
 	end
-
-
 end
  

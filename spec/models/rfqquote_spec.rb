@@ -2,30 +2,7 @@ include SessionsHelper
 require 'spec_helper'
 
 describe Rfqquote do
-	let (:tlx_user) { FactoryGirl.create(:tlx_user) }
-
-	before do APP_CONFIG['default_user_name'] = tlx_user.name end
-
-	let!(:part) { FactoryGirl.create(:part, :name => "PA01") }
-	let!(:part2) { FactoryGirl.create(:part, :name => "PA02") }
-	let!(:employee) { FactoryGirl.create(:employee, :first_name => "Bob", :last_name => "Smith") }
-	
-	let!(:vendor) { FactoryGirl.create(:vendor, :name => "First Vendor") }
-	let!(:vcontact) { FactoryGirl.create(:vendor_contact, :vendor => vendor, :email => "some@abc.com") }
-	let!(:vcontact_role) { FactoryGirl.create(:vendor_contact_role, :vendor_contact => vcontact) }
-
-	let!(:vendor2) { FactoryGirl.create(:vendor) }
-	let!(:vcontact2) { FactoryGirl.create(:vendor_contact, :vendor => vendor2, :email => "other@def.com") }
-	let!(:vcontact_role2) { FactoryGirl.create(:vendor_contact_role, :vendor_contact => vcontact2) }
-
-	let!(:rfqform) { FactoryGirl.create(:rfqform_with_eaus, 
-		:program => part.id, :req_by => employee.id, :engineer => employee.id, ) }
-	let!(:rfqpart) { FactoryGirl.create(:rfqpart,
-		rfqform: rfqform, part_number: part.id, rfqpartvendors: [vendor,vendor2].map(&:id))}
-	let!(:rfqpart2) { FactoryGirl.create(:rfqpart,
-		rfqform: rfqform, part_number: part2.id, rfqpartvendors: [vendor,vendor2].map(&:id))}
-
-	let! (:vendor_user) { FactoryGirl.create(:vendor_user, :vendor_id => vendor.id) }
+	include_context 'created_rfqform'
 
 	let!(:quotes) { rfqform.build() }
 	let!(:rfqquote) { quotes.first }
@@ -76,11 +53,11 @@ describe Rfqquote do
 		before { rfqquote.quote_number = nil }
 
 		describe "as tlx" do
-			before { APP_CONFIG['default_user_name'] = tlx_user.name }
+			before { set_user_name(tlx_user.name) }
 			it { should be_valid }
 		end
 		describe "as vendor" do
-			before { APP_CONFIG['default_user_name'] = vendor_user.name }
+			before { set_user_name(vendor_user.name) }
 			it { should_not be_valid }
 		end		
 	end
@@ -88,11 +65,11 @@ describe Rfqquote do
 	describe "when quote_date is missing" do
 		before { rfqquote.quote_date = nil }
 		describe "as tlx" do
-			before { APP_CONFIG['default_user_name'] = tlx_user.name }
+			before { set_user_name(tlx_user.name) }
 			it { should be_valid }
 		end
 		describe "as vendor" do
-			before { APP_CONFIG['default_user_name'] = vendor_user.name }
+			before { set_user_name(vendor_user.name) }
 			it { should_not be_valid }
 		end		
 	end
@@ -100,11 +77,11 @@ describe Rfqquote do
 	describe "when submitted_by is missing" do
 		before { rfqquote.submitted_by = nil }
 		describe "as tlx" do
-			before { APP_CONFIG['default_user_name'] = tlx_user.name }
+			before { set_user_name(tlx_user.name) }
 			it { should be_valid }
 		end
 		describe "as vendor" do
-			before { APP_CONFIG['default_user_name'] = vendor_user.name }
+			before { set_user_name(vendor_user.name) }
 			it { should_not be_valid }
 		end	
 	end
@@ -112,11 +89,11 @@ describe Rfqquote do
 	describe "when valid_till is missing" do
 		before { rfqquote.valid_till = nil }
 		describe "as tlx" do
-			before { APP_CONFIG['default_user_name'] = tlx_user.name}
+			before { set_user_name(tlx_user.name) }
 			it { should be_valid }
 		end
 		describe "as vendor" do
-			before { APP_CONFIG['default_user_name'] = vendor_user.name }
+			before { set_user_name(vendor_user.name) }
 			it { should_not be_valid }
 		end	
 	end	

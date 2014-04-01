@@ -4,7 +4,16 @@ require 'spork'
 Spork.prefork do
   unless ENV['DRB']
     require 'simplecov'
-    SimpleCov.start
+    SimpleCov.start do
+      add_filter 'spec/'
+      add_filter 'config/'
+
+      add_group 'Controllers', 'app/controllers'
+      add_group 'Models', 'app/models'
+      add_group 'Helpers', 'app/helpers'
+      add_group 'Mailers', 'app/mailers'
+      add_group 'Views', 'app/views'
+    end
   end
 
   ENV["RAILS_ENV"] ||= 'test'
@@ -73,6 +82,7 @@ Spork.prefork do
     config.include Rails.application.routes.url_helpers
 
     config.include(MailerMacros)
+    config.include(UserMacros)    
     config.before(:each) { reset_email }
   end
 end
@@ -81,6 +91,15 @@ Spork.each_run do
   # This code will be run each time you run your specs.
   if ENV['DRB']
     require 'simplecov'
-    SimpleCov.start
+    SimpleCov.start do
+      add_filter 'spec/'
+      add_filter 'config/'
+
+      add_group 'Controllers', 'app/controllers'
+      add_group 'Models', 'app/models'
+      add_group 'Helpers', 'app/helpers'
+      add_group 'Mailers', 'app/mailers'
+      add_group 'Views', 'app/views'
+    end
   end
 end

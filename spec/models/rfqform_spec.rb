@@ -2,31 +2,8 @@ include SessionsHelper
 require 'spec_helper'
 
 describe Rfqform do
-	let (:tlx_user) { FactoryGirl.create(:tlx_user) }
-
-	before do APP_CONFIG['default_user_name'] = tlx_user.name end
-
-	let!(:part) { FactoryGirl.create(:part, :name => "PA01") }
-	let!(:part2) { FactoryGirl.create(:part, :name => "PA02") }
-	let!(:employee) { FactoryGirl.create(:employee, :first_name => "Bob", :last_name => "Smith") }
+	include_context 'created_rfqform'
 	
-	let!(:vendor) { FactoryGirl.create(:vendor, :name => "First Vendor") }
-	let!(:vcontact) { FactoryGirl.create(:vendor_contact, :vendor => vendor, :email => "some@abc.com") }
-	let!(:vcontact_role) { FactoryGirl.create(:vendor_contact_role, :vendor_contact => vcontact) }
-
-	let!(:vendor2) { FactoryGirl.create(:vendor) }
-	let!(:vcontact2) { FactoryGirl.create(:vendor_contact, :vendor => vendor2, :email => "other@def.com") }
-	let!(:vcontact_role2) { FactoryGirl.create(:vendor_contact_role, :vendor_contact => vcontact2) }
-
-	let!(:rfqform) { FactoryGirl.create(:rfqform_with_eaus, 
-		:program => part.id, :req_by => employee.id, :engineer => employee.id, ) }
-	let!(:rfqpart) { FactoryGirl.create(:rfqpart,
-		rfqform: rfqform, part_number: part.id, rfqpartvendors: [vendor,vendor2].map(&:id))}
-	let!(:rfqpart2) { FactoryGirl.create(:rfqpart,
-		rfqform: rfqform, part_number: part2.id, rfqpartvendors: [vendor,vendor2].map(&:id))}
-
-	let (:vendor_user) { FactoryGirl.create(:vendor_user, :vendor_id => vendor.id) }
-
 	subject { rfqform }
 
 	it { should respond_to(:date) }
@@ -72,13 +49,13 @@ describe Rfqform do
 		its(:rfqquotes) { should include(rfqquote, rfqquote2) }
 
 		describe "as tlx" do
-			before do APP_CONFIG['default_user_name'] = tlx_user.name end
+			before do set_user_name(tlx_user.name) end
 			subject { rfqform.auth_quotes }
 		
 			its(:count) { should eq(2) }
 		end
 		describe "as vendor" do
-			before do APP_CONFIG['default_user_name'] = vendor_user.name end
+			before do set_user_name( vendor_user.name) end
 			subject { rfqform.auth_quotes }
 		
 			its(:count) { should eq(1) }
