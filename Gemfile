@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'http://rubygems.org'
 ruby '1.9.3'
 #ruby-gemset=railstutorial_rails_4_0
 
@@ -18,10 +18,10 @@ group :development, :test do
   #gem 'sqlite3', '1.3.8'
   gem 'mysql2', '0.3.11'
   gem 'rspec-rails', '2.13.1'
-  gem 'guard-rspec', '2.5.0'
+  #gem 'guard-rspec', '2.5.0'
 
   gem 'spork-rails', '4.0.0'
-  gem 'guard-spork', '1.5.0'
+  #gem 'guard-spork', '1.5.0'
   gem 'childprocess', '0.3.6'
 end
 
@@ -50,12 +50,14 @@ gem 'uglifier', '2.1.1'
 gem 'coffee-rails', '4.0.1'
 gem 'jquery-rails', '3.0.4'
 gem 'jquery-ui-rails', '4.2.0'
+gem 'turbolinks'
+gem 'jquery-turbolinks'
 #gem 'jquery-rails', '~> 2.3.0'
-#gem 'turbolinks', '1.1.1'
+
 gem 'jbuilder', '1.0.2'
 gem 'sprockets', '2.11.0'
 gem 'momentjs-rails'
-gem 'bootstrap-daterangepicker-rails', :git => "git://github.com/jordanbrock/bootstrap-daterangepicker-rails.git", :branch => "rails4"
+gem 'bootstrap-daterangepicker-rails', :git => "http://github.com/jordanbrock/bootstrap-daterangepicker-rails.git", :branch => "rails4"
 
 group :doc do
   gem 'sdoc', '0.3.20', require: false

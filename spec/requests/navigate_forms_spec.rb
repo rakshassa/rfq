@@ -128,7 +128,7 @@ describe "with forms" do
 	end
 
 	describe "edit rfqform" do
-		before do
+		before(:each) do
 			visit rfqform_path(Rfqform.last.id)
 			click_link "Edit"
 		end

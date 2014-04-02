@@ -7,7 +7,7 @@ describe "Vendor User" do
 	let!(:quotes) { rfqform.build() }
 	let!(:quote) { quotes.first }
 
-	before do
+	before(:each) do
 		set_user_name(vendor_user.name)
 		visit rfqforms_path
 	end	
@@ -39,7 +39,7 @@ describe "Vendor User" do
 	end	
 
 	describe "View Quote" do
-		before do
+		before(:each) do
 			click_link "-001"
 		end
 
@@ -57,7 +57,7 @@ describe "Vendor User" do
 		end
 
 		describe "Edit Quote" do
-			before do
+			before(:each) do
 				click_link "Edit"
 			end
 
@@ -75,7 +75,7 @@ describe "Vendor User" do
 			end
 
 			describe "save" do
-				before do
+				before(:each) do
 					page.fill_in 'rfqquote[rfqquote_eaus_attributes][0][parts_note]', :with => 'junk'
 					page.fill_in 'rfqquote[rfqquote_eaus_attributes][0][unit_price]', :with => '5'
 
@@ -116,7 +116,7 @@ describe "Vendor User" do
 				end
 
 				describe "save successful" do
-					before do
+					before(:each) do
 						check 'rfqquote[rfqquote_eaus_attributes][2][no_quote]'
 						click_button "Save"
 					end
