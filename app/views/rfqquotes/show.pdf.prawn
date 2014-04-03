@@ -93,52 +93,51 @@ pdf.move_down(10)
 @col_start = cursor
 
 
-bounding_box([0, @col_start], :width=>(full/2)) do
+bounding_box([0, @col_start], :width=>(full)) do
 	bounding_box([0, 0], :width=>((full/4)-gap)) do
 		pdf.text "<b>Part Number:</b>", :inline_format => true
 	end
 	bounding_box([(full/4), bounds.top], :width=>((full/4)-gap)) do			
-		pdf.text "#{@part.name}  <b>Rev: </b> #{@rfqpart.revision}", :inline_format => true
+		pdf.text "#{@part.name}", :inline_format => true
 	end	
+	bounding_box([(full/2), bounds.top], :width=>((full/4)-gap)) do
+		pdf.text "<b>Rev:</b>", :inline_format => true
+	end
+	bounding_box([(3*(full/4)), bounds.top], :width=>((full/4))) do			
+		pdf.text "#{@rfqpart.revision}", :inline_format => true
+	end		
 end	
 
-bounding_box([0,cursor], :width=>(full/2)) do
+bounding_box([0,cursor], :width=>(full)) do
+	bounding_box([0, 0], :width=>((full/4)-gap)) do
+		pdf.text "<b>Description:</b>", :inline_format => true
+	end
+	bounding_box([(full/4), bounds.top], :width=>((full/4)-gap)) do
+		pdf.text "#{@part.description}"
+	end	
+end
+
+bounding_box([0,cursor], :width=>(full)) do
 	bounding_box([0, 0], :width=>((full/4)-gap)) do
 		pdf.text "<b>PO/Release Type:</b>", :inline_format => true
 	end
 	bounding_box([(full/4), bounds.top], :width=>((full/4)-gap)) do
 		pdf.text "#{@rfqform.release_type}"
 	end	
-end
-
-bounding_box([0,cursor], :width=>(full/2)) do
-	bounding_box([0, 0], :width=>((full/4)-gap)) do
-		pdf.text "<b>PPAP or other sample quality verification:</b>", :inline_format => true
-	end
-	bounding_box([(full/4), bounds.top], :width=>((full/4)-gap)) do
-		pdf.text "#{@rfqform.ppap}"
-	end	
-end
-
-@lowest = cursor - 10
-
-bounding_box([((full+gap)/2), @col_start], :width=>(full/2)) do
-	bounding_box([0, 0], :width=>((full/4)-gap)) do
-		pdf.text "<b>Description:</b>", :inline_format => true
-	end
-	bounding_box([(full/4), bounds.top], :width=>((full/4)-gap)) do
-		pdf.text "#{@part.description}"
-	end			
-end	
-
-bounding_box([((full+gap)/2), cursor], :width=>(full/2)) do
-	bounding_box([0, 0], :width=>((full/4)-gap)) do
+	bounding_box([(full/2), bounds.top], :width=>((full/4)-gap)) do
 		pdf.text "<b>Expected Launch Date:</b>", :inline_format => true
 	end
-	bounding_box([(full/4), bounds.top], :width=>((full/4)-gap)) do
+	bounding_box([(3*(full/4)), bounds.top], :width=>((full/4)-gap)) do
 		pdf.text "#{@rfqform.launch_date}"
 	end			
-end	
+end
+
+bounding_box([0,cursor], :width=>(full)) do
+	pdf.text "<b>PPAP or other sample quality verification:</b>  #{@rfqform.ppap}", :inline_format => true
+end
+
+@lowest = cursor
+
 
 if (cursor < @lowest) then @lowest = cursor end
 move_cursor_to @lowest

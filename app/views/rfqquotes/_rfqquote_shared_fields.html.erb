@@ -57,13 +57,17 @@
 		<div class="row">
 			<div class="span6">
 				<div class="span2"><b>Part Number:</b></div>
-				<%= content_tag(:div, class: 'span1') do @part.name  end %>
-				<div class="span1"><b>Revision:</b></div>
-				<%= content_tag(:div, class: 'span1') do @rfqpart.revision  end %>
+				<%= content_tag(:div, class: 'span3') do @part.name  end %>
 			</div>
 			<div class="span6">
-				<div class="span3"><b>Description:</b></div>
-				<%= content_tag(:div, class: 'span2') do @part.description  end %>
+				<div class="span1"><b>Revision:</b></div>
+				<%= content_tag(:div, class: 'span4') do @rfqpart.revision  end %>
+			</div>
+		</div>
+		<div class="row">
+			<div class="span11">
+				<div class="span2"><b>Description:</b></div>
+				<%= content_tag(:div, class: 'span8') do @part.description  end %>
 			</div>
 		</div>	
 		<div class="row">
