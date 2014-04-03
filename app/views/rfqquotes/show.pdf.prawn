@@ -254,7 +254,7 @@ parts << ["Quantity", "Notes", "Unit Price", "Tooling", "NRE", "Feedback"]
 		parts << [
 			qty,
 			eau.parts_note,
-			number_to_currency(eau.unit_price, precision: 0),
+			number_to_currency(eau.unit_price, precision: 2),
 			number_to_currency(eau.tooling, precision: 0),
 			number_to_currency(eau.nre, precision: 0),
 			eau.feedback

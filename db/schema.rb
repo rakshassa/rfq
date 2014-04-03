@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140331174554) do
+ActiveRecord::Schema.define(version: 20140403122348) do
 
   create_table "contact_roles", force: true do |t|
     t.string   "name"
@@ -92,7 +92,7 @@ ActiveRecord::Schema.define(version: 20140331174554) do
     t.integer  "rfqquote_id"
     t.integer  "eau_id"
     t.string   "parts_note"
-    t.integer  "unit_price",  limit: 8
+    t.decimal  "unit_price",            precision: 14, scale: 2
     t.boolean  "no_quote"
     t.integer  "tooling",     limit: 8
     t.integer  "nre",         limit: 8

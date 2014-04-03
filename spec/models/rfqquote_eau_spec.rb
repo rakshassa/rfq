@@ -103,7 +103,7 @@ describe RfqquoteEau do
 			end
 			describe "is a decimal number" do
 				before { rfqquote_eau.unit_price = 3.23 }
-				it { should_not be_valid }
+				it { should be_valid }
 			end
 			describe "is a negative number" do
 				before { rfqquote_eau.unit_price = -3 }

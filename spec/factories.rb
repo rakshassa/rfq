@@ -111,8 +111,8 @@ FactoryGirl.define do
 		parts_note "part note"
 		unit_price 5.45
 		no_quote false
-		tooling 3.21
-		nre 1.23
+		tooling 3
+		nre 1
 		feedback "None"
 	end
 

@@ -16,7 +16,7 @@ class RfqMailer < ActionMailer::Base
   	end
 
   	mail(from: APP_CONFIG['default_email_from'], bcc: @targets, 
-  		subject: "New RFQ Request (" + @quote_number + ")")
+  		subject: "New Request for quote (" + @quote_number + ")")
   end
 
   def submit_quote(rfqquote)
@@ -28,7 +28,7 @@ class RfqMailer < ActionMailer::Base
       @sender = @rfqquote.vendor.rfq_contact.email    
 
     	mail(to: @target, from: @sender,
-    		subject: "RFQ Quote (" + @quote_number + ") submittal.",
+    		subject: "RFQ (" + @quote_number + ") submittal.",
     		content_type: "text/html",
     		body: @rfqquote.vendor.name + 
           " has submitted a quote for RFQ " + 
