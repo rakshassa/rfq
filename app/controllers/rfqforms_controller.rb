@@ -1,11 +1,20 @@
 class RfqformsController < ApplicationController
 
   def index
+    session[:userid] = params[:userid]
+    session[:token] = params[:token]
+
+    #logger.info("parm input: " + params[:userid] + " ... " + params[:token])
+    #logger.info("session: " + session[:userid] + " ... " + session[:token])
+
+    if (!validate_user()) then redirect_to APP_CONFIG['login_redirect'] and return end
+
     @rfqforms = GetForms().order('id DESC').paginate(page: params[:page], :per_page => 10 )
     @quotes = GetQuotes(@rfqforms)    
   end	
 
   def show
+    if (!validate_user()) then redirect_to APP_CONFIG['login_redirect'] and return end
     if (!current_user.isTLX) then redirect_to rfqforms_path and return end
 
   	@rfqform = Rfqform.find(params[:id])
@@ -20,6 +29,7 @@ class RfqformsController < ApplicationController
   end
 
   def destroy
+    if (!validate_user()) then redirect_to APP_CONFIG['login_redirect'] and return end
     if (!current_user.isTLX) then redirect_to rfqforms_path and return end
 
     @rfqform = Rfqform.find(params[:id])  
@@ -36,6 +46,7 @@ class RfqformsController < ApplicationController
   end
 
   def create
+    if (!validate_user()) then redirect_to APP_CONFIG['login_redirect'] and return end
     if (!current_user.isTLX) then redirect_to rfqforms_path and return end
 
     @rfqform = Rfqform.new(rfqforms_params)
@@ -52,6 +63,7 @@ class RfqformsController < ApplicationController
   end
 
   def new
+    if (!validate_user()) then redirect_to APP_CONFIG['login_redirect'] and return end
     if (!current_user.isTLX) then redirect_to rfqforms_path and return end
 
   	@rfqform = Rfqform.new 
@@ -62,6 +74,7 @@ class RfqformsController < ApplicationController
   end  
 
   def edit
+    if (!validate_user()) then redirect_to APP_CONFIG['login_redirect'] and return end
     if (!current_user.isTLX) then redirect_to rfqforms_path and return end
 
     @rfqform = Rfqform.find(params[:id])
@@ -74,6 +87,7 @@ class RfqformsController < ApplicationController
   end  
 
   def update
+    if (!validate_user()) then redirect_to APP_CONFIG['login_redirect'] and return end
     if (!current_user.isTLX) then redirect_to rfqforms_path and return end
 
     @rfqform = Rfqform.find(params[:id])
@@ -93,6 +107,7 @@ class RfqformsController < ApplicationController
   end    
 
   def build
+    if (!validate_user()) then redirect_to APP_CONFIG['login_redirect'] and return end
     if (!current_user.isTLX) then redirect_to rfqforms_path and return end
 
     @rfqform = Rfqform.find(params[:id])

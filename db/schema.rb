@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140403122348) do
+ActiveRecord::Schema.define(version: 20140801005120) do
 
   create_table "contact_roles", force: true do |t|
     t.string   "name"
@@ -140,15 +140,16 @@ ActiveRecord::Schema.define(version: 20140403122348) do
 
   add_index "searches", ["id"], name: "index_searches_on_id", using: :btree
 
-  create_table "users", force: true do |t|
+  create_table "tlx_users", force: true do |t|
     t.string   "name"
     t.boolean  "isTLX"
     t.integer  "vendor_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "session_id", limit: 50
   end
 
-  add_index "users", ["id"], name: "index_users_on_id", using: :btree
+  add_index "tlx_users", ["id"], name: "index_users_on_id", using: :btree
 
   create_table "vendor_addresses", force: true do |t|
     t.integer  "vendor_id"

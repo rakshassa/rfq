@@ -1,11 +1,13 @@
 class SearchesController < ApplicationController
 	def new
+		if (!validate_user()) then redirect_to APP_CONFIG['login_redirect'] and return end
 		if (!current_user.isTLX) then redirect_to rfqforms_path and return end
 			
 		@search = Search.new
 	end
 
-	def create		
+	def create	
+		if (!validate_user()) then redirect_to APP_CONFIG['login_redirect'] and return end	
 		if (!current_user.isTLX) then redirect_to rfqforms_path and return end
 
 		@search = Search.new(search_params)		
@@ -18,6 +20,7 @@ class SearchesController < ApplicationController
 	end
 
 	def show
+		if (!validate_user()) then redirect_to APP_CONFIG['login_redirect'] and return end
 		if (!current_user.isTLX) then redirect_to rfqforms_path and return end
 
 		@search = Search.find(params[:id])

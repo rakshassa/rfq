@@ -1,6 +1,7 @@
 class RfqquotesController < ApplicationController
 
   def show
+    if (!validate_user()) then redirect_to APP_CONFIG['login_redirect'] and return end
   	@rfqquote = Rfqquote.find(params[:id])    
   	prep_instance_vars(@rfqquote)  
     @action_type = "show" 
@@ -15,6 +16,7 @@ class RfqquotesController < ApplicationController
   end
 
   def edit
+    if (!validate_user()) then redirect_to APP_CONFIG['login_redirect'] and return end
   	@rfqquote = Rfqquote.find(params[:id])
 
     if (!authorize_change(@rfqquote)) then
@@ -26,6 +28,7 @@ class RfqquotesController < ApplicationController
   end
 
   def update
+    if (!validate_user()) then redirect_to APP_CONFIG['login_redirect'] and return end
     @rfqquote = Rfqquote.find(params[:id])
 
     if (!authorize_change(@rfqquote)) then
@@ -43,6 +46,7 @@ class RfqquotesController < ApplicationController
   end
 
   def submit_to_tlx
+    if (!validate_user()) then redirect_to APP_CONFIG['login_redirect'] and return end
     @rfqquote = Rfqquote.find(params[:id])
 
     if (!authorize_submit_to_tlx(@rfqquote)) then
@@ -61,6 +65,7 @@ class RfqquotesController < ApplicationController
   end
 
   def send_feedback
+    if (!validate_user()) then redirect_to APP_CONFIG['login_redirect'] and return end
     @rfqquote = Rfqquote.find(params[:id])
     
     if (!authorize_feedback(@rfqquote)) then

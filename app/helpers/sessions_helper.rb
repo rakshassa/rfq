@@ -20,4 +20,18 @@ module SessionsHelper
     user == current_user
   end  
 
+  def validate_user()
+
+    #logger.info("session info: " + session[:userid] + " ... " + session[:token])
+
+    if (session[:token] == nil || session[:token] == "") then return false end
+
+    @current_user = User.find_by(id: session[:userid])
+    if (@current_user == nil) then return false end
+
+    if (@current_user.session_id == session[:token]) then return true end
+
+    return false
+  end
+
 end
