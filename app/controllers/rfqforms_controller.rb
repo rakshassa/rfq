@@ -1,8 +1,11 @@
 class RfqformsController < ApplicationController
 
   def index
-    session[:userid] = params[:userid]
-    session[:token] = params[:token]
+
+    if (!(params[:userid] == nil)) then
+      session[:userid] = params[:userid]
+      session[:token] = params[:token]
+    end
 
     #logger.info("parm input: " + params[:userid] + " ... " + params[:token])
     #logger.info("session: " + session[:userid] + " ... " + session[:token])
