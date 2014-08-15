@@ -24,8 +24,8 @@ class SearchesController < ApplicationController
 		if (!current_user.isTLX) then redirect_to rfqforms_path and return end
 
 		@search = Search.find(params[:id])
-		@rfqforms = @search.forms.order('id DESC').paginate(page: params[:page], :per_page => 10 )		
-    	@quotes = @search.GetQuotes(@rfqforms)    	
+		@rfqforms = @search.forms(current_user).order('id DESC').paginate(page: params[:page], :per_page => 10 )		
+    	@quotes = @search.GetQuotes(@rfqforms, current_user)    	
 	end
 
   private

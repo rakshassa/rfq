@@ -35,6 +35,9 @@ class RfqquotesController < ApplicationController
       redirect_to rfqforms_path and return
     end
 
+    @rfqquote.isTLX = current_user.isTLX
+    @rfqquote.rfqquote_eaus.each { |eau| eau.isTLX = current_user.isTLX }
+
     if @rfqquote.update_attributes(rfqquote_params)
       flash[:success] = "Updated"
       redirect_to @rfqquote

@@ -13,6 +13,11 @@ module SessionsHelper
 
     #NOTE: this is a temporary solution until Tom delivers a mechanism to know the current user.
     #@current_user ||= User.find_by(name: "testVendor1")
+
+    #if (@current_user != nil) then return @current_user end
+
+    #@current_user = User.find_by(id: session[:userid])
+    #return @current_user
     @current_user ||= User.find_by(name: APP_CONFIG['default_user_name'])      
   end  
 

@@ -1,5 +1,5 @@
 defaults: &defaults
-  default_user_name: testTLX
+  default_user_name: testTLX234
   default_email_from: rakshassa@gmail.com
   login_redirect: http://www.google.com
   rfq_contact_role: 4

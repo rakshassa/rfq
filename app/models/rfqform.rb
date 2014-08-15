@@ -1,6 +1,6 @@
 
 class Rfqform < ActiveRecord::Base	
-	include SessionsHelper
+
 	
 	scope :limit_to_vendor, ->(vendor_id_param) { joins(:rfqquotes).where(:rfqquotes => { :vendor_id => vendor_id_param } ).uniq }
 
@@ -48,12 +48,14 @@ class Rfqform < ActiveRecord::Base
     	else return Part.find(self.program).name end
     end
 
-    def auth_quotes	  
-      if (current_user.isTLX) then        
+    def auth_quotes(user)	  
+
+      if (user.isTLX) then        
         return self.rfqquotes.sorted     
       end
 
-      return self.rfqquotes.limit_to_vendor(current_user.vendor_id).sorted
+      
+      return self.rfqquotes.limit_to_vendor(user.vendor_id).sorted
     end
 
     def build() 
@@ -74,7 +76,8 @@ class Rfqform < ActiveRecord::Base
 	            begin
 	              result = quote.save
 	            rescue Exception
-	              (flash[:error] ||= []) << "This form has already been built."
+	            	self.errors[:base] << "This form has already been built."
+	              #(flash[:error] ||= []) << "This form has already been built."
 	            end
 	            if (result)  then              
 	              anysuccess = true;
