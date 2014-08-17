@@ -1,5 +1,5 @@
 class Search < ActiveRecord::Base
-	include SessionsHelper
+
 
   validate :check_dates
 
@@ -36,7 +36,7 @@ class Search < ActiveRecord::Base
 
   end
 
-  def forms
+  def forms(user)
 
     forms = Rfqform.order("id DESC");
     forms = forms.where('rfqforms.id=?', rfq) if rfq.present?
@@ -47,8 +47,8 @@ class Search < ActiveRecord::Base
     build_dates = parse_date_range(date_built) if date_built.present?
     forms = forms.where('rfqforms.built=? AND rfqforms.date >= ? AND rfqforms.date <= ?', true, Date.parse(build_dates[0]), Date.parse(build_dates[1])) if !build_dates.nil?
 
-    forms = forms.joins(rfqquotes: :vendor) if (vendor.present? || quote_number.present? || date_quoted.present? || !current_user.isTLX)
-    forms = forms.where('rfqquotes.vendor_id=?', current_user.vendor_id) if !current_user.isTLX
+    forms = forms.joins(rfqquotes: :vendor) if (vendor.present? || quote_number.present? || date_quoted.present? || !user.isTLX)
+    forms = forms.where('rfqquotes.vendor_id=?', user.vendor_id) if !user.isTLX
     forms = forms.where('rfqquotes.quote_number like ?', "%#{quote_number}%") if quote_number.present?      
 
     quote_dates = nil
@@ -61,15 +61,15 @@ class Search < ActiveRecord::Base
   end
 
 
-  def GetQuotes(rfqforms)
+  def GetQuotes(rfqforms, user)
     quotes = {}
     rfqforms.each do |form|
       if (form.built) then
         quotes[form.id] = []
-        if (current_user.isTLX) then
+        if (user.isTLX) then
           quotes[form.id] << Rfqquote.where("rfqform_id=?", form.id).order("rfqquote_display_id ASC")
         else
-          quotes[form.id] << Rfqquote.where("rfqform_id=? and vendor_id=?", form.id,  current_user.vendor_id).order("rfqquote_display_id ASC")
+          quotes[form.id] << Rfqquote.where("rfqform_id=? and vendor_id=?", form.id,  user.vendor_id).order("rfqquote_display_id ASC")
         end
       end
     end

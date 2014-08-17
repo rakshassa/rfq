@@ -161,7 +161,7 @@ class RfqformsController < ApplicationController
       quotes = {}
       rfqforms.each do |form|
         if (form.built) then
-          quotes[form.id] = form.auth_quotes          
+          quotes[form.id] = form.auth_quotes(current_user)
         end
       end
 
@@ -172,4 +172,5 @@ class RfqformsController < ApplicationController
       @programs = Part.programs
       @employees = Employee.active.sorted
     end
+  
 end

@@ -1,7 +1,9 @@
 defaults: &defaults
+
   default_user_name: testTLX
   default_email_from: purchasing@tlxtech.com
   login_redirect: https://portal.tlxtech.com
+
   rfq_contact_role: 4
   #default_email_from: purchasing@tlxtech.com
   #default_user_name: testVendor1

@@ -1,5 +1,5 @@
 class Rfqquote < ActiveRecord::Base
-	include SessionsHelper
+
 
 	scope :limit_to_vendor, ->(vendor_id_param) { where(:vendor_id => vendor_id_param) }
 	scope :sorted, -> { order("rfqquote_display_id ASC") }
@@ -18,10 +18,12 @@ class Rfqquote < ActiveRecord::Base
 	validates(:submitted_by,  presence: true, allow_nil: false, on: :update, if: :valid_user )
 	validates(:valid_till,    presence: true, allow_nil: false, on: :update, if: :valid_user )
 
+	attr_accessor :isTLX
+
 	def valid_user
-		if (current_user.isTLX) then false
+		if (isTLX) then false
 		else true
-		end
+		end		
 	end
 
     def printable_id
